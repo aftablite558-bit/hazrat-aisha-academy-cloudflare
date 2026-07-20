@@ -1,7 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "hazrat-aisha-academy-erp",
-  "main": "cloudflare/src/index.ts",
   "compatibility_date": "2026-07-20",
   "d1_databases": [
     {
@@ -9,5 +8,5 @@
       "database_name": "hazrat-aisha-erp-db",
       "database_id": "YOUR_D1_DATABASE_ID"
     }
-  ],
+  ]
 }
