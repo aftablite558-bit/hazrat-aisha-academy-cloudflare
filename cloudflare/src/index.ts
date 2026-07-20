@@ -14,18 +14,27 @@ let setupChecked = false;
 async function seedOwner(c: any) {
   try {
     const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
-    const result = await stmt.first<{ user_count: number }>();
+    const result = await stmt.first<any>();
+    console.log('User count result:', result);
     
-    if (result && result.user_count === 0) {
+    // Some D1 drivers return the count directly or as a key named 'COUNT(*)'
+    const userCount = result ? (result.user_count || result['COUNT(*)'] || 0) : 0;
+    
+    if (userCount === 0) {
       const { OWNER_NAME, OWNER_EMAIL, OWNER_USERNAME, OWNER_PASSWORD } = c.env;
+      console.log('Seeding owner:', OWNER_EMAIL);
       
-      if (OWNER_NAME && OWNER_EMAIL && OWNER_USERNAME && OWNER_PASSWORD) {
+      if (OWNER_EMAIL && OWNER_USERNAME && OWNER_PASSWORD) {
         const password_hash = await hashPassword(OWNER_PASSWORD);
-        await c.env.DB.prepare('INSERT INTO users (id, name, email, password_hash, role, status) VALUES (?, ?, ?, ?, ?, ?)')
-          .bind(crypto.randomUUID(), OWNER_NAME, OWNER_EMAIL, password_hash, 'owner', 'active')
+        await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role) VALUES (?, ?, ?, ?, ?)')
+          .bind(crypto.randomUUID(), OWNER_USERNAME, OWNER_EMAIL, password_hash, 'owner')
           .run();
         console.log('Owner account seeded successfully.');
+      } else {
+        console.log('Missing owner environment variables:', { OWNER_EMAIL: !!OWNER_EMAIL, OWNER_USERNAME: !!OWNER_USERNAME, OWNER_PASSWORD: !!OWNER_PASSWORD });
       }
+    } else {
+      console.log('Owner account already exists.');
     }
   } catch (e) {
     console.error('Error seeding owner:', e);
@@ -144,17 +153,18 @@ app.get('/api/auth/check-setup', async (c) => {
 });
 
 app.post('/api/auth/setup-owner', async (c) => {
-  const { name, email, password } = await c.req.json();
+  const { username, email, password } = await c.req.json();
   
   const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
-  const result = await stmt.first<{ user_count: number }>();
+  const result = await stmt.first<any>();
+  const userCount = result ? (result.user_count || result['COUNT(*)'] || 0) : 0;
   
-  if (result && result.user_count > 0) return c.json({ error: 'Setup already completed' }, 403);
+  if (userCount > 0) return c.json({ error: 'Setup already completed' }, 403);
 
   const password_hash = await hashPassword(password);
   
-  await c.env.DB.prepare('INSERT INTO users (id, name, email, password_hash, role, status) VALUES (?, ?, ?, ?, ?, ?)')
-    .bind(crypto.randomUUID(), name, email, password_hash, 'owner', 'active')
+  await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role) VALUES (?, ?, ?, ?, ?)')
+    .bind(crypto.randomUUID(), username, email, password_hash, 'owner')
     .run();
     
   return c.json({ success: true });
@@ -182,10 +192,10 @@ app.post('/api/auth/forgot-password', async (c) => {
 });
 
 app.post('/api/admin/create-user', async (c) => {
-  const { name, email, password, role, status } = await c.req.json();
+  const { username, email, password, role } = await c.req.json();
   const password_hash = await hashPassword(password);
-  await c.env.DB.prepare('INSERT INTO users (id, name, email, password_hash, role) VALUES (?, ?, ?, ?, ?)')
-    .bind(crypto.randomUUID(), name, email, password_hash, role)
+  await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role) VALUES (?, ?, ?, ?, ?)')
+    .bind(crypto.randomUUID(), username, email, password_hash, role)
     .run();
   return c.json({ success: true });
 });
