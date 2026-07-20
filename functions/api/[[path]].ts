@@ -11,13 +11,47 @@ const app = new Hono<{ Bindings: {
 
 let setupChecked = false;
 
+async function ensureTableAndColumns(DB: any, tableName: string, keys: string[]) {
+  const stmt = DB.prepare(`SELECT name FROM sqlite_master WHERE type='table' AND name=?`);
+  const tableExists = await stmt.bind(tableName).first();
+  
+  if (!tableExists) {
+    await DB.prepare(`CREATE TABLE IF NOT EXISTS ${tableName} (id TEXT PRIMARY KEY)`).run();
+  }
+  
+  if (keys.length > 0) {
+    const { results: columns } = await DB.prepare(`PRAGMA table_info(${tableName})`).all();
+    const existingColumns = columns.map((col: any) => col.name);
+    
+    for (const key of keys) {
+      if (key !== 'id' && !existingColumns.includes(key)) {
+        try {
+          await DB.prepare(`ALTER TABLE ${tableName} ADD COLUMN ${key} TEXT`).run();
+        } catch (e) {
+          console.error(`Failed to add column ${key} to ${tableName}`, e);
+        }
+      }
+    }
+  }
+}
+
 async function seedOwner(c: any) {
   try {
     console.log('Checking for existing owner...');
-    const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
-    const result = await stmt.first<any>();
-    
-    const userCount = result ? (result.user_count || result['COUNT(*)'] || 0) : 0;
+    let userCount = 0;
+    try {
+      const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
+      const result = await stmt.first<any>();
+      userCount = result ? (result.user_count || result['COUNT(*)'] || 0) : 0;
+    } catch (e: any) {
+      if (e.message && e.message.includes('no such table')) {
+        console.log('Tables do not exist. Creating schema...');
+        await ensureTableAndColumns(c.env.DB, 'users', ['username', 'email', 'password_hash', 'role']);
+        userCount = 0;
+      } else {
+        throw e;
+      }
+    }
     
     if (userCount === 0) {
       const { OWNER_EMAIL, OWNER_USERNAME, OWNER_PASSWORD } = c.env;
@@ -62,6 +96,9 @@ app.get('/collection/:name', async (c) => {
   let query = `SELECT * FROM ${name}`;
   const params: any[] = [];
   
+  // ensure table exists so SELECT doesn't crash
+  await ensureTableAndColumns(c.env.DB, name, []);
+
   if (search) {
     const searchableTables = ['students', 'staff', 'users'];
     if (searchableTables.includes(name)) {
@@ -93,6 +130,8 @@ app.post('/collection/:name', async (c) => {
   const keys = Object.keys(body);
   const values = Object.values(body);
   
+  await ensureTableAndColumns(c.env.DB, name, keys);
+  
   const result = await c.env.DB.prepare(`INSERT INTO ${name} (${keys.join(', ')}) VALUES (${keys.map(() => '?').join(', ')})`)
     .bind(...values)
     .run();
@@ -114,6 +153,8 @@ app.post('/collection/:name/:id/update', async (c) => {
 
   const setClause = Object.keys(body).map(key => `${key} = ?`).join(', ');
   
+  await ensureTableAndColumns(c.env.DB, name, Object.keys(body));
+
   await c.env.DB.prepare(`UPDATE ${name} SET ${setClause} WHERE id = ?`)
     .bind(...Object.values(body), id)
     .run();
@@ -135,14 +176,23 @@ app.post('/collection/:name/:id/delete', async (c) => {
 
 // Auth (stripped /api prefix)
 app.get('/auth/check-setup', async (c) => {
-  const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
-  const result = await stmt.first<{ user_count: number }>();
-  return c.json({ count: result?.user_count || 0 });
+  try {
+    const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
+    const result = await stmt.first<{ user_count: number }>();
+    return c.json({ count: result?.user_count || 0 });
+  } catch (e: any) {
+    if (e.message && e.message.includes('no such table')) {
+        return c.json({ count: 0 });
+    }
+    throw e;
+  }
 });
 
 app.post('/auth/setup-owner', async (c) => {
   const { username, email, password } = await c.req.json();
   
+  await ensureTableAndColumns(c.env.DB, 'users', ['username', 'email', 'password_hash', 'role']);
+
   const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
   const result = await stmt.first<any>();
   const userCount = result ? (result.user_count || result['COUNT(*)'] || 0) : 0;
@@ -204,8 +254,13 @@ app.post('/admin/create-user', async (c) => {
 app.get('/backup', async (c) => {
   const backup: any = {};
   for (const table of ALLOWED_COLLECTIONS) {
-      const { results } = await c.env.DB.prepare(`SELECT * FROM ${table}`).all();
-      backup[table] = results;
+      try {
+        const { results } = await c.env.DB.prepare(`SELECT * FROM ${table}`).all();
+        backup[table] = results;
+      } catch (e) {
+          // Ignore tables that don't exist
+          backup[table] = [];
+      }
   }
   return c.json(backup);
 });
@@ -213,7 +268,11 @@ app.get('/backup', async (c) => {
 app.post('/restore', async (c) => {
     const data = await c.req.json();
     for (const table of ALLOWED_COLLECTIONS) {
-        if (data[table]) {
+        if (data[table] && data[table].length > 0) {
+            const allKeys = new Set<string>();
+            data[table].forEach((row: any) => Object.keys(row).forEach(k => allKeys.add(k)));
+            await ensureTableAndColumns(c.env.DB, table, Array.from(allKeys));
+            
             await c.env.DB.prepare(`DELETE FROM ${table}`).run();
             for (const row of data[table]) {
                 const keys = Object.keys(row);
