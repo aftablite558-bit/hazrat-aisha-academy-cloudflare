@@ -13,6 +13,7 @@ let setupChecked = false;
 
 async function seedOwner(c: any) {
   try {
+    console.log('Checking for existing owner...');
     const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
     const result = await stmt.first<any>();
     console.log('User count result:', result);
@@ -21,11 +22,12 @@ async function seedOwner(c: any) {
     const userCount = result ? (result.user_count || result['COUNT(*)'] || 0) : 0;
     
     if (userCount === 0) {
-      const { OWNER_NAME, OWNER_EMAIL, OWNER_USERNAME, OWNER_PASSWORD } = c.env;
+      const { OWNER_EMAIL, OWNER_USERNAME, OWNER_PASSWORD } = c.env;
       console.log('Seeding owner:', OWNER_EMAIL);
       
       if (OWNER_EMAIL && OWNER_USERNAME && OWNER_PASSWORD) {
         const password_hash = await hashPassword(OWNER_PASSWORD);
+        console.log('Hashing password for owner:', OWNER_EMAIL);
         await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role) VALUES (?, ?, ?, ?, ?)')
           .bind(crypto.randomUUID(), OWNER_USERNAME, OWNER_EMAIL, password_hash, 'owner')
           .run();
@@ -34,7 +36,7 @@ async function seedOwner(c: any) {
         console.log('Missing owner environment variables:', { OWNER_EMAIL: !!OWNER_EMAIL, OWNER_USERNAME: !!OWNER_USERNAME, OWNER_PASSWORD: !!OWNER_PASSWORD });
       }
     } else {
-      console.log('Owner account already exists.');
+      console.log('Owner account already exists, count:', userCount);
     }
   } catch (e) {
     console.error('Error seeding owner:', e);
@@ -170,20 +172,38 @@ app.post('/api/auth/setup-owner', async (c) => {
   return c.json({ success: true });
 });
 
+app.get('/api/debug/users', async (c) => {
+  try {
+    const { results } = await c.env.DB.prepare('SELECT id, username, email, role FROM users').all();
+    return c.json(results);
+  } catch (e) {
+    return c.json({ error: (e as any).message });
+  }
+});
+
 app.post('/api/auth/login', async (c) => {
   const { email, password } = await c.req.json();
+  console.log('Login attempt for email:', email);
   
   const { results } = await c.env.DB.prepare('SELECT * FROM users WHERE email = ?')
     .bind(email)
     .all();
     
-  if (results.length === 0) return c.json({ success: false, message: 'Invalid credentials' });
+  if (results.length === 0) {
+    console.log('Login failed: User not found for email:', email);
+    return c.json({ success: false, message: 'Invalid credentials' });
+  }
   
   const user = results[0] as any;
+  console.log('User found, verifying password hash for:', user.id);
   const isMatch = await bcrypt.compare(password, user.password_hash);
   
-  if (!isMatch) return c.json({ success: false, message: 'Invalid credentials' });
+  if (!isMatch) {
+    console.log('Login failed: Password mismatch for user:', user.id);
+    return c.json({ success: false, message: 'Invalid credentials' });
+  }
   
+  console.log('Login successful for user:', user.id);
   return c.json({ success: true, user });
 });
 
