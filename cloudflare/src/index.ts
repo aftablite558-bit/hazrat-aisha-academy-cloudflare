@@ -1,7 +1,36 @@
 import { Hono } from 'hono';
 import bcrypt from 'bcryptjs';
 
-const app = new Hono<{ Bindings: { DB: D1Database } }>();
+const app = new Hono<{ Bindings: { 
+  DB: D1Database, 
+  OWNER_NAME: string, 
+  OWNER_EMAIL: string, 
+  OWNER_USERNAME: string, 
+  OWNER_PASSWORD: string 
+} }>();
+
+let setupChecked = false;
+
+async function seedOwner(c: any) {
+  try {
+    const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
+    const result = await stmt.first<{ user_count: number }>();
+    
+    if (result && result.user_count === 0) {
+      const { OWNER_NAME, OWNER_EMAIL, OWNER_USERNAME, OWNER_PASSWORD } = c.env;
+      
+      if (OWNER_NAME && OWNER_EMAIL && OWNER_USERNAME && OWNER_PASSWORD) {
+        const password_hash = await hashPassword(OWNER_PASSWORD);
+        await c.env.DB.prepare('INSERT INTO users (id, name, email, password_hash, role, status) VALUES (?, ?, ?, ?, ?, ?)')
+          .bind(crypto.randomUUID(), OWNER_NAME, OWNER_EMAIL, password_hash, 'owner', 'active')
+          .run();
+        console.log('Owner account seeded successfully.');
+      }
+    }
+  } catch (e) {
+    console.error('Error seeding owner:', e);
+  }
+}
 
 const ALLOWED_COLLECTIONS = [
   'users', 'students', 'staff', 'classes', 'subjects', 'attendance', 
@@ -9,6 +38,14 @@ const ALLOWED_COLLECTIONS = [
   'gallery', 'documents', 'calendar', 'achievements', 'testimonials', 
   'audit_logs', 'settings', 'school_info', 'notifications'
 ];
+
+app.use(async (c, next) => {
+  if (!setupChecked) {
+    await seedOwner(c);
+    setupChecked = true;
+  }
+  await next();
+});
 
 // Generic CRUD
 app.get('/api/collection/:name', async (c) => {
