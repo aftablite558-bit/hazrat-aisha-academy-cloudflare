@@ -26,7 +26,7 @@ export const Login = () => {
 
   const { addToast } = useToast();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loginUser } = useAuth();
   
   const { register, handleSubmit, formState: { errors } } = useForm<LoginInputs>({
     resolver: zodResolver(loginSchema),
@@ -46,6 +46,7 @@ export const Login = () => {
     try {
       const response = await api.post('/auth/login', data);
       if (response.success) {
+        loginUser(response.user);
         addToast('Welcome back!', 'success');
         navigate('/dashboard');
       } else {

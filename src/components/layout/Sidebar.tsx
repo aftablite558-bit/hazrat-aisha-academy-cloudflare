@@ -11,11 +11,11 @@ interface SidebarProps {
 
 export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
   const navigate = useNavigate();
-  const { profile } = useAuth();
+  const { profile, logoutUser } = useAuth();
   
   const handleLogout = async () => {
     try {
-      await logout();
+      await logoutUser();
       navigate('/');
     } catch (error) {
       console.error('Failed to log out', error);
