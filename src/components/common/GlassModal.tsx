@@ -8,9 +8,10 @@ interface GlassModalProps {
   onClose: () => void;
   title: string;
   children: ReactNode;
+  className?: string;
 }
 
-export const GlassModal = ({ isOpen, onClose, title, children }: GlassModalProps) => {
+export const GlassModal = ({ isOpen, onClose, title, children, className = '' }: GlassModalProps) => {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -27,7 +28,7 @@ export const GlassModal = ({ isOpen, onClose, title, children }: GlassModalProps
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative z-10 w-full max-w-lg"
+            className={`relative z-10 w-full ${className || 'max-w-lg'}`}
           >
             <GlassCard className="p-6">
               <div className="flex items-center justify-between mb-6 relative z-10">

@@ -74,7 +74,7 @@ export const Notices = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Notice Board" subtitle="Manage school announcements and notices." />
+      <PageHeader title="Notice Board" description="Manage school announcements and notices." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">

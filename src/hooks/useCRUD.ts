@@ -26,7 +26,7 @@ export function useCRUD<T extends { id: string }>(collectionName: string) {
 
   const add = async (newItem: Omit<T, 'id'>) => {
     try {
-      const id = await createDocument(collectionName, newItem);
+      const id = await createDocument(collectionName, newItem as Partial<T>);
       setData(prev => [...prev, { ...newItem, id } as T]);
       return id;
     } catch (err: any) {

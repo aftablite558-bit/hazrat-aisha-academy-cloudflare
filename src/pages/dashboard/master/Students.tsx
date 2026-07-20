@@ -76,7 +76,7 @@ export const Students = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Students Management" subtitle="Manage student records, admissions, and details." />
+      <PageHeader title="Students Management" description="Manage student records, admissions, and details." />
 
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">

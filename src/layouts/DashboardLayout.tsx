@@ -2,6 +2,7 @@ import { GlassSidebar as Sidebar } from '../components/layout/Sidebar';
 import { GlassHeader as Header } from '../components/layout/Header';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLocation, Outlet } from 'react-router-dom';
+import { ErrorBoundary } from '../components/common/ErrorBoundary';
 import { useState, useEffect } from 'react';
 import { perfTracker } from '../utils/performance';
 
@@ -31,7 +32,7 @@ export const DashboardLayout = () => {
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <Outlet />
+            <ErrorBoundary><Outlet /></ErrorBoundary>
           </motion.div>
         </AnimatePresence>
       </main>

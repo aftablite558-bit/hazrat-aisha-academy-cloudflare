@@ -68,7 +68,7 @@ export const Staff = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Staff Management" subtitle="Manage non-teaching staff records." />
+      <PageHeader title="Staff Management" description="Manage non-teaching staff records." />
 
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">

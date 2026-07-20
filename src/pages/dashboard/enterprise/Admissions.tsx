@@ -54,7 +54,7 @@ export const Admissions = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Admissions Management" subtitle="Review and manage student admission applications." />
+      <PageHeader title="Admissions Management" description="Review and manage student admission applications." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">
@@ -98,7 +98,7 @@ export const Admissions = () => {
                   <div className="text-xs text-muted-foreground">{a.parentPhone}</div>
                 </td>
                 <td>
-                  <GlassBadge variant={a.status === 'Approved' ? 'success' : a.status === 'Rejected' ? 'danger' : 'amber'}>
+                  <GlassBadge variant={a.status === 'Approved' ? 'success' : a.status === 'Rejected' ? 'danger' : 'warning'}>
                     {a.status}
                   </GlassBadge>
                 </td>

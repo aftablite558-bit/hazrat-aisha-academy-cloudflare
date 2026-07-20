@@ -69,7 +69,7 @@ export const Fees = () => {
 
     const payload = {
       ...formData,
-      status: updatedStatus,
+      status: updatedStatus as 'Paid' | 'Overdue' | 'Pending',
       paidDate: updatedStatus === 'Paid' && formData.status !== 'Paid' ? new Date().toISOString().split('T')[0] : formData.paidDate
     };
 
@@ -88,7 +88,7 @@ export const Fees = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Fees Management" subtitle="Manage student fees, generate receipts, and track payments." />
+      <PageHeader title="Fees Management" description="Manage student fees, generate receipts, and track payments." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">
@@ -137,7 +137,7 @@ export const Fees = () => {
                   <td>{f.dueDate}</td>
                   <td className="font-semibold">₹{netAmount.toLocaleString()}</td>
                   <td>
-                    <GlassBadge variant={f.status === 'Paid' ? 'success' : f.status === 'Overdue' ? 'danger' : 'amber'}>
+                    <GlassBadge variant={f.status === 'Paid' ? 'success' : f.status === 'Overdue' ? 'danger' : 'warning'}>
                       {f.status}
                     </GlassBadge>
                   </td>

@@ -67,7 +67,7 @@ export const Classes = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Classes Management" subtitle="Manage school classes and their order." />
+      <PageHeader title="Classes Management" description="Manage school classes and their order." />
 
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">

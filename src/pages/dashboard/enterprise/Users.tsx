@@ -150,9 +150,9 @@ export const Users = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <PageHeader title="User Management" subtitle="Manage system access, roles, and status." />
+        <PageHeader title="User Management" description="Manage system access, roles, and status." />
         <div className="flex gap-3">
-          <GlassButton variant="ghost" onClick={fetchUsers} className="p-2 flex items-center justify-center">
+          <GlassButton variant="ghost" onClick={() => fetchUsers(false)} className="p-2 flex items-center justify-center">
             <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
           </GlassButton>
           <GlassButton variant="primary" className="flex items-center gap-2" onClick={() => setShowAddModal(true)}>

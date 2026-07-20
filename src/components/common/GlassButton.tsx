@@ -21,7 +21,7 @@ export const GlassButton = ({ variant = 'primary', className, children, ...props
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className={cn('px-8 py-3.5 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2', variants[variant], className)}
-      {...props}
+      {...props as any}
     >
       {variant === 'primary' && (
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />

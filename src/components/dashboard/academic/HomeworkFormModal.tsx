@@ -84,25 +84,41 @@ export const HomeworkFormModal = ({ isOpen, onClose, onSubmit, initialData }: Ho
           <GlassInput required label="Title" name="title" value={formData.title} onChange={handleChange} />
           <GlassInput required type="date" label="Due Date" name="dueDate" value={formData.dueDate} onChange={handleChange} />
           
-          <GlassSelect required label="Class" name="classId" value={formData.classId} onChange={handleChange}>
-            <option value="">Select Class</option>
-            {classes.map(c => <option key={c.id} value={c.id}>{c.className}</option>)}
-          </GlassSelect>
+          <GlassSelect 
+            required 
+            label="Class" 
+            name="classId" 
+            value={formData.classId} 
+            onChange={handleChange}
+            options={classes.map(c => ({ label: c.className, value: c.id }))}
+          />
 
-          <GlassSelect required label="Section" name="sectionId" value={formData.sectionId} onChange={handleChange}>
-            <option value="">Select Section</option>
-            {sections.filter(s => s.classId === formData.classId).map(s => <option key={s.id} value={s.id}>{s.sectionName}</option>)}
-          </GlassSelect>
+          <GlassSelect 
+            required 
+            label="Section" 
+            name="sectionId" 
+            value={formData.sectionId} 
+            onChange={handleChange}
+            options={sections.filter(s => s.classId === formData.classId).map(s => ({ label: s.sectionName, value: s.id }))}
+          />
           
-          <GlassSelect required label="Subject" name="subjectId" value={formData.subjectId} onChange={handleChange}>
-            <option value="">Select Subject</option>
-            {subjects.filter(s => s.classId === formData.classId).map(s => <option key={s.id} value={s.id}>{s.subjectName}</option>)}
-          </GlassSelect>
+          <GlassSelect 
+            required 
+            label="Subject" 
+            name="subjectId" 
+            value={formData.subjectId} 
+            onChange={handleChange}
+            options={subjects.filter(s => s.classId === formData.classId).map(s => ({ label: s.subjectName, value: s.id }))}
+          />
 
-          <GlassSelect required label="Teacher" name="teacherId" value={formData.teacherId} onChange={handleChange}>
-            <option value="">Select Teacher</option>
-            {teachers.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-          </GlassSelect>
+          <GlassSelect 
+            required 
+            label="Teacher" 
+            name="teacherId" 
+            value={formData.teacherId} 
+            onChange={handleChange}
+            options={teachers.map(t => ({ label: t.name, value: t.id }))}
+          />
         </div>
 
         <GlassTextarea required label="Description" name="description" value={formData.description} onChange={handleChange} rows={4} />

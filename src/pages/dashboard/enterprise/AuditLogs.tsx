@@ -52,7 +52,7 @@ export const AuditLogs = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="System Audit Logs" subtitle="Track user activities and system changes." />
+      <PageHeader title="System Audit Logs" description="Track user activities and system changes." />
       
       <div className="relative w-full max-w-md mb-6">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />

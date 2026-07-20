@@ -60,7 +60,7 @@ export const Careers = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Careers" subtitle="Manage job vacancies." />
+      <PageHeader title="Careers" description="Manage job vacancies." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">

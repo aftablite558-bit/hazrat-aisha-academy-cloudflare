@@ -10,9 +10,9 @@ import {
 
 export { uploadImage, deleteImage };
 
-export const getCollection = async <T extends BaseEntity>(collectionName: string): Promise<T[]> => {
+export const getCollection = async <T extends BaseEntity>(collectionName: string, params?: Record<string, any>): Promise<T[]> => {
   try {
-    const result = await dbGetCollection<T>(collectionName);
+    const result = await dbGetCollection<T>(collectionName, params);
     // Sort by createdAt desc locally so that it matches the original orderBy('createdAt', 'desc') behavior
     return result.sort((a, b) => {
       const dateA = a.createdAt ? new Date(a.createdAt as any).getTime() : 0;

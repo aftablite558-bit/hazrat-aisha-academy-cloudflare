@@ -64,7 +64,7 @@ export const Documents = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Documents & Downloads" subtitle="Manage public documents like syllabus and forms." />
+      <PageHeader title="Documents & Downloads" description="Manage public documents like syllabus and forms." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">

@@ -20,14 +20,19 @@ export const StudentLookup = ({ onStudentSelect }: { onStudentSelect: (student: 
 
   return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <GlassSelect label="Class" value={classId} onChange={e => {setClassId(e.target.value); setRollNo('');}}>
-            <option value="">Select Class</option>
-            {classes.map(c => <option key={c.id} value={c.id}>{c.className}</option>)}
-        </GlassSelect>
-        <GlassSelect label="Roll Number" value={rollNo} onChange={e => setRollNo(e.target.value)} disabled={!classId}>
-            <option value="">Select Roll No</option>
-            {filteredStudents.map(s => <option key={s.id} value={s.rollNo}>{s.rollNo}</option>)}
-        </GlassSelect>
+        <GlassSelect 
+          label="Class" 
+          value={classId} 
+          onChange={e => {setClassId(e.target.value); setRollNo('');}}
+          options={classes.map(c => ({ label: c.className, value: c.id }))}
+        />
+        <GlassSelect 
+          label="Roll Number" 
+          value={rollNo} 
+          onChange={e => setRollNo(e.target.value)} 
+          disabled={!classId}
+          options={filteredStudents.map(s => ({ label: s.rollNo, value: s.rollNo }))}
+        />
         <GlassInput label="Student Name" value={selectedStudent?.fullName || ''} disabled />
       </div>
   );

@@ -43,7 +43,7 @@ export const Enquiries = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Contact Enquiries" subtitle="Manage website contact form submissions." />
+      <PageHeader title="Contact Enquiries" description="Manage website contact form submissions." />
       
       <div className="relative w-full max-w-md">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
@@ -76,7 +76,7 @@ export const Enquiries = () => {
                 </td>
                 <td className="max-w-[200px] truncate">{e.subject}</td>
                 <td>
-                  <GlassBadge variant={e.status === 'Resolved' ? 'success' : 'amber'}>
+                  <GlassBadge variant={e.status === 'Resolved' ? 'success' : 'warning'}>
                     {e.status}
                   </GlassBadge>
                 </td>

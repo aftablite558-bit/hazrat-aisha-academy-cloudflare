@@ -69,7 +69,7 @@ export const Subjects = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Subjects Management" subtitle="Manage class subjects and teachers." />
+      <PageHeader title="Subjects Management" description="Manage class subjects and teachers." />
 
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">

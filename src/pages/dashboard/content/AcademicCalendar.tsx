@@ -63,7 +63,7 @@ export const AcademicCalendar = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Academic Calendar" subtitle="Manage school events, holidays, and exams." />
+      <PageHeader title="Academic Calendar" description="Manage school events, holidays, and exams." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">
@@ -98,8 +98,8 @@ export const AcademicCalendar = () => {
                 </td>
                 <td>{ev.date}</td>
                 <td>
-                  {ev.isHoliday && <GlassBadge variant="rose" className="mr-2">Holiday</GlassBadge>}
-                  {ev.isExamination && <GlassBadge variant="amber">Exam</GlassBadge>}
+                  {ev.isHoliday && <GlassBadge variant="danger" className="mr-2">Holiday</GlassBadge>}
+                  {ev.isExamination && <GlassBadge variant="warning">Exam</GlassBadge>}
                   {!ev.isHoliday && !ev.isExamination && <GlassBadge variant="default">Event</GlassBadge>}
                 </td>
                 <td>

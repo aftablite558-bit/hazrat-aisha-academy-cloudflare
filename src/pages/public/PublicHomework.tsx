@@ -55,14 +55,19 @@ export const PublicHomework = () => {
         </motion.div>
 
         <GlassCard className="p-6 mb-12 max-w-4xl mx-auto flex flex-col md:flex-row gap-4">
-          <GlassSelect label="Filter by Class" value={classId} onChange={e => { setClassId(e.target.value); setSectionId(''); }}>
-            <option value="">All Classes</option>
-            {classes.map(c => <option key={c.id} value={c.id}>{c.className}</option>)}
-          </GlassSelect>
-          <GlassSelect label="Filter by Section" value={sectionId} onChange={e => setSectionId(e.target.value)} disabled={!classId}>
-            <option value="">All Sections</option>
-            {sections.filter(s => s.classId === classId).map(s => <option key={s.id} value={s.id}>{s.sectionName}</option>)}
-          </GlassSelect>
+          <GlassSelect 
+            label="Filter by Class" 
+            value={classId} 
+            onChange={e => { setClassId(e.target.value); setSectionId(''); }}
+            options={classes.map(c => ({ label: c.className, value: c.id }))}
+          />
+          <GlassSelect 
+            label="Filter by Section" 
+            value={sectionId} 
+            onChange={e => setSectionId(e.target.value)} 
+            disabled={!classId}
+            options={sections.filter(s => s.classId === classId).map(s => ({ label: s.sectionName, value: s.id }))}
+          />
         </GlassCard>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">

@@ -7,8 +7,8 @@ const WARNING_TIME = 1 * 60 * 1000; // 1 minute warning
 export const useInactivityLogout = () => {
   const { user, logoutUser } = useAuth();
   const [showWarning, setShowWarning] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout>();
-  const warningTimerRef = useRef<NodeJS.Timeout>();
+  const timerRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const warningTimerRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const resetTimer = useCallback(() => {
     if (timerRef.current) clearTimeout(timerRef.current);

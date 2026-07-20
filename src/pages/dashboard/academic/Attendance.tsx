@@ -56,7 +56,7 @@ export const Attendance = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Student Attendance" subtitle="Mark and manage student attendance." />
+      <PageHeader title="Student Attendance" description="Mark and manage student attendance." />
       
       <GlassCard className="p-6">
         <StudentLookup onStudentSelect={setSelectedStudent} />

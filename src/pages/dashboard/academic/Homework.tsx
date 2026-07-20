@@ -77,7 +77,7 @@ export const Homework = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Homework Management" subtitle="Manage class assignments and publish homework." />
+      <PageHeader title="Homework Management" description="Manage class assignments and publish homework." />
       
       <GlassCard className="p-6">
          <StudentLookup onStudentSelect={setSelectedStudent} />

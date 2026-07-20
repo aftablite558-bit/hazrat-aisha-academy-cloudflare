@@ -74,3 +74,21 @@ export interface Enquiry extends BaseEntity {
   message: string;
   status: 'Pending' | 'Resolved';
 }
+
+export interface Testimonial extends BaseEntity {
+  name: string;
+  role: string;
+  content: string;
+  photoUrl?: string;
+  rating: number;
+  isPublished: boolean;
+}
+
+export interface Achievement extends BaseEntity {
+  title: string;
+  category: string;
+  description: string;
+  date: string;
+  imageUrl?: string;
+  isPublished: boolean;
+}

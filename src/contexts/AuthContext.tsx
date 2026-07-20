@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           uid: parsed.id,
           email: parsed.email,
           displayName: parsed.username || parsed.email,
-          role: parsed.role || 'user',
+          role: parsed.role?.toLowerCase() || 'user',
         });
       } catch (e) {
         localStorage.removeItem('erp_user');
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       uid: userData.id,
       email: userData.email,
       displayName: userData.username || userData.email,
-      role: userData.role || 'user',
+      role: userData.role?.toLowerCase() || 'user',
     });
   };
 

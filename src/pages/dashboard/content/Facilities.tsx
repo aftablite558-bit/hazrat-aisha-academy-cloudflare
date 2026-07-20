@@ -64,7 +64,7 @@ export const Facilities = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Facilities" subtitle="Manage school infrastructure and facilities shown on the website." />
+      <PageHeader title="Facilities" description="Manage school infrastructure and facilities shown on the website." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">

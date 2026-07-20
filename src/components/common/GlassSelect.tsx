@@ -1,13 +1,14 @@
-import { SelectHTMLAttributes } from 'react';
+import { SelectHTMLAttributes, ReactNode } from 'react';
 import { cn } from '../../utils/index';
 import { ChevronDown } from 'lucide-react';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
-  options: { label: string; value: string }[];
+  options?: { label: string; value: string }[];
+  children?: ReactNode;
 }
 
-export const GlassSelect = ({ label, options, className, ...props }: SelectProps) => {
+export const GlassSelect = ({ label, options, children, className, ...props }: SelectProps) => {
   return (
     <div className="flex flex-col gap-2">
       {label && <label className="text-sm font-semibold text-secondary-foreground">{label}</label>}
@@ -19,12 +20,16 @@ export const GlassSelect = ({ label, options, className, ...props }: SelectProps
           )}
           {...props}
         >
-          <option value="" disabled className="bg-slate-50 dark:bg-slate-900 text-muted-foreground">Select an option</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value} className="bg-slate-50 dark:bg-slate-900 text-foreground">
-              {option.label}
-            </option>
-          ))}
+          {children ? children : (
+            <>
+              <option value="" disabled className="bg-slate-50 dark:bg-slate-900 text-muted-foreground">Select an option</option>
+              {options?.map((option) => (
+                <option key={option.value} value={option.value} className="bg-slate-50 dark:bg-slate-900 text-foreground">
+                  {option.label}
+                </option>
+              ))}
+            </>
+          )}
         </select>
         <div className="absolute inset-y-0 right-6 flex items-center pointer-events-none text-secondary-foreground">
           <ChevronDown size={20} />

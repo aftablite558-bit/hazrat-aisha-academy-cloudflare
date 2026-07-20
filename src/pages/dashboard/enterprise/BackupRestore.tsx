@@ -9,7 +9,7 @@ export const BackupRestore = () => {
   const [loading, setLoading] = useState(false);
   const [backups, setBackups] = useState<any[]>([]); // In reality, fetch from API
 
-  if (profile?.role !== 'Owner') {
+  if (profile?.role !== 'owner') {
     return <div className="p-6 text-red-500">Access Denied: Only Owner can access this module.</div>;
   }
 

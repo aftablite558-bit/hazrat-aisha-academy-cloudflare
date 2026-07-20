@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { X, CheckCircle, AlertCircle, Info } from 'lucide-react';
 
-export type ToastType = 'success' | 'error' | 'info';
+export type ToastType = 'success' | 'error' | 'info' | 'warning' | 'danger';
 
 interface ToastProps {
   id: string;
@@ -14,6 +14,8 @@ export const GlassToast = ({ id, message, type = 'info', onClose }: ToastProps) 
   const icons = {
     success: <CheckCircle className="text-emerald-500" size={20} />,
     error: <AlertCircle className="text-rose-500" size={20} />,
+    danger: <AlertCircle className="text-rose-500" size={20} />,
+    warning: <AlertCircle className="text-amber-500" size={20} />,
     info: <Info className="text-blue-500" size={20} />,
   };
 

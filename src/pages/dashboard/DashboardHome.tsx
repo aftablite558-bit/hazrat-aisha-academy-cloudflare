@@ -33,7 +33,7 @@ export const DashboardHome = () => {
       <div>
         <h2 className="text-4xl font-extrabold tracking-tight text-foreground">Dashboard Overview</h2>
         <p className="text-muted-foreground mt-2 font-medium">
-          Welcome back, {profile?.name || profile?.role || 'User'}. Here is what's happening today.
+          Welcome back, {profile?.displayName || profile?.role || 'User'}. Here is what's happening today.
         </p>
       </div>
       

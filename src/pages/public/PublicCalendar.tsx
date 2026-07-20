@@ -42,8 +42,8 @@ export const PublicCalendar = () => {
                   <div className="flex-grow">
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-xl font-bold text-foreground">{ev.title}</h3>
-                      {ev.isHoliday && <GlassBadge variant="rose">Holiday</GlassBadge>}
-                      {ev.isExamination && <GlassBadge variant="amber">Examination</GlassBadge>}
+                      {ev.isHoliday && <GlassBadge variant="danger">Holiday</GlassBadge>}
+                      {ev.isExamination && <GlassBadge variant="warning">Examination</GlassBadge>}
                     </div>
                     {ev.description && <p className="text-muted-foreground text-sm">{ev.description}</p>}
                   </div>

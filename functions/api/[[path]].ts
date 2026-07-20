@@ -1,3 +1,4 @@
+declare type D1Database = any;
 import { Hono } from 'hono';
 import bcrypt from 'bcryptjs';
 
@@ -41,7 +42,7 @@ async function seedOwner(c: any) {
     let userCount = 0;
     try {
       const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
-      const result = await stmt.first<any>();
+      const result = await stmt.first() as any;
       userCount = result ? (result.user_count || result['COUNT(*)'] || 0) : 0;
     } catch (e: any) {
       if (e.message && e.message.includes('no such table')) {
@@ -178,7 +179,7 @@ app.post('/collection/:name/:id/delete', async (c) => {
 app.get('/auth/check-setup', async (c) => {
   try {
     const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
-    const result = await stmt.first<{ user_count: number }>();
+    const result = await stmt.first() as any;
     return c.json({ count: result?.user_count || 0 });
   } catch (e: any) {
     if (e.message && e.message.includes('no such table')) {
@@ -194,7 +195,7 @@ app.post('/auth/setup-owner', async (c) => {
   await ensureTableAndColumns(c.env.DB, 'users', ['username', 'email', 'password_hash', 'role']);
 
   const stmt = c.env.DB.prepare('SELECT COUNT(*) as user_count FROM users');
-  const result = await stmt.first<any>();
+  const result = await stmt.first() as any;
   const userCount = result ? (result.user_count || result['COUNT(*)'] || 0) : 0;
   
   if (userCount > 0) return c.json({ error: 'Setup already completed' }, 403);

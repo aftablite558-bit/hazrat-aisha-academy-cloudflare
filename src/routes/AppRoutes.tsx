@@ -20,7 +20,7 @@ const FAQ = lazy(() => import('../pages/public/FAQ').then(m => ({ default: m.FAQ
 const Contact = lazy(() => import('../pages/public/Contact').then(m => ({ default: m.Contact })));
 const PublicCalendar = lazy(() => import('../pages/public/PublicCalendar').then(m => ({ default: m.PublicCalendar })));
 const PublicCareers = lazy(() => import('../pages/public/Careers').then(m => ({ default: m.Careers })));
-const PublicAlumni = lazy(() => import('../pages/public/Alumni').then(m => ({ default: m.PublicAlumni })));
+const PublicAlumni = lazy(() => import('../pages/public/Alumni').then(m => ({ default: m.Alumni })));
 const PublicHomework = lazy(() => import('../pages/public/PublicHomework').then(m => ({ default: m.PublicHomework })));
 const PublicResults = lazy(() => import('../pages/public/PublicResults').then(m => ({ default: m.PublicResults })));
 

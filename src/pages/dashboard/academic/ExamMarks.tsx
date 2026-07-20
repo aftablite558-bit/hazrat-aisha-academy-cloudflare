@@ -112,7 +112,7 @@ export const ExamMarks = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Exam Marks" subtitle="Record student performance and grades." />
+      <PageHeader title="Exam Marks" description="Record student performance and grades." />
       
       <GlassCard className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -122,18 +122,24 @@ export const ExamMarks = () => {
             value={examName} 
             onChange={e => setExamName(e.target.value)} 
           />
-          <GlassSelect label="Class" value={classId} onChange={e => setClassId(e.target.value)}>
-            <option value="">Select Class</option>
-            {classes.map(c => <option key={c.id} value={c.id}>{c.className}</option>)}
-          </GlassSelect>
-          <GlassSelect label="Section" value={sectionId} onChange={e => setSectionId(e.target.value)}>
-            <option value="">Select Section</option>
-            {sections.filter(s => s.classId === classId).map(s => <option key={s.id} value={s.id}>{s.sectionName}</option>)}
-          </GlassSelect>
-          <GlassSelect label="Subject" value={subjectId} onChange={e => setSubjectId(e.target.value)}>
-            <option value="">Select Subject</option>
-            {subjects.filter(s => s.classId === classId).map(s => <option key={s.id} value={s.id}>{s.subjectName}</option>)}
-          </GlassSelect>
+          <GlassSelect 
+            label="Class" 
+            value={classId} 
+            onChange={e => setClassId(e.target.value)}
+            options={classes.map(c => ({ label: c.className, value: c.id }))}
+          />
+          <GlassSelect 
+            label="Section" 
+            value={sectionId} 
+            onChange={e => setSectionId(e.target.value)}
+            options={sections.filter(s => s.classId === classId).map(s => ({ label: s.sectionName, value: s.id }))}
+          />
+          <GlassSelect 
+            label="Subject" 
+            value={subjectId} 
+            onChange={e => setSubjectId(e.target.value)}
+            options={subjects.filter(s => s.classId === classId).map(s => ({ label: s.subjectName, value: s.id }))}
+          />
           <GlassInput 
             type="number" 
             label="Max Marks" 
