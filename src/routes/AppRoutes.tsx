@@ -33,10 +33,13 @@ const DashboardClasses = lazy(() => import('../pages/dashboard/master/Classes').
 const DashboardSubjects = lazy(() => import('../pages/dashboard/master/Subjects').then(m => ({ default: m.Subjects })));
 const Attendance = lazy(() => import('../pages/dashboard/academic/Attendance').then(m => ({ default: m.Attendance })));
 const ExamMarks = lazy(() => import('../pages/dashboard/academic/ExamMarks').then(m => ({ default: m.ExamMarks })));
+const ExamSchedule = lazy(() => import('../pages/dashboard/academic/ExamSchedule').then(m => ({ default: m.ExamSchedule })));
 const Results = lazy(() => import('../pages/dashboard/academic/Results').then(m => ({ default: m.Results })));
 const Homework = lazy(() => import('../pages/dashboard/academic/Homework').then(m => ({ default: m.Homework })));
 const Notices = lazy(() => import('../pages/dashboard/content/Notices').then(m => ({ default: m.Notices })));
 const Gallery = lazy(() => import('../pages/dashboard/content/Gallery').then(m => ({ default: m.Gallery })));
+const Achievements = lazy(() => import('../pages/dashboard/content/Achievements').then(m => ({ default: m.Achievements })));
+const Testimonials = lazy(() => import('../pages/dashboard/content/Testimonials').then(m => ({ default: m.Testimonials })));
 const AcademicCalendar = lazy(() => import('../pages/dashboard/content/AcademicCalendar').then(m => ({ default: m.AcademicCalendar })));
 const Documents = lazy(() => import('../pages/dashboard/content/Documents').then(m => ({ default: m.Documents })));
 const Facilities = lazy(() => import('../pages/dashboard/content/Facilities').then(m => ({ default: m.Facilities })));
@@ -81,7 +84,7 @@ export function AppRoutes() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute allowedRoles={['admin', 'super_admin', 'principal']}>
+            <ProtectedRoute allowedRoles={['admin', 'super_admin', 'principal', 'owner']}>
               <DashboardLayout />
             </ProtectedRoute>
           }
@@ -98,11 +101,14 @@ export function AppRoutes() {
           <Route path="attendance" element={<Attendance />} />
           <Route path="homework" element={<Homework />} />
           <Route path="exam-marks" element={<ExamMarks />} />
+          <Route path="exam-schedule" element={<ExamSchedule />} />
           <Route path="results" element={<Results />} />
 
           <Route path="admissions" element={<DashboardAdmissions />} />
           <Route path="fees" element={<Fees />} />
           <Route path="gallery" element={<Gallery />} />
+          <Route path="achievements" element={<Achievements />} />
+          <Route path="testimonials" element={<Testimonials />} />
           <Route path="notices" element={<Notices />} />
           <Route path="downloads" element={<Documents />} />
           <Route path="calendar" element={<AcademicCalendar />} />
@@ -131,6 +137,7 @@ export function AppRoutes() {
           <Route path="attendance" element={<Attendance />} />
           <Route path="homework" element={<Homework />} />
           <Route path="exam-marks" element={<ExamMarks />} />
+          <Route path="exam-schedule" element={<ExamSchedule />} />
           <Route path="results" element={<Results />} />
         </Route>
 

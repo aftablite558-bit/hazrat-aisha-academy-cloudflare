@@ -7,7 +7,7 @@ import { GlassCard } from '../../components/common/GlassCard';
 import { GlassInput } from '../../components/common/GlassInput';
 import { GlassButton } from '../../components/common/GlassButton';
 import { GlassTextarea } from '../../components/common/GlassTextarea';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail } from 'lucide-react';
 import { useMasterData } from '../../hooks/useMasterData';
 import { Enquiry } from '../../types/content';
 
@@ -45,15 +45,15 @@ export const Contact = () => {
               <div className="grid gap-6">
                 <GlassCard className="p-6 flex items-start gap-4">
                   <div className="p-3 bg-primary-500/10 text-primary-500 rounded-full"><MapPin size={24} /></div>
-                  <div><h3 className="font-semibold text-lg">Address</h3><p className="text-muted-foreground mt-1">Chak Rajopatti, Sitamarhi<br/>Bihar, India</p></div>
+                  <div><h3 className="font-semibold text-lg">Address</h3><p className="text-muted-foreground mt-1">Dilawarbagh, Sharif Colony,<br/>Chak Rajopatti, Bihar – 843302</p></div>
                 </GlassCard>
                 <GlassCard className="p-6 flex items-start gap-4">
                   <div className="p-3 bg-secondary-500/10 text-secondary-500 rounded-full"><Phone size={24} /></div>
-                  <div><h3 className="font-semibold text-lg">Phone</h3><p className="text-muted-foreground mt-1">+91 XXXXX XXXXX<br/>+91 XXXXX XXXXX</p></div>
+                  <div><h3 className="font-semibold text-lg">Phone / WhatsApp</h3><p className="text-muted-foreground mt-1">+91 9470818538</p></div>
                 </GlassCard>
                 <GlassCard className="p-6 flex items-start gap-4">
                   <div className="p-3 bg-emerald-500/10 text-emerald-500 rounded-full"><Mail size={24} /></div>
-                  <div><h3 className="font-semibold text-lg">Email</h3><p className="text-muted-foreground mt-1">info@hazrataishaacademy.edu.in</p></div>
+                  <div><h3 className="font-semibold text-lg">Email</h3><p className="text-muted-foreground mt-1">Coming Soon</p></div>
                 </GlassCard>
               </div>
             </div>

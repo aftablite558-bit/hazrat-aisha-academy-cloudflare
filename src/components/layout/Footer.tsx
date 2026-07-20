@@ -11,32 +11,27 @@ export const Footer = () => {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
           <div>
             <h2 className="text-lg font-bold text-primary-500 mb-4">Hazrat Aisha Academy</h2>
-            <p className="text-sm text-muted-foreground">Chak Rajopatti, Sitamarhi, Bihar.</p>
+            <p className="text-sm text-muted-foreground">Dilawarbagh, Sharif Colony,<br />Chak Rajopatti, Bihar – 843302</p>
           </div>
           <div>
             <h3 className="font-bold mb-4 text-foreground">Quick Links</h3>
             <ul className="text-sm text-muted-foreground space-y-2">
+              <li>About Us</li>
+              <li>Academics</li>
+              <li>Admissions</li>
               <li>Gallery</li>
-              <li>Notice Board</li>
-              <li>Downloads</li>
             </ul>
           </div>
           <div>
             <h3 className="font-bold mb-4 text-foreground">Contact</h3>
-            <p className="text-sm text-muted-foreground">contact@hazrataishaacademy.com</p>
+            <p className="text-sm text-muted-foreground">Email: Coming Soon</p>
+            <p className="text-sm text-muted-foreground mt-2">Phone: +91 9470818538</p>
           </div>
           <div>
-            <h3 className="font-bold mb-4 text-foreground">Powered By</h3>
-            <p className="text-sm text-muted-foreground">Md Aftab</p>
+            <h3 className="font-bold mb-4 text-foreground">Connect</h3>
             <div className="flex gap-4 mt-2">
-              <a href="https://wa.me/917209666557" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary-500">
+              <a href="https://wa.me/919470818538" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary-500">
                 <MessageCircle size={20} />
-              </a>
-              <a href="https://www.instagram.com/md__aftab557?igsh=aDRvbm5ieGNmZ2lu" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary-500">
-                <Instagram size={20} />
-              </a>
-              <a href="https://www.facebook.com/share/1BvCwTPF1o/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary-500">
-                <Facebook size={20} />
               </a>
             </div>
           </div>

@@ -5,16 +5,22 @@ import { GlassCard } from '../../components/common/GlassCard';
 
 export const About = () => (
   <PublicLayout>
-    <PageHeader title="About Hazrat Aisha Academy" description="Cultivating knowledge, character, and faith." />
-    <Section title="Our Vision" subtitle="Building a brighter future for the next generation.">
+    <PageHeader title="About Hazrat Aisha Academy" description="Excellence in Education, Integrity in Character." />
+    <Section title="Our Vision" subtitle="Becoming a leading English Medium and Islamic educational institution.">
       <div className="grid md:grid-cols-2 gap-8">
-        <GlassCard>
-          <h3 className="text-xl font-bold mb-4 text-foreground">Vision</h3>
-          <p className="text-muted-foreground">To be a premier Islamic educational institution fostering excellence and character.</p>
+        <GlassCard className="p-6">
+          <h3 className="text-xl font-bold mb-4 text-foreground">History</h3>
+          <p className="text-muted-foreground leading-relaxed">Hazrat Aisha Academy was established to provide high-quality CBSE-oriented education integrated with authentic Islamic teachings, modern learning methods, and strong moral values.</p>
         </GlassCard>
-        <GlassCard>
+        <GlassCard className="p-6">
           <h3 className="text-xl font-bold mb-4 text-foreground">Mission</h3>
-          <p className="text-muted-foreground">Providing CBSE-aligned academics integrated with authentic Islamic values.</p>
+          <ul className="list-disc list-inside text-muted-foreground space-y-2">
+            <li>Academic Excellence</li>
+            <li>Islamic Values</li>
+            <li>Character Building</li>
+            <li>Leadership Development</li>
+            <li>Digital Learning</li>
+          </ul>
         </GlassCard>
       </div>
     </Section>

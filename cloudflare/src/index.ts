@@ -33,10 +33,10 @@ async function seedOwner(c: any) {
 }
 
 const ALLOWED_COLLECTIONS = [
-  'users', 'students', 'staff', 'classes', 'subjects', 'attendance', 
+  'users', 'students', 'staff', 'teachers', 'classes', 'subjects', 'attendance', 
   'homework', 'results', 'reportcards', 'admissions', 'fees', 'notices', 
   'gallery', 'documents', 'calendar', 'achievements', 'testimonials', 
-  'audit_logs', 'settings', 'school_info', 'notifications'
+  'audit_logs', 'settings', 'school_info', 'notifications', 'exam_marks', 'alumni', 'sections'
 ];
 
 app.use(async (c, next) => {
@@ -153,8 +153,8 @@ app.post('/api/auth/setup-owner', async (c) => {
 
   const password_hash = await hashPassword(password);
   
-  await c.env.DB.prepare('INSERT INTO users (id, name, email, password_hash, role) VALUES (?, ?, ?, ?, ?)')
-    .bind(crypto.randomUUID(), name, email, password_hash, 'owner')
+  await c.env.DB.prepare('INSERT INTO users (id, name, email, password_hash, role, status) VALUES (?, ?, ?, ?, ?, ?)')
+    .bind(crypto.randomUUID(), name, email, password_hash, 'owner', 'active')
     .run();
     
   return c.json({ success: true });

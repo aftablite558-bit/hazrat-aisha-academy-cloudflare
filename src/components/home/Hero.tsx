@@ -11,24 +11,20 @@ export const Hero = () => (
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           className="mb-8"
         >
-          <span className="inline-flex items-center gap-2 px-6 py-2 rounded-full glass text-sm font-semibold text-primary-600 dark:text-primary-400">
-            ✨ Admissions Open for 2026-27
+          <span className="inline-flex flex-col items-center gap-1 px-6 py-3 rounded-full glass text-sm font-semibold text-primary-600 dark:text-primary-400">
+            <span className="text-xl">رَبِّ زِدْنِي عِلْمًا</span>
+            <span className="text-xs opacity-90">Rabbi Zidni Ilma</span>
+            <span className="text-[10px] opacity-70">"My Lord, increase me in knowledge." (Qur'an 20:114)</span>
           </span>
         </motion.div>
-        <h1 className="text-6xl md:text-8xl font-extrabold mb-8 leading-tight tracking-tight text-foreground">
-          Hazrat Aisha <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 via-secondary-500 to-accent-500 drop-shadow-sm">
-            Academy
-          </span>
+        <h1 className="text-5xl md:text-7xl font-extrabold mb-8 leading-tight tracking-tight text-foreground">
+          Hazrat Aisha Academy <br />
+          <span className="text-3xl md:text-4xl block font-semibold mt-4 text-primary-600 dark:text-primary-400">حضرت عائشہ اکیڈمی</span>
         </h1>
         <p className="text-xl md:text-2xl text-secondary-foreground mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
-          Cultivating character, knowledge, and faith through CBSE-aligned modern academic excellence integrated with authentic Islamic values.
+          Providing quality English Medium and Islamic education to nurture knowledgeable, disciplined, and morally responsible future generations.
         </p>
         <div className="flex flex-col sm:flex-row gap-6 justify-center">
-          <GlassButton variant="primary" className="text-lg px-10 py-5">Apply Now</GlassButton>
-          <Link to="/dashboard">
-            <GlassButton variant="glass" className="text-lg px-10 py-5 w-full">Student Portal</GlassButton>
-          </Link>
         </div>
       </motion.div>
     </div>

@@ -7,8 +7,7 @@ import { motion } from 'motion/react';
 import { GlassCard } from '../../components/common/GlassCard';
 import { GlassInput } from '../../components/common/GlassInput';
 import { GlassButton } from '../../components/common/GlassButton';
-import { Eye, EyeOff, Sun, Moon } from 'lucide-react';
-import { useTheme } from '../../contexts/ThemeContext';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 import { api } from '../../services/apiClient';
@@ -25,7 +24,6 @@ export const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const { theme, toggleTheme } = useTheme();
   const { addToast } = useToast();
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -64,13 +62,6 @@ export const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-slate-950 transition-colors p-4 relative overflow-hidden">
-      <button
-        onClick={toggleTheme}
-        className="absolute top-6 right-6 p-2 rounded-full glass hover:scale-110 transition-transform"
-      >
-        {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-secondary-foreground" />}
-      </button>
-
       <motion.div 
         animate={{ x: [0, 100, 0], y: [0, -50, 0] }}
         transition={{ duration: 15, repeat: Infinity, ease: "linear" }}

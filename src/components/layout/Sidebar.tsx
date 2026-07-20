@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, BookOpen, Settings, Bell, Calendar, GraduationCap, ClipboardList, BookMarked, Wallet, Image, FileText, UserCircle, X, Shield, Contact, Download, Home, Book, FileBarChart, PenTool, Database } from 'lucide-react';
+import { LayoutDashboard, Users, BookOpen, Settings, Bell, Calendar, GraduationCap, ClipboardList, BookMarked, Wallet, Image, FileText, UserCircle, X, Shield, Contact, Download, Home, Book, FileBarChart, PenTool, Database, Award, MessageCircle } from 'lucide-react';
 import { GlassButton } from '../common/GlassButton';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -43,10 +43,13 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
       { icon: ClipboardList, label: 'Attendance', path: '/dashboard/attendance' },
       { icon: Book, label: 'Homework', path: '/dashboard/homework' },
       { icon: PenTool, label: 'Exam Marks', path: '/dashboard/exam-marks' },
+      { icon: Calendar, label: 'Exam Schedule', path: '/dashboard/exam-schedule' },
       { icon: BookMarked, label: 'Results', path: '/dashboard/results' },
       { icon: Contact, label: 'Admissions', path: '/dashboard/admissions' },
       { icon: Wallet, label: 'Fees', path: '/dashboard/fees' },
       { icon: Image, label: 'Gallery', path: '/dashboard/gallery' },
+      { icon: Award, label: 'Achievements', path: '/dashboard/achievements' },
+      { icon: MessageCircle, label: 'Testimonials', path: '/dashboard/testimonials' },
       { icon: FileText, label: 'Notice Board', path: '/dashboard/notices' },
       { icon: Download, label: 'Downloads', path: '/dashboard/downloads' },
       { icon: Calendar, label: 'Academic Calendar', path: '/dashboard/calendar' },

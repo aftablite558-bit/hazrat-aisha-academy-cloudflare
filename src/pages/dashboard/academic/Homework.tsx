@@ -1,32 +1,32 @@
 import { useState, useMemo } from 'react';
 import { PageHeader } from '../../../components/common/PageHeader';
+import { GlassCard } from '../../../components/common/GlassCard';
 import { GlassTable } from '../../../components/common/GlassTable';
 import { GlassButton } from '../../../components/common/GlassButton';
-import { GlassInput } from '../../../components/common/GlassInput';
 import { GlassBadge } from '../../../components/common/GlassBadge';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
 import { useMasterData } from '../../../hooks/useMasterData';
 import { Homework as HomeworkType } from '../../../types/academic';
-import { Class, Section, Subject } from '../../../types/master';
-import { Edit, Trash2, Plus, Search, Eye, FileText, CheckCircle, XCircle } from 'lucide-react';
+import { Class, Subject, Student } from '../../../types/master';
+import { Edit, Trash2, Plus, Eye, FileText, CheckCircle, XCircle } from 'lucide-react';
 import { HomeworkFormModal } from '../../../components/dashboard/academic/HomeworkFormModal';
+import { StudentLookup } from '../../../components/dashboard/academic/StudentLookup';
 
 export const Homework = () => {
   const { data: homeworks, loading, addRecord, updateRecord, deleteRecord } = useMasterData<HomeworkType>('homework', true);
   const { data: classes } = useMasterData<Class>('classes', true);
   const { data: subjects } = useMasterData<Subject>('subjects', true);
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedHomework, setSelectedHomework] = useState<HomeworkType | null>(null);
 
   const filteredHomeworks = useMemo(() => {
-    return homeworks.filter(hw => 
-      hw.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [homeworks, searchTerm]);
+    if (!selectedStudent) return [];
+    return homeworks.filter(hw => hw.classId === selectedStudent.classId);
+  }, [homeworks, selectedStudent]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -79,16 +79,12 @@ export const Homework = () => {
     <div className="space-y-6">
       <PageHeader title="Homework Management" subtitle="Manage class assignments and publish homework." />
       
+      <GlassCard className="p-6">
+         <StudentLookup onStudentSelect={setSelectedStudent} />
+      </GlassCard>
+
       <div className="flex flex-col sm:flex-row justify-between gap-4">
-        <div className="relative w-full max-w-md">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
-          <GlassInput 
-             placeholder="Search by title..." 
-             className="pl-12"
-            value={searchTerm}
-            onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
-          />
-        </div>
+        <div/>
         <GlassButton variant="primary" className="flex items-center gap-2" onClick={handleAdd}>
           <Plus size={20} /> Add Homework
         </GlassButton>
