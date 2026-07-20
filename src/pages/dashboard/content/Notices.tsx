@@ -16,7 +16,7 @@ import { FileUpload } from '../../../components/dashboard/master/FileUpload';
 import { useAuth } from '../../../contexts/AuthContext';
 
 export const Notices = () => {
-  const { data: notices, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Notice>('notices');
+  const { data: notices, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Notice>('notices', true);
   const { profile } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);

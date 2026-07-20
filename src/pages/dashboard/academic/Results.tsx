@@ -11,12 +11,12 @@ import { ExamMark, Result } from '../../../types/academic';
 import { Save, CheckCircle, XCircle } from 'lucide-react';
 
 export const Results = () => {
-  const { data: classes } = useMasterData<Class>('classes');
-  const { data: sections } = useMasterData<Section>('sections');
-  const { data: students } = useMasterData<Student>('students');
-  const { data: subjects } = useMasterData<Subject>('subjects');
-  const { data: examMarks } = useMasterData<ExamMark>('exam_marks');
-  const { data: results, fetchData, addRecord, updateRecord } = useMasterData<Result>('results');
+  const { data: classes } = useMasterData<Class>('classes', true);
+  const { data: sections } = useMasterData<Section>('sections', true);
+  const { data: students } = useMasterData<Student>('students', true);
+  const { data: subjects } = useMasterData<Subject>('subjects', true);
+  const { data: examMarks } = useMasterData<ExamMark>('exam_marks', true);
+  const { data: results, fetchData, addRecord, updateRecord } = useMasterData<Result>('results', true);
   const { addToast } = useToast();
 
   const [examName, setExamName] = useState('');

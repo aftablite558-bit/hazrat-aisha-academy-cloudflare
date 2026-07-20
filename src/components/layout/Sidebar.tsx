@@ -1,8 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, BookOpen, Settings, Bell, Calendar, GraduationCap, ClipboardList, BookMarked, Wallet, Image, FileText, UserCircle, X, Shield, Contact, Download, Home, Book, FileBarChart, PenTool } from 'lucide-react';
+import { LayoutDashboard, Users, BookOpen, Settings, Bell, Calendar, GraduationCap, ClipboardList, BookMarked, Wallet, Image, FileText, UserCircle, X, Shield, Contact, Download, Home, Book, FileBarChart, PenTool, Database } from 'lucide-react';
 import { GlassButton } from '../common/GlassButton';
 import { motion, AnimatePresence } from 'motion/react';
-import { logout } from '../../firebase/authService';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface SidebarProps {
@@ -60,6 +59,7 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
       { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
       { icon: Shield, label: 'User Management', path: '/dashboard/users' },
       { icon: Shield, label: 'Audit Logs', path: '/dashboard/audit-logs' },
+      { icon: Database, label: 'Backup & Restore', path: '/dashboard/backup' },
     ];
   };
 

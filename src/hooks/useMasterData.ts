@@ -2,37 +2,47 @@ import { useState, useEffect, useCallback } from 'react';
 import { getCollection, addDocument, updateDocument, deleteDocument, deleteImage } from '../services/masterDataService';
 import { BaseEntity } from '../types/master';
 import { useToast } from '../contexts/ToastContext';
+import { useSession } from '../contexts/SessionContext';
 
-export const useMasterData = <T extends BaseEntity>(collectionName: string) => {
+export const useMasterData = <T extends BaseEntity>(collectionName: string, withSession: boolean = false) => {
   const [data, setData] = useState<T[]>([]);
-  
-  useEffect(() => {
-    console.log(`[DEBUG] useMasterData(${collectionName}) data initialized:`, data);
-  }, [data, collectionName]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { addToast } = useToast();
+  const { activeSession } = useSession();
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (params: Record<string, string | number> = {}) => {
+    if (withSession && !activeSession) return;
+    
     setLoading(true);
     setError(null);
     try {
-      const result = await getCollection<T>(collectionName);
+      const queryParams = { ...params };
+      if (withSession && activeSession) {
+        queryParams.sessionId = activeSession.id;
+      }
+      const result = await getCollection<T>(collectionName, queryParams);
       setData(result);
     } catch (err: any) {
       setError(err.message || 'Failed to fetch data');
     } finally {
       setLoading(false);
     }
-  }, [collectionName]);
+  }, [collectionName, withSession, activeSession]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (!withSession || activeSession) {
+      fetchData();
+    }
+  }, [fetchData, withSession, activeSession]);
 
   const addRecord = useCallback(async (record: Omit<T, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
-      const id = await addDocument(collectionName, record);
+      const dataToSave = { ...record };
+      if (withSession && activeSession) {
+        (dataToSave as any).sessionId = activeSession.id;
+      }
+      const id = await addDocument(collectionName, dataToSave);
       await fetchData();
       addToast(`Record added successfully`, 'success');
       return id;
@@ -40,7 +50,7 @@ export const useMasterData = <T extends BaseEntity>(collectionName: string) => {
       addToast(err.message || 'Failed to add record', 'error');
       throw err;
     }
-  }, [collectionName, fetchData, addToast]);
+  }, [collectionName, withSession, activeSession, fetchData, addToast]);
 
   const updateRecord = useCallback(async (id: string, record: Partial<T>) => {
     try {

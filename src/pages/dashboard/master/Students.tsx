@@ -13,7 +13,7 @@ import { StudentFormModal } from '../../../components/dashboard/master/StudentFo
 import { StudentDetailsModal } from '../../../components/dashboard/master/StudentDetailsModal';
 
 export const Students = () => {
-  const { data: students, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Student>('students');
+  const { data: students, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Student>('students', true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);

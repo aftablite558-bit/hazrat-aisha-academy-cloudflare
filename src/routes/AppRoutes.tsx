@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import { Login } from '../pages/auth/Login';
+import { SetupOwner } from '../pages/auth/SetupOwner';
 import { ForgotPassword } from '../pages/auth/ForgotPassword';
 import { Unauthorized } from '../pages/error/Unauthorized';
 import { NotFound } from '../pages/error/NotFound';
@@ -48,12 +49,14 @@ const Reports = lazy(() => import('../pages/dashboard/enterprise/Reports').then(
 const AuditLogs = lazy(() => import('../pages/dashboard/enterprise/AuditLogs').then(m => ({ default: m.AuditLogs })));
 const Settings = lazy(() => import('../pages/dashboard/enterprise/Settings').then(m => ({ default: m.Settings })));
 const Users = lazy(() => import('../pages/dashboard/enterprise/Users').then(m => ({ default: m.Users })));
+const BackupRestore = lazy(() => import('../pages/dashboard/enterprise/BackupRestore').then(m => ({ default: m.BackupRestore })));
 
 export function AppRoutes() {
   return (
     <Suspense fallback={<div className="flex h-screen w-full items-center justify-center bg-slate-50 dark:bg-slate-900 text-primary-500 font-medium">Loading Module...</div>}>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/setup" element={<SetupOwner />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
         
@@ -112,6 +115,7 @@ export function AppRoutes() {
           <Route path="settings" element={<Settings />} />
           <Route path="users" element={<Users />} />
           <Route path="audit-logs" element={<AuditLogs />} />
+          <Route path="backup" element={<BackupRestore />} />
         </Route>
 
         {/* Teacher Routes */}

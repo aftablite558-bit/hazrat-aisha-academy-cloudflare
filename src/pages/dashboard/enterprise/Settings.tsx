@@ -8,6 +8,7 @@ import { GlassSelect } from '../../../components/common/GlassSelect';
 import { useMasterData } from '../../../hooks/useMasterData';
 import { SystemSettings } from '../../../types/enterprise';
 import { Save, UploadCloud, Database } from 'lucide-react';
+import { api } from '../../../services/apiClient';
 
 export const Settings = () => {
   const { addToast } = useToast();
@@ -23,11 +24,9 @@ export const Settings = () => {
   });
 
   useEffect(() => {
-    console.log('[DEBUG] Settings useEffect running. settingsData:', settingsData, 'loading:', loading, 'error:', error);
     
     // Population logic
     if (settingsData && settingsData.length > 0) {
-      console.log('[VERIFICATION] Settings doc exists:', settingsData[0].id);
       setFormData(settingsData[0]);
       return; // If settings exist, we don't need to initialize
     }
@@ -35,7 +34,6 @@ export const Settings = () => {
     // Initialization logic
     const initializeCollections = async () => {
       if (!loading && !error && settingsData && settingsData.length === 0) {
-        console.log('[DEBUG] No settings found, initializing system...');
         try {
           // Create settings
           const settingsId = await addRecord({
@@ -47,22 +45,15 @@ export const Settings = () => {
             sessionStart: '2023-04-01',
             sessionEnd: '2024-03-31'
           });
-          console.log('[DEBUG] Default settings created with ID:', settingsId);
 
-          // Initialize other collections
+          // Initialize other collections via API
           const collectionsToInit = [
             'students', 'teachers', 'staff', 'classes', 'subjects', 
             'notices', 'gallery', 'facilities', 'calendar', 'documents'
           ];
           
-          const { db } = await import('../../../firebase/firebase');
-          const { collection, addDoc } = await import('firebase/firestore');
-
-          for (const colName of collectionsToInit) {
-            console.log(`[DEBUG] Initializing collection: ${colName}`);
-            await addDoc(collection(db, colName), { initialized: true, createdAt: new Date() });
-          }
-          console.log('[DEBUG] All collections initialized successfully.');
+          await api.post('/initialize', { collections: collectionsToInit });
+          
           addToast("System initialized successfully.", 'success');
         } catch (err: any) {
           console.error('[DEBUG] Failed to initialize system:', err);
@@ -79,7 +70,6 @@ export const Settings = () => {
 
   const handleCreateDefault = async () => {
      try {
-       console.log('[DEBUG] Manually creating default settings.');
        const id = await addRecord({
         schoolName: 'Hazrat Aisha Academy',
         schoolAddress: 'Chak Rajopatti, Sitamarhi, Bihar',
@@ -89,7 +79,6 @@ export const Settings = () => {
         sessionStart: '2023-04-01',
         sessionEnd: '2024-03-31'
        });
-       console.log('[DEBUG] Default settings manually created with ID:', id);
        addToast("Default settings created successfully.", 'success');
      } catch (err) {
        console.error('[DEBUG] Failed to manually create default settings:', err);
@@ -111,7 +100,6 @@ export const Settings = () => {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('[DEBUG] Saving settings:', formData);
     try {
       if (settingsData.length > 0 && settingsData[0].id) {
         await updateRecord(settingsData[0].id, formData);

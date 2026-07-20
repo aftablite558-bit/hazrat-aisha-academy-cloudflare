@@ -14,7 +14,7 @@ import { Admission } from '../../../types/enterprise';
 import { Search, Eye, CheckCircle, XCircle, Trash2, FileText, Download } from 'lucide-react';
 
 export const Admissions = () => {
-  const { data: admissions, loading, updateRecord, deleteRecord } = useMasterData<Admission>('admissions');
+  const { data: admissions, loading, updateRecord, deleteRecord } = useMasterData<Admission>('admissions', true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [isViewOpen, setIsViewOpen] = useState(false);

@@ -15,7 +15,7 @@ import { Search, Edit, Trash2, Plus, Download, CreditCard } from 'lucide-react';
 
 export const Fees = () => {
   const { addToast } = useToast();
-  const { data: fees, loading, addRecord, updateRecord, deleteRecord } = useMasterData<StudentFee>('fees');
+  const { data: fees, loading, addRecord, updateRecord, deleteRecord } = useMasterData<StudentFee>('fees', true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [isFormOpen, setIsFormOpen] = useState(false);

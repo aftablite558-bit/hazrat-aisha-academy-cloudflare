@@ -14,7 +14,7 @@ import { Edit, Trash2, Plus, Search, CheckCircle, XCircle, FileDown } from 'luci
 import { FileUpload } from '../../../components/dashboard/master/FileUpload';
 
 export const Documents = () => {
-  const { data: docs, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Document>('documents');
+  const { data: docs, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Document>('documents', true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);

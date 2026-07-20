@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useCRUD } from '../../hooks/useCRUD';
-import { Student, Class, Section } from '../../types/master';
+import { Student, Class } from '../../types/master';
 import { GlassCard } from '../../components/common/GlassCard';
 import { GlassButton } from '../../components/common/GlassButton';
 import { GlassInput } from '../../components/common/GlassInput';
@@ -15,38 +15,22 @@ import { Search, Plus, Edit, Trash2 } from 'lucide-react';
 import { LoadingScreen } from '../../components/common/LoadingScreen';
 
 export const DashboardStudents = () => {
-  const { data: students, loading: studentsLoading, add, update, remove } = useCRUD<Student>('students');
+  const { data: students, loading: studentsLoading, add, update, remove, refetch } = useCRUD<Student>('students');
   const { data: classes, loading: classesLoading } = useCRUD<Class>('classes');
-  const { data: sections, loading: sectionsLoading } = useCRUD<Section>('sections');
   
   const { addToast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-  
-  const [formData, setFormData] = useState<Partial<Student>>({
-    admissionNo: '',
-    rollNo: '',
-    fullName: '',
-    gender: '',
-    dob: '',
-    fatherName: '',
-    motherName: '',
-    classId: '',
-    sectionId: '',
-    phone: '',
-    address: '',
-    status: 'Active',
-    admissionDate: '',
-  });
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [page, setPage] = useState(0);
+  const limit = 20;
 
-  const filteredData = students.filter(s => s.fullName.toLowerCase().includes(searchTerm.toLowerCase()) || s.admissionNo.toLowerCase().includes(searchTerm.toLowerCase()));
+  useEffect(() => {
+    refetch({ limit, offset: page * limit, search: searchTerm });
+  }, [page, searchTerm, refetch]);
 
   const handleSave = async () => {
     try {
-      if (!formData.fullName || !formData.admissionNo || !formData.classId || !formData.sectionId) {
-        addToast('Full Name, Admission No, Class, and Section are required', 'error');
+      if (!formData.fullName || !formData.admissionNo || !formData.classId) {
+        addToast('Full Name, Admission No, and Class are required', 'error');
         return;
       }
 
@@ -91,7 +75,6 @@ export const DashboardStudents = () => {
       fatherName: '',
       motherName: '',
       classId: '',
-      sectionId: '',
       phone: '',
       address: '',
       status: 'Active',
@@ -101,7 +84,7 @@ export const DashboardStudents = () => {
     setIsModalOpen(true);
   };
 
-  if (studentsLoading || classesLoading || sectionsLoading) return <LoadingScreen />;
+  if (studentsLoading || classesLoading) return <LoadingScreen />;
 
   return (
     <div className="space-y-6">
@@ -126,7 +109,7 @@ export const DashboardStudents = () => {
         </div>
       </div>
 
-      {filteredData.length === 0 ? (
+      {students.length === 0 ? (
         <GlassCard className="p-12 text-center flex flex-col items-center justify-center min-h-[400px]">
           <div className="w-20 h-20 rounded-full bg-white/10 dark:bg-white/5 flex items-center justify-center mb-6">
             <Search size={40} className="text-muted-foreground" />
@@ -143,22 +126,19 @@ export const DashboardStudents = () => {
               <th>Roll No</th>
               <th>Name</th>
               <th>Class</th>
-              <th>Section</th>
               <th>Status</th>
               <th className="text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredData.map((s) => {
+            {students.map((s) => {
               const classObj = classes.find(c => c.id === s.classId);
-              const sectionObj = sections.find(sec => sec.id === s.sectionId);
               return (
                 <tr key={s.id}>
                   <td className="font-medium">{s.admissionNo}</td>
                   <td>{s.rollNo}</td>
                   <td>{s.fullName}</td>
                   <td>{classObj ? classObj.className : 'N/A'}</td>
-                  <td>{sectionObj ? sectionObj.sectionName : 'N/A'}</td>
                   <td>
                     <GlassBadge variant={s.status === 'Active' ? 'success' : 'default'}>{s.status}</GlassBadge>
                   </td>
@@ -245,14 +225,8 @@ export const DashboardStudents = () => {
             <GlassSelect
               label="Class"
               value={formData.classId}
-              onChange={(e) => setFormData({ ...formData, classId: e.target.value, sectionId: '' })}
+              onChange={(e) => setFormData({ ...formData, classId: e.target.value })}
               options={classes.map(c => ({ label: c.className, value: c.id }))}
-            />
-            <GlassSelect
-              label="Section"
-              value={formData.sectionId}
-              onChange={(e) => setFormData({ ...formData, sectionId: e.target.value })}
-              options={sections.filter(s => s.classId === formData.classId).map(s => ({ label: s.sectionName, value: s.id }))}
             />
             <GlassInput
               label="Admission Date"

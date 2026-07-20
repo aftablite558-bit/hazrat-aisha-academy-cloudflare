@@ -6,16 +6,9 @@ import { GlassTable } from '../../../components/common/GlassTable';
 import { GlassBadge } from '../../../components/common/GlassBadge';
 import { GlassButton } from '../../../components/common/GlassButton';
 import { useAuth } from '../../../contexts/AuthContext';
-import { 
-  getAllUserProfiles, 
-  createUserProfile, 
-  updateUserProfile, 
-  deleteUserProfile 
-} from '../../../firebase/userService';
 import { UserRole, UserProfile } from '../../../types';
 import { Users as UsersIcon, Shield, Edit, Trash2, Plus, RefreshCw, X, Check, Power, AlertTriangle } from 'lucide-react';
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { api } from '../../../services/apiClient';
 
 export const Users = () => {
   const { addToast } = useToast();
@@ -38,21 +31,12 @@ export const Users = () => {
   const fetchUsers = async (loadMore: boolean = false) => {
     if (!loadMore) setLoading(true);
     try {
-      console.log('--- ENTERPRISE USERS COMPONENT LOAD DIAGNOSTICS ---');
-      console.log('Querying Firestore collection: users, loadMore:', loadMore);
       
-      const { profiles, lastVisible: newLastVisible } = await getAllUserProfiles(20, loadMore ? lastVisible : undefined);
+      const profiles = await api.get('/collection/users');
       
-      if (loadMore) {
-        setUsers(prev => [...prev, ...profiles]);
-      } else {
-        setUsers(profiles);
-      }
-      setLastVisible(newLastVisible);
-      setHasMore(profiles.length === 20);
+      setUsers(profiles);
+      setHasMore(false); // Simplified for now
       
-      console.log('Total documents returned:', profiles.length);
-      console.log('--------------------------------------------------');
       
     } catch (err: any) {
       console.error('Failed to fetch users:', err);
@@ -82,40 +66,10 @@ export const Users = () => {
 
     setSubmitting(true);
     try {
-      // Configuration for the secondary firebase auth instance
-      const firebaseConfig = {
-        apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-        authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-        projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-        storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-        appId: import.meta.env.VITE_FIREBASE_APP_ID,
-      };
-
-      // In client-only setups, we initialize a secondary App to register users 
-      // without disrupting the current admin's session.
-      const secondaryApp = getApps().find(app => app.name === 'secondary_registration') || initializeApp(firebaseConfig, 'secondary_registration');
-      const secondaryAuth = getAuth(secondaryApp);
-
-      // Create credential in Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(secondaryAuth, formEmail, formPassword);
-      const uid = userCredential.user.uid;
-
-      // Try sending a verification email to the user
-      try {
-        await sendEmailVerification(userCredential.user);
-        addToast('Verification email sent to ' + formEmail, 'success');
-      } catch (verifErr) {
-        console.warn('Failed to send verification email:', verifErr);
-      }
-
-      // Sign out of the secondary auth instance immediately to avoid session hold
-      await secondaryAuth.signOut();
-
-      // Write UserProfile document to Firestore /users/{uid}
-      await createUserProfile(uid, {
-        displayName: formName,
+      await api.post('/auth/admin/create-user', {
+        name: formName,
         email: formEmail,
+        password: formPassword,
         role: formRole,
         status: formStatus,
       });
@@ -123,26 +77,16 @@ export const Users = () => {
       addToast('User account created successfully!', 'success');
       setShowAddModal(false);
       
-      // Reset form
       setFormName('');
       setFormEmail('');
       setFormPassword('');
       setFormRole('teacher');
       setFormStatus('active');
 
-      // Refresh list
       await fetchUsers(false);
     } catch (err: any) {
       console.error('Failed to create user:', err);
-      let errorMsg = 'Failed to create user profile';
-      if (err.code === 'auth/email-already-in-use') {
-        errorMsg = 'An account with this email address already exists.';
-      } else if (err.code === 'auth/invalid-email') {
-        errorMsg = 'Invalid email address format.';
-      } else if (err.code === 'auth/weak-password') {
-        errorMsg = 'Weak password. It must be at least 6 characters.';
-      }
-      addToast(errorMsg, 'danger');
+      addToast('Failed to create user profile', 'danger');
     } finally {
       setSubmitting(false);
     }
@@ -155,7 +99,7 @@ export const Users = () => {
     }
 
     try {
-      await updateUserProfile(uid, { status: newStatus });
+      await api.post(`/collection/users/${uid}/update`, { status: newStatus });
       addToast(`Account status updated to ${newStatus}`, 'success');
       await fetchUsers(false);
     } catch (err) {
@@ -175,7 +119,7 @@ export const Users = () => {
     }
 
     try {
-      await deleteUserProfile(uid);
+      await api.post(`/collection/users/${uid}/delete`, {});
       addToast('User deleted successfully', 'success');
       await fetchUsers(false);
     } catch (err) {

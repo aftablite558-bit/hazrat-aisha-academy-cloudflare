@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { resetPassword } from '../../firebase/authService';
 import { GlassCard } from '../../components/common/GlassCard';
 import { GlassInput } from '../../components/common/GlassInput';
 import { GlassButton } from '../../components/common/GlassButton';
 import { motion } from 'motion/react';
 import { useToast } from '../../contexts/ToastContext';
 import { Mail, CheckCircle, ArrowLeft, AlertCircle } from 'lucide-react';
+import { api } from '../../services/apiClient';
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -41,13 +41,15 @@ export const ForgotPassword = () => {
 
     setSubmitting(true);
     try {
-      // Execute standard Firebase reset
-      await resetPassword(targetEmail);
-      setSuccess(true);
-      addToast('Password reset email sent successfully!', 'success');
+      const response = await api.post('/auth/forgot-password', { email: targetEmail });
+      if (response.success) {
+        setSuccess(true);
+        addToast('Password reset email sent successfully!', 'success');
+      } else {
+        throw new Error(response.message || 'Failed to process request');
+      }
     } catch (err: any) {
       console.error('Password reset failed:', err);
-      // Secure, generic error message (avoiding user enumeration or internal secrets)
       const friendlyError = 'Failed to process request. Please try again later or contact support.';
       setError(friendlyError);
       addToast(friendlyError, 'danger');

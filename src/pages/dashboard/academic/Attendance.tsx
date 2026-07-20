@@ -11,9 +11,9 @@ import { Attendance as AttendanceType, AttendanceStatus } from '../../../types/a
 import { Check, X, Clock, Save } from 'lucide-react';
 
 export const Attendance = () => {
-  const { data: classes } = useMasterData<Class>('classes');
-  const { data: students } = useMasterData<Student>('students');
-  const { data: attendances, loading: attendancesLoading, addRecord, updateRecord, fetchData } = useMasterData<AttendanceType>('attendance');
+  const { data: classes } = useMasterData<Class>('classes', true);
+  const { data: students } = useMasterData<Student>('students', true);
+  const { data: attendances, loading: attendancesLoading, addRecord, updateRecord, fetchData } = useMasterData<AttendanceType>('attendance', true);
   const { addToast } = useToast();
 
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);

@@ -13,7 +13,7 @@ import { CalendarEvent } from '../../../types/content';
 import { Edit, Trash2, Plus, Search, CheckCircle, XCircle, Calendar as CalIcon } from 'lucide-react';
 
 export const AcademicCalendar = () => {
-  const { data: events, loading, addRecord, updateRecord, deleteRecord } = useMasterData<CalendarEvent>('calendar');
+  const { data: events, loading, addRecord, updateRecord, deleteRecord } = useMasterData<CalendarEvent>('calendar', true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);

@@ -1,9 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { login } from '../../firebase/authService';
-import { getUserProfile } from '../../firebase/userService';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { GlassCard } from '../../components/common/GlassCard';
@@ -13,8 +11,7 @@ import { Eye, EyeOff, Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
-import { sendEmailVerification } from 'firebase/auth';
-import { perfTracker } from '../../utils/performance';
+import { api } from '../../services/apiClient';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -27,14 +24,11 @@ export const Login = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [unverifiedUser, setUnverifiedUser] = useState<any>(null);
-  const [sendingVerification, setSendingVerification] = useState(false);
 
   const { theme, toggleTheme } = useTheme();
   const { addToast } = useToast();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { user, profile, logoutUser } = useAuth();
+  const { user } = useAuth();
   
   const { register, handleSubmit, formState: { errors } } = useForm<LoginInputs>({
     resolver: zodResolver(loginSchema),
@@ -49,153 +43,27 @@ export const Login = () => {
   const onSubmit = async (data: LoginInputs) => {
     if (submitting) return;
     setError('');
-    setUnverifiedUser(null);
-
-    const emailKey = data.email.toLowerCase().trim();
-
-    // 1. Brute Force Lockout Check
-    const lockoutTimeStr = localStorage.getItem(`login_lockout_${emailKey}`);
-    if (lockoutTimeStr) {
-      const lockoutTime = Number(lockoutTimeStr);
-      if (Date.now() < lockoutTime) {
-        const remainingSecs = Math.ceil((lockoutTime - Date.now()) / 1000);
-        const remainingMins = Math.ceil(remainingSecs / 60);
-        const msg = `Too Many Attempts. Account locked. Please try again after ${remainingMins} minute(s).`;
-        setError(msg);
-        addToast(msg, 'danger');
-        return;
-      } else {
-        // Lockout expired, clear
-        localStorage.removeItem(`login_lockout_${emailKey}`);
-        localStorage.removeItem(`login_attempts_${emailKey}`);
-      }
-    }
-
     setSubmitting(true);
 
     try {
-      perfTracker.startAuth();
-      // 2. Perform authentication request
-      const userCredential = await login(data.email, data.password);
-      const authUser = userCredential.user;
-      perfTracker.endAuth();
-
-      // Clear attempt counters on successful login
-      localStorage.removeItem(`login_attempts_${emailKey}`);
-      localStorage.removeItem(`login_lockout_${emailKey}`);
-
-      // 3. Email Verification check
-      if (authUser && !authUser.emailVerified) {
-        setError('Verification Required. Please verify your email before logging in.');
-        addToast('Verification Required. Please verify your email first.', 'warning');
-        setUnverifiedUser(authUser);
-        
-        // Logout immediately from active state, keeping local trace to allow Resend
-        await logoutUser();
-        setSubmitting(false);
-        return;
-      }
-
-      // 4. Retrieve Profile and Check Status
-      let userProfile: any = null;
-      try {
-        perfTracker.startProfileFetch();
-        userProfile = await getUserProfile(authUser.uid);
-        perfTracker.endProfileFetch();
-      } catch (firestoreError: any) {
-        const cachedStr = localStorage.getItem('local_profile_' + authUser.uid);
-        if (cachedStr) {
-          userProfile = JSON.parse(cachedStr);
-        } else {
-          userProfile = {
-            uid: authUser.uid,
-            email: authUser.email || data.email,
-            role: 'admin',
-            displayName: authUser.displayName || 'Administrator (Local)',
-            status: 'active',
-            emailVerified: true
-          };
-          localStorage.setItem('local_profile_' + authUser.uid, JSON.stringify(userProfile));
-        }
-      }
-
-      if (!userProfile) {
-        userProfile = {
-          uid: authUser.uid,
-          email: authUser.email || data.email,
-          role: 'admin',
-          displayName: authUser.displayName || 'Administrator (Local Fallback)',
-          status: 'active',
-          emailVerified: true
-        };
-        localStorage.setItem('local_profile_' + authUser.uid, JSON.stringify(userProfile));
-      }
-
-      if (userProfile.status === 'inactive' || userProfile.status === 'suspended' || userProfile.status === 'deleted') {
-        setError(`Account Disabled. Please contact school administration.`);
-        addToast('Account Disabled. This profile has been deactivated or suspended.', 'danger');
-        
-        await logoutUser();
-        setSubmitting(false);
-        return;
-      }
-
-      addToast('Welcome back! Logging in...', 'success');
-    } catch (err: any) {
-      const firebaseErrorCode = err.code || 'unknown-error';
-      
-      let friendlyError: string;
-      
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-        friendlyError = 'Invalid Email or Password.';
-      } else if (err.code === 'auth/user-disabled') {
-        friendlyError = 'Account Disabled.';
-      } else if (err.code === 'auth/too-many-requests') {
-        friendlyError = 'Too Many Attempts.';
-      } else if (err.message && err.message.includes('network-request-failed')) {
-        friendlyError = 'Network Error. Please check your internet connection.';
+      const response = await api.post('/auth/login', data);
+      if (response.success) {
+        addToast('Welcome back!', 'success');
+        navigate('/dashboard');
       } else {
-        friendlyError = `Error: ${err.message || err}.`;
+        setError(response.message || 'Login failed');
+        addToast(response.message || 'Login failed', 'danger');
       }
-
-      setError(friendlyError);
-      addToast(friendlyError, 'danger');
-
-      // Increment attempt counter
-      const currentAttemptsStr = localStorage.getItem(`login_attempts_${emailKey}`) || '0';
-      const newAttempts = Number(currentAttemptsStr) + 1;
-      localStorage.setItem(`login_attempts_${emailKey}`, String(newAttempts));
-
-      if (newAttempts >= 5) {
-        // Lock for 5 minutes (300,000 milliseconds)
-        const lockoutExpiration = Date.now() + 5 * 60 * 1000;
-        localStorage.setItem(`login_lockout_${emailKey}`, String(lockoutExpiration));
-        setError('Too Many Attempts. Account locked for 5 minutes.');
-        addToast('Brute force defense: login attempts exceeded. Locked for 5 minutes.', 'danger');
-      }
+    } catch (err: any) {
+      setError('Login failed. Please try again.');
+      addToast('Login failed. Please try again.', 'danger');
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleResendVerification = async () => {
-    if (!unverifiedUser || sendingVerification) return;
-    setSendingVerification(true);
-    try {
-      await sendEmailVerification(unverifiedUser);
-      addToast('Verification email resent successfully! Please check your inbox.', 'success');
-      setError('Verification email has been resent. Please check your inbox.');
-    } catch (err: any) {
-      console.error('Resend verification failed:', err);
-      addToast('Too many resend requests. Please try again later.', 'danger');
-    } finally {
-      setSendingVerification(false);
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-slate-950 transition-colors p-4 relative overflow-hidden">
-      {/* Theme Toggle */}
       <button
         onClick={toggleTheme}
         className="absolute top-6 right-6 p-2 rounded-full glass hover:scale-110 transition-transform"
@@ -203,7 +71,6 @@ export const Login = () => {
         {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-secondary-foreground" />}
       </button>
 
-      {/* Background Blobs */}
       <motion.div 
         animate={{ x: [0, 100, 0], y: [0, -50, 0] }}
         transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
@@ -228,16 +95,6 @@ export const Login = () => {
             {error && (
               <div className="mb-4 p-3 rounded-xl bg-danger-500/10 border border-danger-500/20">
                 <p className="text-danger-500 text-sm">{error}</p>
-                {unverifiedUser && (
-                  <button
-                    type="button"
-                    onClick={handleResendVerification}
-                    disabled={sendingVerification}
-                    className="mt-2 text-xs font-semibold text-primary-500 hover:underline flex items-center gap-1"
-                  >
-                    {sendingVerification ? 'Resending email...' : 'Resend Verification Email'}
-                  </button>
-                )}
               </div>
             )}
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

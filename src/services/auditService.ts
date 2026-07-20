@@ -1,12 +1,11 @@
-import { db } from '../firebase/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { api } from './apiClient';
 import { AuditLog } from '../types/audit';
 
 export const logAction = async (logData: Omit<AuditLog, 'timestamp'>) => {
   try {
-    await addDoc(collection(db, 'audit_logs'), {
+    await api.post('/collection/audit_logs', {
       ...logData,
-      timestamp: serverTimestamp(),
+      timestamp: new Date().toISOString(),
     });
   } catch (error) {
     console.error('Failed to log action:', error);

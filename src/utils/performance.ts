@@ -50,12 +50,5 @@ export const perfTracker = {
   },
 
   printReport() {
-    console.log('====== PERFORMANCE REPORT ======');
-    console.log(`Auth Time: ${this.authTime.toFixed(2)} ms`);
-    console.log(`Profile Fetch Time: ${this.profileFetchTime.toFixed(2)} ms`);
-    console.log(`Dashboard Load Time: ${this.dashboardLoadTime.toFixed(2)} ms`);
-    console.log(`Number of Firestore Reads: ${this.firestoreReads}`);
-    console.log(`Duplicate Queries Found: ${this.duplicateQueries}`);
-    console.log('================================');
   }
 };

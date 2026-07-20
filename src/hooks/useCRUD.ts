@@ -1,21 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getCollection, createDocument, updateDocument, deleteDocument } from '../services/db';
-import { QueryConstraint } from 'firebase/firestore';
 import { deleteImage } from '../services/storage';
 
-export function useCRUD<T extends { id: string }>(collectionName: string, queryConstraints: QueryConstraint[] = []) {
+export function useCRUD<T extends { id: string }>(collectionName: string) {
   const [data, setData] = useState<T[]>([]);
-  
-  useEffect(() => {
-    console.log(`[DEBUG] useCRUD(${collectionName}) data initialized:`, data);
-  }, [data, collectionName]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (params: Record<string, string | number> = {}) => {
     setLoading(true);
     try {
-      const result = await getCollection<T>(collectionName, queryConstraints);
+      const result = await getCollection<T>(collectionName, params);
       setData(result);
       setError(null);
     } catch (err: any) {
@@ -23,7 +18,7 @@ export function useCRUD<T extends { id: string }>(collectionName: string, queryC
     } finally {
       setLoading(false);
     }
-  }, [collectionName, JSON.stringify(queryConstraints)]);
+  }, [collectionName]);
 
   useEffect(() => {
     fetchData();

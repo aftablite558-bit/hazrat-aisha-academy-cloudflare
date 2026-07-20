@@ -13,9 +13,9 @@ import { Edit, Trash2, Plus, Search, Eye, FileText, CheckCircle, XCircle } from 
 import { HomeworkFormModal } from '../../../components/dashboard/academic/HomeworkFormModal';
 
 export const Homework = () => {
-  const { data: homeworks, loading, addRecord, updateRecord, deleteRecord } = useMasterData<HomeworkType>('homework');
-  const { data: classes } = useMasterData<Class>('classes');
-  const { data: subjects } = useMasterData<Subject>('subjects');
+  const { data: homeworks, loading, addRecord, updateRecord, deleteRecord } = useMasterData<HomeworkType>('homework', true);
+  const { data: classes } = useMasterData<Class>('classes', true);
+  const { data: subjects } = useMasterData<Subject>('subjects', true);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);

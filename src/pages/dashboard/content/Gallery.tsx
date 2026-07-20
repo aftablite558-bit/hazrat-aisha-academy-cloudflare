@@ -14,7 +14,7 @@ import { Edit, Trash2, Plus, Search, Image as ImageIcon, CheckCircle, XCircle } 
 import { FileUpload } from '../../../components/dashboard/master/FileUpload';
 
 export const Gallery = () => {
-  const { data: albums, loading, addRecord, updateRecord, deleteRecord } = useMasterData<GalleryAlbum>('gallery');
+  const { data: albums, loading, addRecord, updateRecord, deleteRecord } = useMasterData<GalleryAlbum>('gallery', true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
