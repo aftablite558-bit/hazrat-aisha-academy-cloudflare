@@ -227,4 +227,7 @@ app.post('/restore', async (c) => {
     return c.json({ success: true });
 });
 
-export default app;
+export const onRequest: PagesFunction = (context) => {
+    return app.fetch(context.request, context.env, context);
+};
+
