@@ -26,6 +26,7 @@ const PublicResults = lazy(() => import('../pages/public/PublicResults').then(m 
 
 // Lazy loaded dashboard modules to improve chunk size
 const DashboardHome = lazy(() => import('../pages/dashboard/DashboardHome').then(m => ({ default: m.DashboardHome })));
+const ProfileSettings = lazy(() => import('../pages/dashboard/enterprise/ProfileSettings').then(m => ({ default: m.ProfileSettings })));
 const DashboardStudents = lazy(() => import('../pages/dashboard/master/Students').then(m => ({ default: m.Students })));
 const DashboardTeachers = lazy(() => import('../pages/dashboard/master/Teachers').then(m => ({ default: m.Teachers })));
 const DashboardStaff = lazy(() => import('../pages/dashboard/master/Staff').then(m => ({ default: m.Staff })));
@@ -119,6 +120,7 @@ export function AppRoutes() {
           <Route path="documents" element={<Documents />} />
           <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="profile" element={<ProfileSettings />} />
           <Route path="users" element={<Users />} />
           <Route path="audit-logs" element={<AuditLogs />} />
           <Route path="backup" element={<BackupRestore />} />

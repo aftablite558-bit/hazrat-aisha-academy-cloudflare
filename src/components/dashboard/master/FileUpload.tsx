@@ -22,9 +22,9 @@ export const FileUpload = ({ value, onChange, folder, accept = "image/*,applicat
     if (!file) return;
 
     // Validate size (e.g., 10MB limit)
-    const maxSizeBytes = 10 * 1024 * 1024;
+    const maxSizeBytes = 2 * 1024 * 1024;
     if (file.size > maxSizeBytes) {
-      addToast('File is too large. Maximum size allowed is 10MB.', 'error');
+      addToast('File is too large. Maximum size allowed is 2MB.', 'error');
       if (fileInputRef.current) fileInputRef.current.value = '';
       return;
     }

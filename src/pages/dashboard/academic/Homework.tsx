@@ -14,9 +14,9 @@ import { HomeworkFormModal } from '../../../components/dashboard/academic/Homewo
 import { StudentLookup } from '../../../components/dashboard/academic/StudentLookup';
 
 export const Homework = () => {
-  const { data: homeworks, loading, addRecord, updateRecord, deleteRecord } = useMasterData<HomeworkType>('homework', true);
-  const { data: classes } = useMasterData<Class>('classes', true);
-  const { data: subjects } = useMasterData<Subject>('subjects', true);
+  const { data: homeworks, loading, addRecord, updateRecord, deleteRecord } = useMasterData<HomeworkType>('homework');
+  const { data: classes } = useMasterData<Class>('classes');
+  const { data: subjects } = useMasterData<Subject>('subjects');
 
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -24,8 +24,11 @@ export const Homework = () => {
   const [selectedHomework, setSelectedHomework] = useState<HomeworkType | null>(null);
 
   const filteredHomeworks = useMemo(() => {
-    if (!selectedStudent) return [];
-    return homeworks.filter(hw => hw.classId === selectedStudent.classId);
+    let filtered = homeworks;
+    if (selectedStudent) {
+      filtered = homeworks.filter(hw => hw.classId === selectedStudent.classId);
+    }
+    return filtered.sort((a,b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
   }, [homeworks, selectedStudent]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,7 +58,7 @@ export const Homework = () => {
 
   const confirmDelete = async () => {
     if (selectedHomework?.id) {
-      await deleteRecord(selectedHomework.id);
+      await deleteRecord(selectedHomework.id); setIsDeleteOpen(false);
     }
   };
 
@@ -72,8 +75,8 @@ export const Homework = () => {
     await updateRecord(hw.id, { isPublished: !hw.isPublished });
   };
 
-  const getClassName = (id: string) => classes.find(c => c.id === id)?.className || 'Unknown';
-  const getSubjectName = (id: string) => subjects.find(s => s.id === id)?.subjectName || 'Unknown';
+  const getClassName = (id: string) => classes.find(c => c.id === id)?.className || (classes.find(c => c.id === id) as any)?.name || 'Unknown';
+  const getSubjectName = (id: string) => subjects.find(s => s.id === id)?.subjectName || (subjects.find(s => s.id === id) as any)?.name || 'Unknown';
 
   return (
     <div className="space-y-6">

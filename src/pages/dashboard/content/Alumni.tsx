@@ -25,7 +25,7 @@ export const Alumni = () => {
   });
 
   const filteredData = useMemo(() => {
-    return alumni.filter(a => a.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    return alumni.filter(a => (a.name || "").toLowerCase().includes(searchTerm.toLowerCase()));
   }, [alumni, searchTerm]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -160,7 +160,7 @@ export const Alumni = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedAlumni?.id && deleteRecord(selectedAlumni.id)} title="Delete Alumni" message="Are you sure?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedAlumni?.id) { await deleteRecord(selectedAlumni.id); setIsDeleteOpen(false); } }} title="Delete Alumni" message="Are you sure?" confirmText="Delete" />
     </div>
   );
 };

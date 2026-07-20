@@ -14,7 +14,7 @@ import { Admission } from '../../../types/enterprise';
 import { Search, Eye, CheckCircle, XCircle, Trash2, FileText, Download } from 'lucide-react';
 
 export const Admissions = () => {
-  const { data: admissions, loading, updateRecord, deleteRecord } = useMasterData<Admission>('admissions', true);
+  const { data: admissions, loading, updateRecord, deleteRecord } = useMasterData<Admission>('admissions');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [isViewOpen, setIsViewOpen] = useState(false);
@@ -25,7 +25,7 @@ export const Admissions = () => {
 
   const filteredData = useMemo(() => {
     return admissions.filter(a => {
-      const matchesSearch = a.studentName.toLowerCase().includes(searchTerm.toLowerCase()) || a.admissionNumber.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = (a.studentName || "").toLowerCase().includes(searchTerm.toLowerCase()) || (a.admissionNumber || "").toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = statusFilter === 'All' || a.status === statusFilter;
       return matchesSearch && matchesStatus;
     }).sort((a,b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
@@ -184,7 +184,7 @@ export const Admissions = () => {
         </GlassModal>
       )}
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedAdmission?.id && deleteRecord(selectedAdmission.id)} title="Delete Application" message="Are you sure you want to delete this admission record? This action cannot be undone." confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedAdmission?.id) { await deleteRecord(selectedAdmission.id); setIsDeleteOpen(false); } }} title="Delete Application" message="Are you sure you want to delete this admission record? This action cannot be undone." confirmText="Delete" />
     </div>
   );
 };

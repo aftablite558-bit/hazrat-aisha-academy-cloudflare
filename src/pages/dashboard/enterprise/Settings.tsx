@@ -9,9 +9,12 @@ import { useMasterData } from '../../../hooks/useMasterData';
 import { SystemSettings } from '../../../types/enterprise';
 import { Save, UploadCloud, Database } from 'lucide-react';
 import { api } from '../../../services/apiClient';
+import { logAction } from '../../../services/auditService';
+import { useAuth } from '../../../contexts/AuthContext';
 
 export const Settings = () => {
   const { addToast } = useToast();
+  const { profile } = useAuth();
   const { data: settingsData, loading, error, updateRecord, addRecord } = useMasterData<SystemSettings>('settings');
   const [formData, setFormData] = useState<Partial<SystemSettings>>({
     schoolName: 'Hazrat Aisha Academy',
@@ -102,11 +105,13 @@ export const Settings = () => {
     e.preventDefault();
     try {
       if (settingsData.length > 0 && settingsData[0].id) {
-        await updateRecord(settingsData[0].id, formData);
+        const { id, createdAt, updatedAt, ...rest } = formData as any;
+        await updateRecord(settingsData[0].id, rest);
       } else {
         await addRecord(formData as any);
       }
       addToast("Settings saved successfully.", 'success');
+      logAction('Edit', 'Settings', profile?.displayName || 'Admin', 'Updated system settings');
     } catch (err) {
       console.error('[DEBUG] Save error:', err);
       addToast("Failed to save settings.", 'danger');
@@ -148,7 +153,7 @@ export const Settings = () => {
 
               <div className="flex justify-end pt-6">
                 <GlassButton type="submit" variant="primary" className="flex items-center gap-2">
-                  <Save size={18} /> Save Configurations
+                  <Save size={18} /> Save
                 </GlassButton>
               </div>
             </form>

@@ -5,6 +5,8 @@ import { GlassSelect } from '../../common/GlassSelect';
 import { GlassButton } from '../../common/GlassButton';
 import { GlassTextarea } from '../../common/GlassTextarea';
 import { Student } from '../../../types/master';
+import { useMasterData } from '../../../hooks/useMasterData';
+import { Class } from '../../../types/master';
 import { ImageUpload } from './ImageUpload';
 
 interface StudentFormModalProps {
@@ -32,6 +34,7 @@ export const StudentFormModal = ({ isOpen, onClose, onSubmit, initialData }: Stu
   });
 
   const [loading, setLoading] = useState(false);
+  const { data: classes } = useMasterData<Class>('classes');
 
   useEffect(() => {
     if (initialData) {
@@ -76,19 +79,7 @@ export const StudentFormModal = ({ isOpen, onClose, onSubmit, initialData }: Stu
           <GlassInput required label="Mother's Name" name="motherName" value={formData.motherName} onChange={handleChange} />
         <GlassSelect 
           required label="Class" name="classId" value={formData.classId} onChange={handleChange}
-          options={[
-            { label: 'Nursery', value: 'Nursery' },
-            { label: 'LKG', value: 'LKG' },
-            { label: 'UKG', value: 'UKG' },
-            { label: 'Class 1', value: 'Class 1' },
-            { label: 'Class 2', value: 'Class 2' },
-            { label: 'Class 3', value: 'Class 3' },
-            { label: 'Class 4', value: 'Class 4' },
-            { label: 'Class 5', value: 'Class 5' },
-            { label: 'Class 6', value: 'Class 6' },
-            { label: 'Class 7', value: 'Class 7' },
-            { label: 'Class 8', value: 'Class 8' },
-          ]}
+          options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}
         />
           <GlassInput required type="tel" label="Phone" name="phone" value={formData.phone} onChange={handleChange} />
           <GlassInput required type="date" label="Admission Date" name="admissionDate" value={formData.admissionDate} onChange={handleChange} />

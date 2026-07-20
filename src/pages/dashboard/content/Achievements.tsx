@@ -24,7 +24,7 @@ export const Achievements = () => {
   });
 
   const filteredData = useMemo(() => {
-    return achievements.filter(a => a.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    return achievements.filter(a => (a.title || "").toLowerCase().includes(searchTerm.toLowerCase()));
   }, [achievements, searchTerm]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -157,7 +157,7 @@ export const Achievements = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedAchievement?.id && deleteRecord(selectedAchievement.id)} title="Delete Achievement" message="Are you sure you want to delete this achievement?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedAchievement?.id) { await deleteRecord(selectedAchievement.id); setIsDeleteOpen(false); } }} title="Delete Achievement" message="Are you sure you want to delete this achievement?" confirmText="Delete" />
     </div>
   );
 };

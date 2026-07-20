@@ -1,7 +1,7 @@
 export type EntityStatus = 'Active' | 'Inactive';
 
 export type SchoolClass = 
-  | 'Nursery' | 'LKG' | 'UKG' 
+  | 'Baby' | 'Nursery' | 'LKG' | 'UKG' 
   | 'Class 1' | 'Class 2' | 'Class 3' | 'Class 4' | 'Class 5' | 'Class 6' | 'Class 7' | 'Class 8';
 
 export interface BaseEntity {
@@ -19,7 +19,6 @@ export interface Student extends BaseEntity {
   fatherName: string;
   motherName: string;
   classId: string;
-  sectionId?: string;
   phone: string;
   address: string;
   photoUrl: string;
@@ -59,7 +58,6 @@ export interface Subject extends BaseEntity {
   subjectName: string;
   code: string;
   classId: string;
-  sectionId?: string;
   teacherId: string;
   status: EntityStatus;
 }
@@ -67,7 +65,6 @@ export interface Subject extends BaseEntity {
 export interface ExamSchedule extends BaseEntity {
   examName: string;
   classId: string;
-  sectionId?: string;
   subjectId: string;
   examDate: string;
   startTime: string;
@@ -77,8 +74,3 @@ export interface ExamSchedule extends BaseEntity {
   status: 'Scheduled' | 'Completed' | 'Cancelled';
 }
 
-export interface Section extends BaseEntity {
-  classId: string;
-  sectionId?: string;
-  sectionName: string;
-}

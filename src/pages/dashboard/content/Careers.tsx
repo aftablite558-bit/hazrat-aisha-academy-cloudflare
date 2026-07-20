@@ -25,7 +25,7 @@ export const Careers = () => {
   });
 
   const filteredData = useMemo(() => {
-    return careers.filter(c => c.jobTitle.toLowerCase().includes(searchTerm.toLowerCase()));
+    return careers.filter(c => (c.jobTitle || "").toLowerCase().includes(searchTerm.toLowerCase()));
   }, [careers, searchTerm]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -140,7 +140,7 @@ export const Careers = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedCareer?.id && deleteRecord(selectedCareer.id)} title="Delete Vacancy" message="Are you sure?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedCareer?.id) { await deleteRecord(selectedCareer.id); setIsDeleteOpen(false); } }} title="Delete Vacancy" message="Are you sure?" confirmText="Delete" />
     </div>
   );
 };

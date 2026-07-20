@@ -19,8 +19,8 @@ export const Enquiries = () => {
 
   const filteredData = useMemo(() => {
     return enquiries.filter(e => 
-      e.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      e.subject.toLowerCase().includes(searchTerm.toLowerCase())
+      (e.name || "").toLowerCase().includes(searchTerm.toLowerCase()) || 
+      (e.subject || "").toLowerCase().includes(searchTerm.toLowerCase())
     ).sort((a,b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
   }, [enquiries, searchTerm]);
 
@@ -129,7 +129,7 @@ export const Enquiries = () => {
         </GlassModal>
       )}
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedEnquiry?.id && deleteRecord(selectedEnquiry.id)} title="Delete Enquiry" message="Are you sure?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedEnquiry?.id) { await deleteRecord(selectedEnquiry.id); setIsDeleteOpen(false); } }} title="Delete Enquiry" message="Are you sure?" confirmText="Delete" />
     </div>
   );
 };

@@ -20,8 +20,8 @@ export const Staff = () => {
 
   const filteredStaff = useMemo(() => {
     return staffList.filter(s => 
-      s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.employeeId.toLowerCase().includes(searchTerm.toLowerCase())
+      (s.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (s.employeeId || "").toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [staffList, searchTerm]);
 
@@ -53,7 +53,7 @@ export const Staff = () => {
 
   const confirmDelete = async () => {
     if (selectedStaff?.id) {
-      await deleteRecord(selectedStaff.id);
+      await deleteRecord(selectedStaff.id); setIsDeleteOpen(false);
     }
   };
 

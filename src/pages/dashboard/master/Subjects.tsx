@@ -20,9 +20,9 @@ export const Subjects = () => {
 
   const filteredSubjects = useMemo(() => {
     return subjectList.filter(s => 
-      s.subjectName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      s.classId.toLowerCase().includes(searchTerm.toLowerCase())
+      (s.subjectName || (s as any).name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (s.code || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (s.classId || "").toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [subjectList, searchTerm]);
 
@@ -54,7 +54,8 @@ export const Subjects = () => {
 
   const confirmDelete = async () => {
     if (selectedSubject?.id) {
-      await deleteRecord(selectedSubject.id);
+      await deleteRecord(selectedSubject.id); setIsDeleteOpen(false);
+      setIsDeleteOpen(false);
     }
   };
 

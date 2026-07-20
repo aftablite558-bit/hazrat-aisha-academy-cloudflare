@@ -1,152 +1,172 @@
 import { useState, useEffect } from 'react';
-import { GlassModal } from '../../common/GlassModal';
+import { GlassCard } from '../../common/GlassCard';
 import { GlassInput } from '../../common/GlassInput';
 import { GlassSelect } from '../../common/GlassSelect';
 import { GlassButton } from '../../common/GlassButton';
-import { GlassTextarea } from '../../common/GlassTextarea';
+import { X } from 'lucide-react';
 import { Homework } from '../../../types/academic';
 import { useMasterData } from '../../../hooks/useMasterData';
-import { Class, Section, Subject, Teacher } from '../../../types/master';
-import { FileUpload } from '../master/FileUpload';
+import { Class, Subject, Teacher } from '../../../types/master';
 
 interface HomeworkFormModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: Omit<Homework, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  onSubmit: (data: any) => Promise<void>;
   initialData?: Homework | null;
 }
 
 export const HomeworkFormModal = ({ isOpen, onClose, onSubmit, initialData }: HomeworkFormModalProps) => {
   const { data: classes } = useMasterData<Class>('classes');
-  const { data: sections } = useMasterData<Section>('sections');
   const { data: subjects } = useMasterData<Subject>('subjects');
   const { data: teachers } = useMasterData<Teacher>('teachers');
+  const [loading, setLoading] = useState(false);
 
-  const [formData, setFormData] = useState<Omit<Homework, 'id' | 'createdAt' | 'updatedAt'>>({
-    classId: '',
-    sectionId: '',
-    subjectId: '',
-    teacherId: '',
+  const [formData, setFormData] = useState({
     title: '',
     description: '',
-    attachmentUrl: '',
+    classId: '',
+    subjectId: '',
+    teacherId: '',
     dueDate: '',
-    isPublished: false,
+    status: 'Active'
   });
 
   useEffect(() => {
     if (initialData) {
       setFormData({
-        classId: initialData.classId,
-        sectionId: initialData.sectionId,
-        subjectId: initialData.subjectId,
-        teacherId: initialData.teacherId,
         title: initialData.title,
         description: initialData.description,
-        attachmentUrl: initialData.attachmentUrl || '',
+        classId: initialData.classId,
+        subjectId: initialData.subjectId,
+        teacherId: initialData.teacherId,
         dueDate: initialData.dueDate,
-        isPublished: initialData.isPublished,
+        status: initialData.status
       });
     } else {
       setFormData({
-        classId: '',
-        sectionId: '',
-        subjectId: '',
-        teacherId: '',
         title: '',
         description: '',
-        attachmentUrl: '',
+        classId: '',
+        subjectId: '',
+        teacherId: '',
         dueDate: '',
-        isPublished: false,
+        status: 'Active'
       });
     }
   }, [initialData]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target;
-    if (type === 'checkbox') {
-      const checked = (e.target as HTMLInputElement).checked;
-      setFormData(prev => ({ ...prev, [name]: checked }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
-  };
+  if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSubmit(formData);
+    setLoading(true);
+    try {
+      await onSubmit(formData);
+      onClose();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   return (
-    <GlassModal isOpen={isOpen} onClose={onClose} title={initialData ? "Edit Homework" : "Add Homework"} className="max-w-2xl">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <GlassInput required label="Title" name="title" value={formData.title} onChange={handleChange} />
-          <GlassInput required type="date" label="Due Date" name="dueDate" value={formData.dueDate} onChange={handleChange} />
-          
-          <GlassSelect 
-            required 
-            label="Class" 
-            name="classId" 
-            value={formData.classId} 
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+      <GlassCard className="w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative">
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-colors"
+        >
+          <X size={20} />
+        </button>
+
+        <h2 className="text-xl font-semibold mb-6">
+          {initialData ? 'Edit Homework' : 'Add New Homework'}
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <GlassSelect 
+              label="Class" 
+              name="classId" 
+              value={formData.classId} 
+              onChange={handleChange}
+              options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}
+              required
+            />
+            <GlassSelect 
+              label="Subject" 
+              name="subjectId" 
+              value={formData.subjectId} 
+              onChange={handleChange}
+              options={subjects.filter(s => s.classId === formData.classId).map(s => ({ label: s.subjectName || (s as any).name, value: s.id }))}
+              required
+            />
+            <GlassSelect 
+              label="Teacher" 
+              name="teacherId" 
+              value={formData.teacherId} 
+              onChange={handleChange}
+              options={teachers.map(t => ({ label: t.name, value: t.id }))}
+              required
+            />
+            <GlassInput 
+              label="Due Date" 
+              type="date"
+              name="dueDate" 
+              value={formData.dueDate} 
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <GlassInput 
+            label="Title" 
+            name="title" 
+            value={formData.title} 
             onChange={handleChange}
-            options={classes.map(c => ({ label: c.className, value: c.id }))}
+            placeholder="Homework Title"
+            required
           />
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-foreground">Description</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full min-h-[100px] p-3 rounded-lg glass bg-white/5 border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary-500/50"
+              placeholder="Enter homework details..."
+              required
+            />
+          </div>
 
           <GlassSelect 
-            required 
-            label="Section" 
-            name="sectionId" 
-            value={formData.sectionId} 
+            label="Status" 
+            name="status" 
+            value={formData.status} 
             onChange={handleChange}
-            options={sections.filter(s => s.classId === formData.classId).map(s => ({ label: s.sectionName, value: s.id }))}
-          />
-          
-          <GlassSelect 
-            required 
-            label="Subject" 
-            name="subjectId" 
-            value={formData.subjectId} 
-            onChange={handleChange}
-            options={subjects.filter(s => s.classId === formData.classId).map(s => ({ label: s.subjectName, value: s.id }))}
+            options={[
+              { label: 'Active', value: 'Active' },
+              { label: 'Completed', value: 'Completed' }
+            ]}
           />
 
-          <GlassSelect 
-            required 
-            label="Teacher" 
-            name="teacherId" 
-            value={formData.teacherId} 
-            onChange={handleChange}
-            options={teachers.map(t => ({ label: t.name, value: t.id }))}
-          />
-        </div>
-
-        <GlassTextarea required label="Description" name="description" value={formData.description} onChange={handleChange} rows={4} />
-
-        <FileUpload 
-          value={formData.attachmentUrl || ''} 
-          onChange={(url) => setFormData(prev => ({ ...prev, attachmentUrl: url }))} 
-          folder="homework"
-          label="Attachment (Optional PDF/Image)"
-        />
-
-        <div className="flex items-center gap-2">
-          <input 
-            type="checkbox" 
-            id="isPublished" 
-            name="isPublished" 
-            checked={formData.isPublished} 
-            onChange={handleChange} 
-            className="w-4 h-4 rounded border-white/20 bg-white/5 text-primary-500 focus:ring-primary-500"
-          />
-          <label htmlFor="isPublished" className="text-sm font-medium text-foreground">Publish immediately</label>
-        </div>
-
-        <div className="flex justify-end gap-3 mt-8">
-          <GlassButton type="button" variant="ghost" onClick={onClose}>Cancel</GlassButton>
-          <GlassButton type="submit" variant="primary">Save Homework</GlassButton>
-        </div>
-      </form>
-    </GlassModal>
+          <div className="flex justify-end gap-3 pt-4">
+            <GlassButton type="button" variant="ghost" onClick={onClose}>
+              Cancel
+            </GlassButton>
+            <GlassButton type="submit" variant="primary" disabled={loading}>
+              {loading ? 'Saving...' : 'Save Homework'}
+            </GlassButton>
+          </div>
+        </form>
+      </GlassCard>
+    </div>
   );
 };

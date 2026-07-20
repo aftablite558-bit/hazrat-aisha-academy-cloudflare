@@ -12,12 +12,10 @@ import { motion } from 'motion/react';
 export const PublicHomework = () => {
   const { data: homeworks } = useMasterData<Homework>('homework');
   const { data: classes } = useMasterData<Class>('classes');
-  const { data: sections } = useMasterData<Section>('sections');
   const { data: subjects } = useMasterData<Subject>('subjects');
   const { data: teachers } = useMasterData<Teacher>('teachers');
 
   const [classId, setClassId] = useState('');
-  const [sectionId, setSectionId] = useState('');
 
   const publishedHomework = useMemo(() => {
     return homeworks.filter(hw => hw.isPublished);
@@ -26,13 +24,11 @@ export const PublicHomework = () => {
   const filteredHomework = useMemo(() => {
     return publishedHomework.filter(hw => {
       const matchClass = classId ? hw.classId === classId : true;
-      const matchSection = sectionId ? hw.sectionId === sectionId : true;
       return matchClass && matchSection;
     }).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
-  }, [publishedHomework, classId, sectionId]);
+  }, [publishedHomework, classId]);
 
   const getClassName = (id: string) => classes.find(c => c.id === id)?.className || 'Unknown';
-  const getSectionName = (id: string) => sections.find(s => s.id === id)?.sectionName || 'Unknown';
   const getSubjectName = (id: string) => subjects.find(s => s.id === id)?.subjectName || 'Unknown';
   const getTeacherName = (id: string) => teachers.find(t => t.id === id)?.name || 'Unknown';
 
@@ -58,15 +54,11 @@ export const PublicHomework = () => {
           <GlassSelect 
             label="Filter by Class" 
             value={classId} 
-            onChange={e => { setClassId(e.target.value); setSectionId(''); }}
+            onChange={e => { setClassId(e.target.value) }}
             options={classes.map(c => ({ label: c.className, value: c.id }))}
           />
           <GlassSelect 
             label="Filter by Section" 
-            value={sectionId} 
-            onChange={e => setSectionId(e.target.value)} 
-            disabled={!classId}
-            options={sections.filter(s => s.classId === classId).map(s => ({ label: s.sectionName, value: s.id }))}
           />
         </GlassCard>
 
@@ -89,7 +81,7 @@ export const PublicHomework = () => {
                       {getSubjectName(hw.subjectId)}
                     </span>
                     <span className="text-xs font-medium text-muted-foreground bg-white/5 px-2 py-1 rounded-md">
-                      {getClassName(hw.classId)} - {getSectionName(hw.sectionId)}
+                      {getClassName(hw.classId)}
                     </span>
                   </div>
                   

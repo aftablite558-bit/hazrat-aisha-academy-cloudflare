@@ -14,7 +14,7 @@ import { Edit, Trash2, Plus, Search, Image as ImageIcon, CheckCircle, XCircle } 
 import { FileUpload } from '../../../components/dashboard/master/FileUpload';
 
 export const Gallery = () => {
-  const { data: albums, loading, addRecord, updateRecord, deleteRecord } = useMasterData<GalleryAlbum>('gallery', true);
+  const { data: albums, loading, addRecord, updateRecord, deleteRecord } = useMasterData<GalleryAlbum>('gallery');
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -25,7 +25,7 @@ export const Gallery = () => {
   });
 
   const filteredAlbums = useMemo(() => {
-    return albums.filter(a => a.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    return albums.filter(a => (a.title || "").toLowerCase().includes(searchTerm.toLowerCase()));
   }, [albums, searchTerm]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -150,7 +150,7 @@ export const Gallery = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedAlbum?.id && deleteRecord(selectedAlbum.id)} title="Delete Album" message="Are you sure?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedAlbum?.id) { await deleteRecord(selectedAlbum.id); setIsDeleteOpen(false); } }} title="Delete Album" message="Are you sure?" confirmText="Delete" />
     </div>
   );
 };

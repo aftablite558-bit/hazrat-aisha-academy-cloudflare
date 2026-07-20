@@ -2,7 +2,6 @@ import { BaseEntity, EntityStatus } from './master';
 
 export interface Homework extends BaseEntity {
   classId: string;
-  sectionId?: string;
   subjectId: string;
   teacherId: string;
   title: string;
@@ -17,7 +16,6 @@ export type AttendanceStatus = 'Present' | 'Absent' | 'Leave';
 export interface Attendance extends BaseEntity {
   date: string;
   classId: string;
-  sectionId?: string;
   studentId: string;
   status: AttendanceStatus;
 }
@@ -26,7 +24,6 @@ export interface ExamMark extends BaseEntity {
   examName: string;
   studentId: string;
   classId: string;
-  sectionId?: string;
   subjectId: string;
   maxMarks: number;
   obtainedMarks: number;
@@ -38,7 +35,6 @@ export interface Result extends BaseEntity {
   examName: string;
   studentId: string;
   classId: string;
-  sectionId?: string;
   totalMarks: number;
   obtainedMarks: number;
   percentage: number;

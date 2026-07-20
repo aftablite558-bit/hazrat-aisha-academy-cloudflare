@@ -16,7 +16,7 @@ import { FileUpload } from '../../../components/dashboard/master/FileUpload';
 import { useAuth } from '../../../contexts/AuthContext';
 
 export const Notices = () => {
-  const { data: notices, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Notice>('notices', true);
+  const { data: notices, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Notice>('notices');
   const { profile } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -31,7 +31,7 @@ export const Notices = () => {
   });
 
   const filteredNotices = useMemo(() => {
-    return notices.filter(n => n.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    return notices.filter(n => (n.title || "").toLowerCase().includes(searchTerm.toLowerCase()));
   }, [notices, searchTerm]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -169,7 +169,7 @@ export const Notices = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedNotice?.id && deleteRecord(selectedNotice.id)} title="Delete Notice" message="Are you sure?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedNotice?.id) { await deleteRecord(selectedNotice.id); setIsDeleteOpen(false); } }} title="Delete Notice" message="Are you sure?" confirmText="Delete" />
     </div>
   );
 };

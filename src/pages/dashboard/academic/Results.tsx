@@ -6,47 +6,43 @@ import { GlassSelect } from '../../../components/common/GlassSelect';
 import { GlassBadge } from '../../../components/common/GlassBadge';
 import { useMasterData } from '../../../hooks/useMasterData';
 import { useToast } from '../../../contexts/ToastContext';
-import { Class, Section, Student, Subject } from '../../../types/master';
+import { Class, Student, Subject } from '../../../types/master';
 import { ExamMark, Result } from '../../../types/academic';
 import { Save, CheckCircle, XCircle } from 'lucide-react';
 
 export const Results = () => {
-  const { data: classes } = useMasterData<Class>('classes', true);
-  const { data: sections } = useMasterData<Section>('sections', true);
-  const { data: students } = useMasterData<Student>('students', true);
-  const { data: subjects } = useMasterData<Subject>('subjects', true);
-  const { data: examMarks } = useMasterData<ExamMark>('exam_marks', true);
-  const { data: results, fetchData, addRecord, updateRecord } = useMasterData<Result>('results', true);
+  const { data: classes } = useMasterData<Class>('classes');
+  const { data: students } = useMasterData<Student>('students');
+  const { data: examMarks } = useMasterData<ExamMark>('exam_marks');
+  const { data: results, fetchData, addRecord, updateRecord } = useMasterData<Result>('results');
   const { addToast } = useToast();
 
   const [examName, setExamName] = useState('');
   const [classId, setClassId] = useState('');
-  const [sectionId, setSectionId] = useState('');
 
   const [calculatedResults, setCalculatedResults] = useState<Record<string, Omit<Result, 'id' | 'createdAt' | 'updatedAt'>>>({});
   const [existingResults, setExistingResults] = useState<Record<string, Result>>({});
 
   const filteredStudents = useMemo(() => {
-    if (!classId || !sectionId) return [];
-    return students.filter(s => s.classId === classId && s.sectionId === sectionId);
-  }, [students, classId, sectionId]);
+    if (!classId) return [];
+    return students.filter(s => s.classId === classId);
+  }, [students, classId]);
 
-  // Unique exam names from examMarks for the selected class/section to populate dropdown (or just let user type)
   const availableExams = useMemo(() => {
     const exams = new Set<string>();
     examMarks.forEach(m => {
-      if (m.classId === classId && m.sectionId === sectionId) {
+      if (m.classId === classId) {
         exams.add(m.examName);
       }
     });
     return Array.from(exams);
-  }, [examMarks, classId, sectionId]);
+  }, [examMarks, classId]);
 
   useEffect(() => {
     if (filteredStudents.length > 0 && examName) {
       const recordsMap: Record<string, Result> = {};
       results.forEach(res => {
-        if (res.examName === examName && res.classId === classId && res.sectionId === sectionId) {
+        if (res.examName === examName && res.classId === classId) {
           recordsMap[res.studentId] = res;
         }
       });
@@ -73,7 +69,6 @@ export const Results = () => {
           calcMap[student.id] = {
             examName,
             classId,
-            sectionId,
             studentId: student.id,
             totalMarks,
             obtainedMarks,
@@ -90,19 +85,19 @@ export const Results = () => {
       setCalculatedResults({});
       setExistingResults({});
     }
-  }, [filteredStudents, examName, classId, sectionId, examMarks, results]);
+  }, [filteredStudents, examName, classId, examMarks, results]);
 
   const handleSaveResults = async () => {
     try {
       for (const student of filteredStudents) {
         const calcData = calculatedResults[student.id];
-        if (!calcData) continue; // No marks found for student
+        if (!calcData) continue; 
 
         const existing = existingResults[student.id];
         if (existing) {
           await updateRecord(existing.id, calcData);
         } else {
-          await addRecord(calcData);
+          await addRecord(calcData as any);
         }
       }
       await fetchData();
@@ -142,14 +137,10 @@ export const Results = () => {
       <PageHeader title="Results Generator" description="Generate and publish exam results." />
       
       <GlassCard className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <GlassSelect label="Class" value={classId} onChange={e => setClassId(e.target.value)}>
             <option value="">Select Class</option>
-            {classes.map(c => <option key={c.id} value={c.id}>{c.className}</option>)}
-          </GlassSelect>
-          <GlassSelect label="Section" value={sectionId} onChange={e => setSectionId(e.target.value)}>
-            <option value="">Select Section</option>
-            {sections.filter(s => s.classId === classId).map(s => <option key={s.id} value={s.id}>{s.sectionName}</option>)}
+            {classes.map(c => <option key={c.id} value={c.id}>{c.className || (c as any).name}</option>)}
           </GlassSelect>
           <GlassSelect label="Exam" value={examName} onChange={e => setExamName(e.target.value)}>
             <option value="">Select Exam</option>
@@ -158,7 +149,7 @@ export const Results = () => {
         </div>
       </GlassCard>
 
-      {examName && classId && sectionId && filteredStudents.length > 0 && (
+      {examName && classId && filteredStudents.length > 0 && (
         <GlassCard className="p-0 overflow-hidden">
           <div className="p-4 border-b border-white/10 flex flex-wrap justify-between items-center gap-4 bg-white/5">
             <h3 className="font-semibold text-lg">Calculated Results</h3>
@@ -241,9 +232,9 @@ export const Results = () => {
         </GlassCard>
       )}
 
-      {classId && sectionId && filteredStudents.length === 0 && (
+      {classId && filteredStudents.length === 0 && (
         <GlassCard className="p-8 text-center">
-          <p className="text-muted-foreground">No students found in this class and section.</p>
+          <p className="text-muted-foreground">No students found in this class.</p>
         </GlassCard>
       )}
     </div>

@@ -20,7 +20,7 @@ export const Classes = () => {
 
   const filteredClasses = useMemo(() => {
     return classList.filter(c => 
-      c.className.toLowerCase().includes(searchTerm.toLowerCase())
+      (c.className || (c as any).name || '').toLowerCase().includes(searchTerm.toLowerCase())
     ).sort((a, b) => a.order - b.order);
   }, [classList, searchTerm]);
 
@@ -52,7 +52,7 @@ export const Classes = () => {
 
   const confirmDelete = async () => {
     if (selectedClass?.id) {
-      await deleteRecord(selectedClass.id);
+      await deleteRecord(selectedClass.id); setIsDeleteOpen(false);
     }
   };
 

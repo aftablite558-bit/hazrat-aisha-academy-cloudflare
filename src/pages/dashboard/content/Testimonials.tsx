@@ -24,7 +24,7 @@ export const Testimonials = () => {
   });
 
   const filteredData = useMemo(() => {
-    return testimonials.filter(t => t.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    return testimonials.filter(t => (t.name || "").toLowerCase().includes(searchTerm.toLowerCase()));
   }, [testimonials, searchTerm]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -163,7 +163,7 @@ export const Testimonials = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedTestimonial?.id && deleteRecord(selectedTestimonial.id)} title="Delete Testimonial" message="Are you sure you want to delete this testimonial?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedTestimonial?.id) { await deleteRecord(selectedTestimonial.id); setIsDeleteOpen(false); } }} title="Delete Testimonial" message="Are you sure you want to delete this testimonial?" confirmText="Delete" />
     </div>
   );
 };

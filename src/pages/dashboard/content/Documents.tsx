@@ -14,7 +14,7 @@ import { Edit, Trash2, Plus, Search, CheckCircle, XCircle, FileDown } from 'luci
 import { FileUpload } from '../../../components/dashboard/master/FileUpload';
 
 export const Documents = () => {
-  const { data: docs, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Document>('documents', true);
+  const { data: docs, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Document>('documents');
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -25,7 +25,7 @@ export const Documents = () => {
   });
 
   const filteredDocs = useMemo(() => {
-    return docs.filter(d => d.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    return docs.filter(d => (d.title || "").toLowerCase().includes(searchTerm.toLowerCase()));
   }, [docs, searchTerm]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -154,7 +154,7 @@ export const Documents = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedDoc?.id && deleteRecord(selectedDoc.id)} title="Delete Document" message="Are you sure?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedDoc?.id) { await deleteRecord(selectedDoc.id); setIsDeleteOpen(false); } }} title="Delete Document" message="Are you sure?" confirmText="Delete" />
     </div>
   );
 };

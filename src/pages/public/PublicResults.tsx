@@ -16,7 +16,6 @@ export const PublicResults = () => {
   const { data: results } = useMasterData<Result>('results');
   const { data: students } = useMasterData<Student>('students');
   const { data: classes } = useMasterData<Class>('classes');
-  const { data: sections } = useMasterData<Section>('sections');
 
   const [searchId, setSearchId] = useState('');
   const [hasSearched, setHasSearched] = useState(false);
@@ -53,7 +52,6 @@ export const PublicResults = () => {
   };
 
   const getClassName = (id: string) => classes.find(c => c.id === id)?.className || 'Unknown';
-  const getSectionName = (id: string) => sections.find(s => s.id === id)?.sectionName || 'Unknown';
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-primary-500/30">
@@ -118,7 +116,7 @@ export const PublicResults = () => {
                   <div className="text-center md:text-left flex-grow">
                     <h2 className="text-2xl font-bold text-foreground mb-1">{searchResult.student.fullName}</h2>
                     <p className="text-muted-foreground mb-4">
-                      {getClassName(searchResult.student.classId)} - {getSectionName(searchResult.student.sectionId)}
+                      {getClassName(searchResult.student.classId)}
                     </p>
                     
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -25,7 +25,7 @@ export const Facilities = () => {
   });
 
   const filteredData = useMemo(() => {
-    return facilities.filter(f => f.title.toLowerCase().includes(searchTerm.toLowerCase())).sort((a,b) => (a.displayOrder||0) - (b.displayOrder||0));
+    return facilities.filter(f => (f.title || "").toLowerCase().includes(searchTerm.toLowerCase())).sort((a,b) => (a.displayOrder||0) - (b.displayOrder||0));
   }, [facilities, searchTerm]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -148,7 +148,7 @@ export const Facilities = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedFacility?.id && deleteRecord(selectedFacility.id)} title="Delete Facility" message="Are you sure?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedFacility?.id) { await deleteRecord(selectedFacility.id); setIsDeleteOpen(false); } }} title="Delete Facility" message="Are you sure?" confirmText="Delete" />
     </div>
   );
 };

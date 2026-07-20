@@ -15,7 +15,7 @@ import { Search, Edit, Trash2, Plus, Download, CreditCard } from 'lucide-react';
 
 export const Fees = () => {
   const { addToast } = useToast();
-  const { data: fees, loading, addRecord, updateRecord, deleteRecord } = useMasterData<StudentFee>('fees', true);
+  const { data: fees, loading, addRecord, updateRecord, deleteRecord } = useMasterData<StudentFee>('fees');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -29,10 +29,10 @@ export const Fees = () => {
 
   const filteredData = useMemo(() => {
     return fees.filter(f => {
-      const matchesSearch = f.studentName.toLowerCase().includes(searchTerm.toLowerCase()) || f.receiptNumber.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = (f.studentName || "").toLowerCase().includes(searchTerm.toLowerCase()) || (f.receiptNumber || "").toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = statusFilter === 'All' || f.status === statusFilter;
       return matchesSearch && matchesStatus;
-    }).sort((a,b) => new Date(b.dueDate).getTime() - new Date(a.dueDate).getTime());
+    }).sort((a,b) => new Date(b.dueDate || 0).getTime() - new Date(a.dueDate || 0).getTime());
   }, [fees, searchTerm, statusFilter]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -187,7 +187,7 @@ export const Fees = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedFee?.id && deleteRecord(selectedFee.id)} title="Delete Fee Record" message="Are you sure? This will remove the transaction record permanently." confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedFee?.id) { await deleteRecord(selectedFee.id); setIsDeleteOpen(false); } }} title="Delete Fee Record" message="Are you sure? This will remove the transaction record permanently." confirmText="Delete" />
     </div>
   );
 };

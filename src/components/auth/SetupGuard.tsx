@@ -24,7 +24,7 @@ export const SetupGuard = ({ children }: { children: React.ReactNode }) => {
       }
     };
     checkSetup();
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   if (needsSetup === null) return <div className="flex h-screen items-center justify-center">Loading...</div>;
 

@@ -48,6 +48,7 @@ export const ClassFormModal = ({ isOpen, onClose, onSubmit, initialData }: Class
         <GlassSelect 
           required label="Class Name" name="className" value={formData.className} onChange={handleChange}
           options={[
+            { label: 'Baby', value: 'Baby' },
             { label: 'Nursery', value: 'Nursery' },
             { label: 'LKG', value: 'LKG' },
             { label: 'UKG', value: 'UKG' },

@@ -7,13 +7,14 @@ import { GlassBadge } from '../../../components/common/GlassBadge';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
 import { useMasterData } from '../../../hooks/useMasterData';
-import { Student } from '../../../types/master';
+import { Student, Class } from '../../../types/master';
 import { Edit, Trash2, Plus, Search, Eye } from 'lucide-react';
 import { StudentFormModal } from '../../../components/dashboard/master/StudentFormModal';
 import { StudentDetailsModal } from '../../../components/dashboard/master/StudentDetailsModal';
 
 export const Students = () => {
-  const { data: students, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Student>('students', true);
+  const { data: students, loading, addRecord, updateRecord, deleteRecord } = useMasterData<Student>('students');
+  const { data: classes } = useMasterData<Class>('classes');
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -22,9 +23,9 @@ export const Students = () => {
 
   const filteredStudents = useMemo(() => {
     return students.filter(student => 
-      student.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.admissionNo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.rollNo.toLowerCase().includes(searchTerm.toLowerCase())
+      (student.fullName || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (student.admissionNo || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (student.rollNo || "").toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [students, searchTerm]);
 
@@ -61,7 +62,7 @@ export const Students = () => {
 
   const confirmDelete = async () => {
     if (selectedStudent?.id) {
-      await deleteRecord(selectedStudent.id);
+      await deleteRecord(selectedStudent.id); setIsDeleteOpen(false);
     }
   };
 
@@ -99,7 +100,7 @@ export const Students = () => {
             <th>Admission No</th>
             <th>Roll No</th>
             <th>Full Name</th>
-            <th>Class/Section</th>
+            <th>Class</th>
             <th>Phone</th>
             <th>Status</th>
             <th className="text-right">Actions</th>
@@ -116,7 +117,7 @@ export const Students = () => {
                 <td className="font-medium text-primary-500">{student.admissionNo}</td>
                 <td>{student.rollNo}</td>
                 <td className="font-semibold">{student.fullName}</td>
-                <td>{student.classId} - {student.sectionId}</td>
+                <td>{classes.find(c => c.id === student.classId)?.className || (classes.find(c => c.id === student.classId) as any)?.name || student.classId}</td>
                 <td>{student.phone}</td>
                 <td>
                   <GlassBadge variant={student.status === 'Active' ? 'success' : 'default'}>

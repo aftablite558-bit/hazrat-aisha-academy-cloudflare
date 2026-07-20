@@ -13,7 +13,7 @@ import { CalendarEvent } from '../../../types/content';
 import { Edit, Trash2, Plus, Search, CheckCircle, XCircle, Calendar as CalIcon } from 'lucide-react';
 
 export const AcademicCalendar = () => {
-  const { data: events, loading, addRecord, updateRecord, deleteRecord } = useMasterData<CalendarEvent>('calendar', true);
+  const { data: events, loading, addRecord, updateRecord, deleteRecord } = useMasterData<CalendarEvent>('calendar');
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -24,7 +24,7 @@ export const AcademicCalendar = () => {
   });
 
   const filteredEvents = useMemo(() => {
-    return events.filter(e => e.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    return events.filter(e => (e.title || "").toLowerCase().includes(searchTerm.toLowerCase()));
   }, [events, searchTerm]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -154,7 +154,7 @@ export const AcademicCalendar = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedEvent?.id && deleteRecord(selectedEvent.id)} title="Delete Event" message="Are you sure?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedEvent?.id) { await deleteRecord(selectedEvent.id); setIsDeleteOpen(false); } }} title="Delete Event" message="Are you sure?" confirmText="Delete" />
     </div>
   );
 };

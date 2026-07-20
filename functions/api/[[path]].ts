@@ -10,6 +10,11 @@ const app = new Hono<{ Bindings: {
   OWNER_PASSWORD: string 
 } }>().basePath('/api');
 
+app.onError((err, c) => {
+  console.error(err);
+  return c.json({ success: false, error: err.message, message: err.message }, 500);
+});
+
 let setupChecked = false;
 
 async function ensureTableAndColumns(DB: any, tableName: string, keys: string[]) {
@@ -59,7 +64,8 @@ async function seedOwner(c: any) {
       
       if (OWNER_EMAIL && OWNER_USERNAME && OWNER_PASSWORD) {
         const password_hash = await bcrypt.hash(OWNER_PASSWORD, 10);
-        await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role) VALUES (?, ?, ?, ?, ?)')
+        await ensureTableAndColumns(c.env.DB, "users", ["id", "username", "email", "password_hash", "role", "displayName", "status"]);
+  await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role, displayName, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
           .bind(crypto.randomUUID(), OWNER_USERNAME, OWNER_EMAIL, password_hash, 'owner')
           .run();
         console.log('Owner account seeded successfully.');
@@ -82,7 +88,7 @@ const ALLOWED_COLLECTIONS = [
   'users', 'students', 'staff', 'teachers', 'classes', 'subjects', 'attendance', 
   'homework', 'results', 'reportcards', 'admissions', 'fees', 'notices', 
   'gallery', 'documents', 'calendar', 'achievements', 'testimonials', 
-  'audit_logs', 'settings', 'school_info', 'notifications', 'exam_marks', 'alumni', 'sections'
+  'audit_logs', 'settings', 'school_info', 'notifications', 'exam_marks', 'alumni', 'sections', 'enquiries', 'careers', 'facilities', 'exam_schedules'
 ];
 
 // Generic CRUD (stripped /api prefix)
@@ -114,7 +120,27 @@ app.get('/collection/:name', async (c) => {
     .bind(...params)
     .all();
     
-  return c.json(results);
+  return c.json({ success: true, data: results });
+});
+
+app.get('/collection/:name/:id', async (c) => {
+  const name = c.req.param('name');
+  const id = c.req.param('id');
+  if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
+  await ensureTableAndColumns(c.env.DB, name, []);
+  const result = await c.env.DB.prepare().bind(id).first();
+  if (!result) return c.json({ success: false, error: 'Not found' }, 404);
+  return c.json({ success: true, data: result });
+});
+
+app.get('/collection/:name/:id', async (c) => {
+  const name = c.req.param('name');
+  const id = c.req.param('id');
+  if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
+  await ensureTableAndColumns(c.env.DB, name, []);
+  const result = await c.env.DB.prepare(`SELECT * FROM ${name} WHERE id = ?`).bind(id).first();
+  if (!result) return c.json({ success: false, error: 'Not found' }, 404);
+  return c.json({ success: true, data: result });
 });
 
 app.post('/collection/:name', async (c) => {
@@ -129,7 +155,7 @@ app.post('/collection/:name', async (c) => {
   }
 
   const keys = Object.keys(body);
-  const values = Object.values(body);
+  const values = Object.values(body).map(v => (typeof v === "object" && v !== null) ? JSON.stringify(v) : v);
   
   await ensureTableAndColumns(c.env.DB, name, keys);
   
@@ -157,7 +183,7 @@ app.post('/collection/:name/:id/update', async (c) => {
   await ensureTableAndColumns(c.env.DB, name, Object.keys(body));
 
   await c.env.DB.prepare(`UPDATE ${name} SET ${setClause} WHERE id = ?`)
-    .bind(...Object.values(body), id)
+    .bind(...Object.values(body).map(v => (typeof v === "object" && v !== null) ? JSON.stringify(v) : v), id)
     .run();
     
   return c.json({ success: true });
@@ -202,7 +228,8 @@ app.post('/auth/setup-owner', async (c) => {
 
   const password_hash = await bcrypt.hash(password, 10);
   
-  await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role) VALUES (?, ?, ?, ?, ?)')
+  await ensureTableAndColumns(c.env.DB, "users", ["id", "username", "email", "password_hash", "role", "displayName", "status"]);
+  await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role, displayName, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
     .bind(crypto.randomUUID(), username, email, password_hash, 'owner')
     .run();
     
@@ -212,7 +239,7 @@ app.post('/auth/setup-owner', async (c) => {
 app.get('/debug/users', async (c) => {
   try {
     const { results } = await c.env.DB.prepare('SELECT id, username, email, role FROM users').all();
-    return c.json(results);
+    return c.json({ success: true, data: results });
   } catch (e) {
     return c.json({ error: (e as any).message });
   }
@@ -244,10 +271,12 @@ app.post('/auth/forgot-password', async (c) => {
 });
 
 app.post('/admin/create-user', async (c) => {
-  const { username, email, password, role } = await c.req.json();
+  const body = await c.req.json();
+  const { username, email, password, role, displayName, status } = body;
   const password_hash = await bcrypt.hash(password, 10);
-  await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role) VALUES (?, ?, ?, ?, ?)')
-    .bind(crypto.randomUUID(), username, email, password_hash, role)
+  await ensureTableAndColumns(c.env.DB, "users", ["id", "username", "email", "password_hash", "role", "displayName", "status"]);
+  await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role, displayName, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .bind(crypto.randomUUID(), username, email, password_hash, role, displayName, status)
     .run();
   return c.json({ success: true });
 });

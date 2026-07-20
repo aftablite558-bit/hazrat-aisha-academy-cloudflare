@@ -13,7 +13,7 @@ export const GalleryPage = () => {
   const { data: albums, loading } = useMasterData<GalleryAlbum>('gallery');
 
   const publishedAlbums = useMemo(() => {
-    return albums.filter(a => a.isPublished).sort((a,b) => new Date(b.eventDate).getTime() - new Date(a.eventDate).getTime());
+    return albums.filter(a => a.isPublished).sort((a,b) => new Date(b.eventDate || 0).getTime() - new Date(a.eventDate || 0).getTime());
   }, [albums]);
 
   return (

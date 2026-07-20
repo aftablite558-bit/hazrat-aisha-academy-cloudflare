@@ -28,7 +28,7 @@ export const ExamSchedule = () => {
 
   const filteredData = useMemo(() => {
     return schedules.filter(s => {
-      const matchSearch = s.examName.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchSearch = (s.examName || "").toLowerCase().includes(searchTerm.toLowerCase());
       const matchClass = filterClass ? s.classId === filterClass : true;
       return matchSearch && matchClass;
     });
@@ -88,7 +88,7 @@ export const ExamSchedule = () => {
             onChange={(e) => { setFilterClass(e.target.value); setCurrentPage(1); }}
             options={[
               { value: '', label: 'All Classes' },
-              ...classes.map(c => ({ value: c.id, label: c.className }))
+              ...classes.map(c => ({ value: c.id, label: c.className || (c as any).name }))
             ]}
           />
         </div>
@@ -168,7 +168,7 @@ export const ExamSchedule = () => {
               onChange={e => setFormData({...formData, classId: e.target.value})}
               options={[
                 { value: '', label: 'Select Class' },
-                ...classes.map(c => ({ value: c.id, label: c.className }))
+                ...classes.map(c => ({ value: c.id, label: c.className || (c as any).name }))
               ]}
             />
             
@@ -179,7 +179,7 @@ export const ExamSchedule = () => {
               onChange={e => setFormData({...formData, subjectId: e.target.value})}
               options={[
                 { value: '', label: 'Select Subject' },
-                ...subjects.map(s => ({ value: s.id, label: s.subjectName }))
+                ...subjects.map(s => ({ value: s.id, label: s.subjectName || (s as any).name }))
               ]}
             />
             
@@ -208,7 +208,7 @@ export const ExamSchedule = () => {
         </form>
       </GlassModal>
 
-      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={() => selectedSchedule?.id && deleteRecord(selectedSchedule.id)} title="Delete Schedule" message="Are you sure you want to delete this schedule?" confirmText="Delete" />
+      <ConfirmDialog isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={async () => { if (selectedSchedule?.id) { await deleteRecord(selectedSchedule.id); setIsDeleteOpen(false); } }} title="Delete Schedule" message="Are you sure you want to delete this schedule?" confirmText="Delete" />
     </div>
   );
 };

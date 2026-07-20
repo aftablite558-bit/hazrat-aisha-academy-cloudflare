@@ -1,11 +1,13 @@
 import { api } from './apiClient';
-import { AuditLog } from '../types/audit';
 
-export const logAction = async (logData: Omit<AuditLog, 'timestamp'>) => {
+export const logAction = async (action: string, module: string, userName: string, details?: string) => {
   try {
     await api.post('/collection/audit_logs', {
-      ...logData,
-      timestamp: new Date().toISOString(),
+      action,
+      module,
+      userName,
+      details: details || '',
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Failed to log action:', error);

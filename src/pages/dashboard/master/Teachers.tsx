@@ -22,8 +22,8 @@ export const Teachers = () => {
 
   const filteredTeachers = useMemo(() => {
     return teachers.filter(t => 
-      t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      t.teacherId.toLowerCase().includes(searchTerm.toLowerCase())
+      (t.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (t.teacherId || "").toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [teachers, searchTerm]);
 
@@ -60,7 +60,7 @@ export const Teachers = () => {
 
   const confirmDelete = async () => {
     if (selectedTeacher?.id) {
-      await deleteRecord(selectedTeacher.id);
+      await deleteRecord(selectedTeacher.id); setIsDeleteOpen(false);
     }
   };
 

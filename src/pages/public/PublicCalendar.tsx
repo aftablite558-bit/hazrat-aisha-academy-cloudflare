@@ -12,7 +12,7 @@ export const PublicCalendar = () => {
   const { data: events, loading } = useMasterData<CalendarEvent>('calendar');
 
   const publishedEvents = useMemo(() => {
-    return events.filter(e => e.isPublished).sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    return events.filter(e => e.isPublished).sort((a,b) => new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime());
   }, [events]);
 
   return (

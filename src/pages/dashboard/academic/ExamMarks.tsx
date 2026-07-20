@@ -6,13 +6,12 @@ import { GlassSelect } from '../../../components/common/GlassSelect';
 import { GlassInput } from '../../../components/common/GlassInput';
 import { useMasterData } from '../../../hooks/useMasterData';
 import { useToast } from '../../../contexts/ToastContext';
-import { Class, Section, Subject, Student } from '../../../types/master';
+import { Class, Subject, Student } from '../../../types/master';
 import { ExamMark } from '../../../types/academic';
 import { Save } from 'lucide-react';
 
 export const ExamMarks = () => {
   const { data: classes } = useMasterData<Class>('classes');
-  const { data: sections } = useMasterData<Section>('sections');
   const { data: subjects } = useMasterData<Subject>('subjects');
   const { data: students } = useMasterData<Student>('students');
   const { data: examMarks, fetchData, addRecord, updateRecord } = useMasterData<ExamMark>('exam_marks');
@@ -20,7 +19,6 @@ export const ExamMarks = () => {
 
   const [examName, setExamName] = useState('');
   const [classId, setClassId] = useState('');
-  const [sectionId, setSectionId] = useState('');
   const [subjectId, setSubjectId] = useState('');
   const [maxMarks, setMaxMarks] = useState<number>(100);
 
@@ -28,9 +26,9 @@ export const ExamMarks = () => {
   const [existingRecords, setExistingRecords] = useState<Record<string, ExamMark>>({});
 
   const filteredStudents = useMemo(() => {
-    if (!classId || !sectionId) return [];
-    return students.filter(s => s.classId === classId && s.sectionId === sectionId);
-  }, [students, classId, sectionId]);
+    if (!classId) return [];
+    return students.filter(s => s.classId === classId);
+  }, [students, classId]);
 
   useEffect(() => {
     if (filteredStudents.length > 0 && examName && subjectId) {
@@ -38,7 +36,7 @@ export const ExamMarks = () => {
       const dataMap: Record<string, { obtainedMarks: number | '', grade: string, remarks: string }> = {};
 
       examMarks.forEach(mark => {
-        if (mark.examName === examName && mark.classId === classId && mark.sectionId === sectionId && mark.subjectId === subjectId) {
+        if (mark.examName === examName && mark.classId === classId && mark.subjectId === subjectId) {
           recordsMap[mark.studentId] = mark;
           dataMap[mark.studentId] = {
             obtainedMarks: mark.obtainedMarks,
@@ -47,7 +45,6 @@ export const ExamMarks = () => {
           };
         }
       });
-
       setExistingRecords(recordsMap);
 
       filteredStudents.forEach(student => {
@@ -55,13 +52,12 @@ export const ExamMarks = () => {
           dataMap[student.id] = { obtainedMarks: '', grade: '', remarks: '' };
         }
       });
-
       setMarksData(dataMap);
     } else {
       setMarksData({});
       setExistingRecords({});
     }
-  }, [filteredStudents, examMarks, examName, classId, sectionId, subjectId]);
+  }, [filteredStudents, examMarks, examName, classId, subjectId]);
 
   const handleDataChange = (studentId: string, field: 'obtainedMarks' | 'grade' | 'remarks', value: any) => {
     setMarksData(prev => ({
@@ -74,7 +70,7 @@ export const ExamMarks = () => {
   };
 
   const handleSave = async () => {
-    if (!examName || !classId || !sectionId || !subjectId) {
+    if (!examName || !classId || !subjectId) {
       addToast('Please fill all required fields before saving', 'error');
       return;
     }
@@ -88,7 +84,6 @@ export const ExamMarks = () => {
         const recordToSave = {
           examName,
           classId,
-          sectionId,
           subjectId,
           studentId: student.id,
           maxMarks,
@@ -100,7 +95,7 @@ export const ExamMarks = () => {
         if (existing) {
           await updateRecord(existing.id, recordToSave);
         } else {
-          await addRecord(recordToSave);
+          await addRecord(recordToSave as any);
         }
       }
       await fetchData();
@@ -115,7 +110,7 @@ export const ExamMarks = () => {
       <PageHeader title="Exam Marks" description="Record student performance and grades." />
       
       <GlassCard className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <GlassInput 
             label="Exam Name" 
             placeholder="e.g. Mid Term"
@@ -126,19 +121,13 @@ export const ExamMarks = () => {
             label="Class" 
             value={classId} 
             onChange={e => setClassId(e.target.value)}
-            options={classes.map(c => ({ label: c.className, value: c.id }))}
-          />
-          <GlassSelect 
-            label="Section" 
-            value={sectionId} 
-            onChange={e => setSectionId(e.target.value)}
-            options={sections.filter(s => s.classId === classId).map(s => ({ label: s.sectionName, value: s.id }))}
+            options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}
           />
           <GlassSelect 
             label="Subject" 
             value={subjectId} 
             onChange={e => setSubjectId(e.target.value)}
-            options={subjects.filter(s => s.classId === classId).map(s => ({ label: s.subjectName, value: s.id }))}
+            options={subjects.filter(s => s.classId === classId).map(s => ({ label: s.subjectName || (s as any).name, value: s.id }))}
           />
           <GlassInput 
             type="number" 
@@ -149,7 +138,7 @@ export const ExamMarks = () => {
         </div>
       </GlassCard>
 
-      {examName && subjectId && classId && sectionId && filteredStudents.length > 0 && (
+      {examName && subjectId && classId && filteredStudents.length > 0 && (
         <GlassCard className="p-0 overflow-hidden">
           <div className="p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
             <h3 className="font-semibold text-lg">Enter Marks</h3>
@@ -208,9 +197,9 @@ export const ExamMarks = () => {
         </GlassCard>
       )}
 
-      {classId && sectionId && filteredStudents.length === 0 && (
+      {classId && filteredStudents.length === 0 && (
         <GlassCard className="p-8 text-center">
-          <p className="text-muted-foreground">No students found in this class and section.</p>
+          <p className="text-muted-foreground">No students found in this class.</p>
         </GlassCard>
       )}
     </div>

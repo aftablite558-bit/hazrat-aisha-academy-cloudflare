@@ -5,8 +5,8 @@ import { useMasterData } from '../../../hooks/useMasterData';
 import { Class, Student } from '../../../types/master';
 
 export const StudentLookup = ({ onStudentSelect }: { onStudentSelect: (student: Student | null) => void }) => {
-  const { data: classes } = useMasterData<Class>('classes', true);
-  const { data: students } = useMasterData<Student>('students', true);
+  const { data: classes } = useMasterData<Class>('classes');
+  const { data: students } = useMasterData<Student>('students');
   const [classId, setClassId] = useState('');
   const [rollNo, setRollNo] = useState('');
 
@@ -24,7 +24,7 @@ export const StudentLookup = ({ onStudentSelect }: { onStudentSelect: (student: 
           label="Class" 
           value={classId} 
           onChange={e => {setClassId(e.target.value); setRollNo('');}}
-          options={classes.map(c => ({ label: c.className, value: c.id }))}
+          options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}
         />
         <GlassSelect 
           label="Roll Number" 

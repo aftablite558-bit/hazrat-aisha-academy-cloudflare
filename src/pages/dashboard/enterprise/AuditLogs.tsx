@@ -9,14 +9,14 @@ import { AuditLog } from '../../../types/enterprise';
 import { Search, ShieldAlert, LogIn, LogOut, Edit, Trash2, Plus, CheckCircle } from 'lucide-react';
 
 export const AuditLogs = () => {
-  const { data: logs, loading } = useMasterData<AuditLog>('audit-logs');
+  const { data: logs, loading } = useMasterData<AuditLog>('audit_logs');
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredData = useMemo(() => {
     return logs.filter(l => 
-      l.userName.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      l.module.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      l.details.toLowerCase().includes(searchTerm.toLowerCase())
+      (l.userName || "").toLowerCase().includes(searchTerm.toLowerCase()) || 
+      (l.module || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (l.details || "").toLowerCase().includes(searchTerm.toLowerCase())
     ).sort((a,b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
   }, [logs, searchTerm]);
 

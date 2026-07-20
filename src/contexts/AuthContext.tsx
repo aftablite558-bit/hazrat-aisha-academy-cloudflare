@@ -17,6 +17,7 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   loginUser: () => {},
   logoutUser: async () => {},
+
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -47,6 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const loginUser = (userData: any) => {
     localStorage.setItem('erp_user', JSON.stringify(userData));
     setUser(userData);
+    logAction('Login', 'Authentication', userData.username || userData.email, 'User logged in');
     setProfile({
       uid: userData.id,
       email: userData.email,
@@ -57,15 +59,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logoutUser = async () => {
     if (user) {
-      await logAction({
-        uid: user.id || user.uid,
-        name: profile?.displayName,
-        role: profile?.role || 'unknown',
-        action: 'LOGOUT',
-        status: 'SUCCESS',
-        device: navigator.platform,
-        browser: navigator.userAgent
-      });
+      await logAction('Logout', 'Authentication', profile?.displayName || 'Unknown User', 'User logged out manually');
+    
     }
     localStorage.removeItem('erp_user');
     await authService.logout();

@@ -17,7 +17,7 @@ export const NoticeBoard = () => {
   const publishedNotices = useMemo(() => {
     return notices
       .filter(n => n.isPublished)
-      .sort((a,b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
+      .sort((a,b) => new Date(b.publishDate || 0).getTime() - new Date(a.publishDate || 0).getTime());
   }, [notices]);
 
   const filteredNotices = useMemo(() => {
