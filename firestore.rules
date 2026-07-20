@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Primitives
+    function isSignedIn() { return request.auth != null; }
+    function isAdminOrPrincipal() {
+      return isSignedIn() && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'principal', 'super_admin'];
+    }
+    
+    // Global Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Settings
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdminOrPrincipal();
+    }
+
+    // Users
+    match /users/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isAdminOrPrincipal());
+      allow write: if isSignedIn() && request.auth.uid == userId; // Users can only update themselves
+    }
+    
+    // Students
+    match /students/{studentId} {
+      allow read: if isSignedIn(); // Restricted read based on need
+      allow write: if isAdminOrPrincipal();
+    }
+    
+    // Homework
+    match /homework/{homeworkId} {
+      allow read: if isSignedIn();
+      allow write: if isAdminOrPrincipal() || 
+                      (isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'teacher');
+    }
+  }
+}

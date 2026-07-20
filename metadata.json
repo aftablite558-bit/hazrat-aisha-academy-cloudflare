@@ -1,0 +1,6 @@
+{
+  "name": "Hazrat Aisha Academy ERP",
+  "description": "A premium school ERP for Hazrat Aisha Academy, featuring academic management, communications, and administrative tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
