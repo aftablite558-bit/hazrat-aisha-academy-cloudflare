@@ -34,7 +34,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/dashboard', { replace: true });
+     navigate('/dashboard', { replace: true });
     }
   }, [user, navigate]);
 
@@ -48,7 +48,7 @@ export const Login = () => {
       if (response.success) {
         loginUser(response.user);
         addToast('Welcome back!', 'success');
-        navigate('/dashboard');
+        
       } else {
         setError(response.message || 'Login failed');
         addToast(response.message || 'Login failed', 'danger');
