@@ -7,7 +7,7 @@ const app = new Hono<{ Bindings: {
   OWNER_EMAIL: string, 
   OWNER_USERNAME: string, 
   OWNER_PASSWORD: string 
-} }>();
+} }>().basePath('/api');
 
 let setupChecked = false;
 
@@ -227,7 +227,7 @@ app.post('/restore', async (c) => {
     return c.json({ success: true });
 });
 
-export const onRequest: PagesFunction = (context) => {
-    return app.fetch(context.request, context.env, context);
-};
+import { handle } from 'hono/cloudflare-pages';
+
+export const onRequest = handle(app);
 
