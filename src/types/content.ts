@@ -56,6 +56,21 @@ export interface CareerVacancy extends BaseEntity {
   status: EntityStatus;
 }
 
+export interface CareerApplication extends BaseEntity {
+  applicantName: string;
+  appliedPosition: string;
+  email: string;
+  phone: string;
+  qualification: string;
+  experience: string;
+  resumeUrl: string;
+  appliedDate: string;
+  status: 'Pending' | 'Under Review' | 'Shortlisted' | 'Accepted' | 'Rejected';
+  notes?: string;
+  decisionDate?: string;
+  decisionBy?: string;
+}
+
 export interface AlumniProfile extends BaseEntity {
   name: string;
   batch: string;

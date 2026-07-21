@@ -12,7 +12,7 @@ import { BackButton } from '../../../components/common/BackButton';
 import { FileText, Download, Printer, FileSpreadsheet, Search } from 'lucide-react';
 import { useMasterData } from '../../../hooks/useMasterData';
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 
 export const Reports = () => {
@@ -132,7 +132,7 @@ export const Reports = () => {
       doc.setTextColor(100);
       doc.text(`Generated: ${dateStr}`, 14, 29);
       
-      (doc as jsPDF & { autoTable: (options: unknown) => unknown }).autoTable({
+      autoTable(doc, {
         startY: 35,
         head: [columns],
         body: rows,
@@ -145,8 +145,32 @@ export const Reports = () => {
         doc.save(`${title.replace(/\s+/g, '_')}_${Date.now()}.pdf`);
         addToast(`PDF downloaded successfully`, 'success');
       } else {
-        doc.autoPrint();
-        window.open(doc.output('bloburl'), '_blank');
+        const printContainer = document.createElement('div');
+        printContainer.className = 'printable-area';
+        printContainer.style.backgroundColor = 'white';
+        printContainer.style.color = 'black';
+        printContainer.style.padding = '20px';
+        printContainer.style.minHeight = '100vh';
+        printContainer.style.zIndex = '9999';
+        
+        printContainer.innerHTML = `
+          <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 8px;">${schoolName}</h2>
+          <h3 style="font-size: 18px; margin-bottom: 8px;">${title}</h3>
+          <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Generated: ${dateStr}</p>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px;">
+            <thead>
+              <tr>${columns.map(c => `<th style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f4f4f4;">${c}</th>`).join('')}</tr>
+            </thead>
+            <tbody>
+              ${rows.map(r => `<tr>${(r as unknown[]).map(cell => `<td style="border: 1px solid #ddd; padding: 8px; text-align: left;">${cell}</td>`).join('')}</tr>`).join('')}
+            </tbody>
+          </table>
+        `;
+        document.body.appendChild(printContainer);
+        window.print();
+        setTimeout(() => {
+          document.body.removeChild(printContainer);
+        }, 1000);
         addToast(`Opening print dialog...`, 'success');
       }
     } else if (format === 'excel') {

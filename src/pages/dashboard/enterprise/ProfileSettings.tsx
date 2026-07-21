@@ -9,12 +9,14 @@ import { BackButton } from '../../../components/common/BackButton';
 
 import { User, Lock, Save, Camera } from 'lucide-react';
 import { api } from '../../../services/apiClient';
+import { uploadImage } from '../../../services/storage';
 
 export const ProfileSettings = () => {
   const { profile, loginUser } = useAuth();
   const { addToast } = useToast();
   
   const [formData, setFormData] = useState({
+    username: '',
     displayName: '',
     email: '',
     phone: '',
@@ -28,10 +30,68 @@ export const ProfileSettings = () => {
 
   const [saving, setSaving] = useState(false);
   const [savingPwd, setSavingPwd] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !profile?.uid) return;
+    
+    if (!file.type.startsWith('image/')) {
+      addToast('Please upload a valid image file.', 'danger');
+      return;
+    }
+    
+    if (file.size > 2 * 1024 * 1024) {
+      addToast('File size should not exceed 2MB.', 'danger');
+      return;
+    }
+    
+    setUploadingPhoto(true);
+    try {
+      const base64 = await uploadImage(file, 'profile');
+      await api.post(`/collection/users/${profile.uid}/update`, {
+        username: formData.username, photoUrl: base64 });
+      
+      const updatedUser = { 
+        ...profile, 
+        id: profile.uid, 
+        email: profile.email || '', 
+        photoUrl: base64,
+        role: profile.role
+      };
+      loginUser(updatedUser);
+      addToast('Profile photo updated successfully', 'success');
+    } catch (err) {
+      addToast('Failed to update profile photo', 'danger');
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
+  const handleRemovePhoto = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!profile?.uid) return;
+    
+    try {
+      await api.post(`/collection/users/${profile.uid}/update`, { photoUrl: null });
+      const updatedUser = { 
+        ...profile, 
+        id: profile.uid, 
+        email: profile.email || '', 
+        photoUrl: undefined,
+        role: profile.role
+      };
+      loginUser(updatedUser);
+      addToast('Profile photo removed', 'success');
+    } catch (err) {
+      addToast('Failed to remove profile photo', 'danger');
+    }
+  };
 
   useEffect(() => {
     if (profile) {
       setFormData({
+        username: profile.username || '',
         displayName: profile.displayName || profile.username || '',
         email: profile.email || '',
         phone: profile.phone || '',
@@ -50,7 +110,7 @@ export const ProfileSettings = () => {
         phone: formData.phone,
       });
       addToast('Profile updated successfully', 'success');
-      loginUser({ ...profile, id: profile.uid, email: profile.email || '', displayName: formData.displayName, phone: formData.phone });
+      loginUser({ ...profile, id: profile.uid, email: profile.email || '', username: formData.username, displayName: formData.displayName, phone: formData.phone });
     } catch (err) {
       addToast('Failed to update profile', 'danger');
     } finally {
@@ -94,7 +154,7 @@ export const ProfileSettings = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1 space-y-6">
           <GlassCard className="p-6 flex flex-col items-center justify-center text-center">
-            <div className="relative group cursor-pointer mb-4">
+            <div className="relative group cursor-pointer mb-4" onClick={() => document.getElementById('profile-photo-upload')?.click()}>
               <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 flex items-center justify-center text-4xl text-white font-bold shadow-xl overflow-hidden">
                 {profile?.photoUrl ? (
                   <img src={profile.photoUrl} alt="Profile" className="w-full h-full object-cover" />
@@ -102,10 +162,27 @@ export const ProfileSettings = () => {
                   profile?.displayName?.charAt(0) || 'U'
                 )}
               </div>
-              <div className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                <Camera size={24} />
+              <div className="absolute inset-0 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white">
+                {uploadingPhoto ? (
+                  <span className="text-xs font-medium">Uploading...</span>
+                ) : (
+                  <>
+                    <Camera size={24} className="mb-1" />
+                    <span className="text-[10px] font-medium">Change Photo</span>
+                  </>
+                )}
               </div>
+              <input type="file" id="profile-photo-upload" className="hidden" accept=".jpg,.jpeg,.png,.svg" onChange={handlePhotoUpload} disabled={uploadingPhoto} />
             </div>
+            {profile?.photoUrl && (
+              <button 
+                type="button"
+                className="text-xs text-danger-500 hover:text-danger-400 mb-4 transition-colors"
+                onClick={handleRemovePhoto}
+              >
+                Remove Photo
+              </button>
+            )}
             <h3 className="text-xl font-bold text-foreground">{profile?.displayName || 'User'}</h3>
             <p className="text-sm text-muted-foreground capitalize mb-4">{profile?.role || 'Admin'}</p>
             <div className="w-full pt-4 border-t border-white/10 flex justify-between text-sm">

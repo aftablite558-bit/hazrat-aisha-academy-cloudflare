@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '../../../contexts/ToastContext';
 import { PageHeader } from '../../../components/common/PageHeader';
 import { GlassCard } from '../../../components/common/GlassCard';
+import { GlassModal } from '../../../components/common/GlassModal';
 import { GlassTable } from '../../../components/common/GlassTable';
 import { GlassBadge } from '../../../components/common/GlassBadge';
 import { GlassButton } from '../../../components/common/GlassButton';
@@ -101,7 +102,7 @@ export const Users = () => {
           status: formStatus,
         });
         addToast('User account updated successfully!', 'success');
-        logAction('Edit', 'Users', currentUser?.displayName || 'Admin', `Updated user ${formName}`);
+        logAction('Edit', 'Users', (currentUser as any)?.displayName || 'Admin', `Updated user ${formName}`);
       } else {
         // Create User
         await api.post('/admin/create-user', {
@@ -113,7 +114,7 @@ export const Users = () => {
           status: formStatus,
         });
         addToast('User account created successfully!', 'success');
-        logAction('Create', 'Users', currentUser?.displayName || 'Admin', `Created user ${formName}`);
+        logAction('Create', 'Users', (currentUser as any)?.displayName || 'Admin', `Created user ${formName}`);
       }
 
       setShowModal(false);
@@ -141,7 +142,7 @@ export const Users = () => {
         password: formPassword
       });
       addToast('Password reset successfully!', 'success');
-      logAction('Edit', 'Users', currentUser?.displayName || 'Admin', `Reset password for user ${editingUserId}`);
+      logAction('Edit', 'Users', (currentUser as any)?.displayName || 'Admin', `Reset password for user ${editingUserId}`);
       setShowPasswordModal(false);
     } catch (err) {
       addToast('Failed to reset password', 'danger');
@@ -158,7 +159,7 @@ export const Users = () => {
     try {
       await api.post(`/collection/users/${uid}/update`, { status: newStatus });
       addToast(`Account status updated to ${newStatus}`, 'success');
-      logAction('Edit', 'Users', currentUser?.displayName || 'Admin', `Updated user ${uid} status to ${newStatus}`);
+      logAction('Edit', 'Users', (currentUser as any)?.displayName || 'Admin', `Updated user ${uid} status to ${newStatus}`);
       await fetchUsers(false);
     } catch (err) {
       console.error('Failed to update status:', err);
@@ -177,7 +178,7 @@ export const Users = () => {
     try {
       await api.post(`/collection/users/${uid}/delete`, {});
       addToast('User deleted successfully', 'success');
-      logAction('Delete', 'Users', currentUser?.displayName || 'Admin', `Deleted user ${uid}`);
+      logAction('Delete', 'Users', (currentUser as any)?.displayName || 'Admin', `Deleted user ${uid}`);
       await fetchUsers(false);
     } catch (err) {
       console.error('Failed to delete user:', err);
@@ -327,22 +328,13 @@ export const Users = () => {
       </GlassCard>
 
       {/* Add/Edit User Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-md">
-          <GlassCard className="w-full max-w-md p-6 border border-white/20 shadow-2xl relative">
-            <button 
-              onClick={() => !submitting && setShowModal(false)}
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
-              disabled={submitting}
-            >
-              <X size={20} />
-            </button>
-            
-            <h2 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-2">
-              <UsersIcon className="text-primary-500" /> {editingUserId ? 'Edit User' : 'Add New User'}
-            </h2>
-
-            <form onSubmit={handleSubmitUser} className="space-y-4">
+      <GlassModal
+        isOpen={showModal}
+        onClose={() => !submitting && setShowModal(false)}
+        title={editingUserId ? 'Edit User' : 'Add New User'}
+        className="max-w-md"
+      >
+        <form onSubmit={handleSubmitUser} className="space-y-4">
               <GlassInput 
                 label="Name *" 
                 value={formName} 
@@ -380,6 +372,7 @@ export const Users = () => {
                   <option value="teacher" className="bg-slate-50 dark:bg-slate-900">Teacher</option>
                   <option value="principal" className="bg-slate-50 dark:bg-slate-900">Principal</option>
                   <option value="admin" className="bg-slate-50 dark:bg-slate-900">Admin</option>
+                  <option value="staff" className="bg-slate-50 dark:bg-slate-900">Staff</option>
                 </GlassSelect>
                 
                 <GlassSelect 
@@ -402,28 +395,17 @@ export const Users = () => {
                   {submitting ? 'Saving...' : 'Save User'}
                 </GlassButton>
               </div>
-            </form>
-          </GlassCard>
-        </div>
-      )}
+        </form>
+      </GlassModal>
 
       {/* Reset Password Modal */}
-      {showPasswordModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-md">
-          <GlassCard className="w-full max-w-md p-6 border border-white/20 shadow-2xl relative">
-            <button 
-              onClick={() => !submitting && setShowPasswordModal(false)}
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
-              disabled={submitting}
-            >
-              <X size={20} />
-            </button>
-            
-            <h2 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-2">
-              <Key className="text-primary-500" /> Reset Password
-            </h2>
-
-            <form onSubmit={handleResetPassword} className="space-y-4">
+      <GlassModal
+        isOpen={showPasswordModal}
+        onClose={() => !submitting && setShowPasswordModal(false)}
+        title="Reset Password"
+        className="max-w-md"
+      >
+        <form onSubmit={handleResetPassword} className="space-y-4">
               <GlassInput 
                 label="New Password *" 
                 type="password" 
@@ -442,9 +424,7 @@ export const Users = () => {
                 </GlassButton>
               </div>
             </form>
-          </GlassCard>
-        </div>
-      )}
+      </GlassModal>
     </div>
   );
 };

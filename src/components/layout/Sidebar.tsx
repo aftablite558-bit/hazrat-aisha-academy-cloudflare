@@ -1,8 +1,10 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, BookOpen, Settings, Bell, Calendar, GraduationCap, ClipboardList, BookMarked, Wallet, Image, FileText, UserCircle, X, Shield, Contact, Download, Home, Book, FileBarChart, PenTool, Database, Award, MessageCircle } from 'lucide-react';
+import { LayoutDashboard, Users, BookOpen, Settings, Bell, Calendar, GraduationCap, ClipboardList, BookMarked, Wallet, Image, FileText, UserCircle, X, Shield, Contact, Download, Home, Book, FileBarChart, PenTool, Database, Award, MessageCircle , Briefcase } from 'lucide-react';
 import { GlassButton } from '../common/GlassButton';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useMasterData } from '../../hooks/useMasterData';
+import { SystemSettings } from '../../types';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -10,6 +12,9 @@ interface SidebarProps {
 }
 
 export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
+  const { data: settings } = useMasterData<SystemSettings>('settings');
+  const schoolName = settings?.[0]?.schoolName || 'Hazrat Aisha';
+  const logoUrl = settings?.[0]?.logoUrl;
   const navigate = useNavigate();
   const { profile, logoutUser } = useAuth();
   
@@ -54,7 +59,8 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
       { icon: Download, label: 'Downloads', path: '/dashboard/downloads' },
       { icon: Calendar, label: 'Academic Calendar', path: '/dashboard/calendar' },
       { icon: Shield, label: 'Facilities', path: '/dashboard/facilities' },
-      { icon: Contact, label: 'Careers', path: '/dashboard/careers' },
+      { icon: Briefcase, label: 'Careers', path: '/dashboard/careers' },
+      { icon: FileText, label: 'Career Requests', path: '/dashboard/career-requests' },
       { icon: Users, label: 'Alumni', path: '/dashboard/alumni' },
       { icon: Contact, label: 'Contact', path: '/dashboard/contact' },
       { icon: FileText, label: 'Documents', path: '/dashboard/documents' },
@@ -71,8 +77,9 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
   const sidebarContent = (
     <>
       <div className="flex justify-between items-center mb-10">
-        <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center gap-2">
-          <GraduationCap className="text-primary-500" /> Hazrat Aisha
+        <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center gap-2 truncate">
+          {logoUrl ? <img src={logoUrl} alt="Logo" className="w-8 h-8 object-contain" /> : <GraduationCap className="text-primary-500 shrink-0" />} 
+          <span className="truncate">{schoolName.replace(' Academy', '')}</span>
         </h1>
         {onClose && (
           <button className="lg:hidden p-3 rounded-full glass hover:bg-white/10 transition-colors" onClick={onClose}>

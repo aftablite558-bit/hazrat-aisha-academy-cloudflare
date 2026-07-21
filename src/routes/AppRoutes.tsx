@@ -45,6 +45,7 @@ const AcademicCalendar = lazy(() => import('../pages/dashboard/content/AcademicC
 const Documents = lazy(() => import('../pages/dashboard/content/Documents').then(m => ({ default: m.Documents })));
 const Facilities = lazy(() => import('../pages/dashboard/content/Facilities').then(m => ({ default: m.Facilities })));
 const Careers = lazy(() => import('../pages/dashboard/content/Careers').then(m => ({ default: m.Careers })));
+const CareerRequests = lazy(() => import('../pages/dashboard/content/CareerRequests').then(m => ({ default: m.CareerRequests })));
 const Alumni = lazy(() => import('../pages/dashboard/content/Alumni').then(m => ({ default: m.Alumni })));
 const Enquiries = lazy(() => import('../pages/dashboard/content/Enquiries').then(m => ({ default: m.Enquiries })));
 const DashboardAdmissions = lazy(() => import('../pages/dashboard/enterprise/Admissions').then(m => ({ default: m.Admissions })));
@@ -85,7 +86,7 @@ export function AppRoutes() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute allowedRoles={['admin', 'super_admin', 'principal', 'owner']}>
+            <ProtectedRoute allowedRoles={['admin', 'super_admin', 'principal', 'owner', 'staff']}>
               <DashboardLayout />
             </ProtectedRoute>
           }
@@ -115,6 +116,7 @@ export function AppRoutes() {
           <Route path="calendar" element={<AcademicCalendar />} />
           <Route path="facilities" element={<Facilities />} />
           <Route path="careers" element={<Careers />} />
+          <Route path="career-requests" element={<CareerRequests />} />
           <Route path="alumni" element={<Alumni />} />
           <Route path="contact" element={<Enquiries />} />
           <Route path="documents" element={<Documents />} />

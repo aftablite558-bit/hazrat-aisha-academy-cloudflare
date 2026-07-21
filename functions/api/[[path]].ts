@@ -32,7 +32,7 @@ async function ensureTableAndColumns(DB: any, tableName: string, keys: string[])
     for (const key of keys) {
       if (key !== 'id' && !existingColumns.includes(key)) {
         try {
-          await DB.prepare(`ALTER TABLE ${tableName} ADD COLUMN ${key} TEXT`).run();
+          await DB.prepare(`ALTER TABLE ${tableName} ADD COLUMN "${key}" TEXT`).run();
         } catch (e) {
           console.error(`Failed to add column ${key} to ${tableName}`, e);
         }
@@ -88,7 +88,7 @@ const ALLOWED_COLLECTIONS = [
   'users', 'students', 'staff', 'teachers', 'classes', 'subjects', 'attendance', 
   'homework', 'results', 'reportcards', 'admissions', 'fees', 'notices', 
   'gallery', 'documents', 'calendar', 'achievements', 'testimonials', 
-  'audit_logs', 'settings', 'school_info', 'notifications', 'exam_marks', 'alumni', 'sections', 'enquiries', 'careers', 'facilities', 'exam_schedules'
+  'audit_logs', 'settings', 'school_info', 'notifications', 'exam_marks', 'alumni', 'sections', 'enquiries', 'careers', 'facilities', 'exam_schedules', 'career_applications'
 ];
 
 // Generic CRUD (stripped /api prefix)
@@ -148,6 +148,7 @@ app.post('/collection/:name', async (c) => {
   if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
   
   const body = await c.req.json();
+  if (!body.id) body.id = crypto.randomUUID();
   
   if (name === 'users' && body.password) {
     body.password_hash = await bcrypt.hash(body.password, 10);
@@ -159,7 +160,7 @@ app.post('/collection/:name', async (c) => {
   
   await ensureTableAndColumns(c.env.DB, name, keys);
   
-  const result = await c.env.DB.prepare(`INSERT INTO ${name} (${keys.join(', ')}) VALUES (${keys.map(() => '?').join(', ')})`)
+  const result = await c.env.DB.prepare(`INSERT INTO ${name} (${keys.map(k => `"${k}"`).join(', ')}) VALUES (${keys.map(() => '?').join(', ')})`)
     .bind(...values)
     .run();
     
@@ -178,7 +179,7 @@ app.post('/collection/:name/:id/update', async (c) => {
     delete body.password;
   }
 
-  const setClause = Object.keys(body).map(key => `${key} = ?`).join(', ');
+  const setClause = Object.keys(body).map(key => `"${key}" = ?`).join(', ');
   
   await ensureTableAndColumns(c.env.DB, name, Object.keys(body));
 
@@ -194,6 +195,7 @@ app.post('/collection/:name/:id/delete', async (c) => {
   const id = c.req.param('id');
   if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
   
+  await ensureTableAndColumns(c.env.DB, name, []);
   await c.env.DB.prepare(`DELETE FROM ${name} WHERE id = ?`)
     .bind(id)
     .run();
@@ -274,9 +276,12 @@ app.post('/admin/create-user', async (c) => {
   const body = await c.req.json();
   const { username, email, password, role, displayName, status } = body;
   const password_hash = await bcrypt.hash(password, 10);
-  await ensureTableAndColumns(c.env.DB, "users", ["id", "username", "email", "password_hash", "role", "displayName", "status"]);
-  await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role, displayName, status) VALUES (?, ?, ?, ?, ?, ?, ?)')
-    .bind(crypto.randomUUID(), username, email, password_hash, role, displayName, status)
+  const userRole = role || 'user';
+  const userStatus = status || 'active';
+  const createdAt = new Date().toISOString();
+  await ensureTableAndColumns(c.env.DB, "users", ["id", "username", "email", "password_hash", "role", "displayName", "status", "createdAt"]);
+  await c.env.DB.prepare('INSERT INTO users (id, username, email, password_hash, role, displayName, status, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+    .bind(crypto.randomUUID(), username, email, password_hash, userRole, displayName, userStatus, createdAt)
     .run();
   return c.json({ success: true });
 });

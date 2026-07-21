@@ -1,11 +1,16 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, GraduationCap } from 'lucide-react';
+import { useMasterData } from '../../hooks/useMasterData';
+import { SystemSettings } from '../../types';
 import { useTheme } from '../../contexts/ThemeContext';
 import { GlassButton } from '../common/GlassButton';
 import { motion, AnimatePresence } from 'motion/react';
 
 export const Navbar = () => {
+  const { data: settings } = useMasterData<SystemSettings>('settings');
+  const schoolName = settings?.[0]?.schoolName || 'Hazrat Aisha Academy';
+  const logoUrl = settings?.[0]?.logoUrl;
   const [isOpen, setIsOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
@@ -84,7 +89,10 @@ export const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 right-0 z-40 glass border-t-0 border-x-0 border-b border-white/30 dark:border-white/10 rounded-none shadow-sm">
         <div className="relative z-10 max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500">Hazrat Aisha Academy</h1>
+          <div className="flex items-center gap-2">
+            {logoUrl ? <img src={logoUrl} alt="Logo" className="h-10 w-auto object-contain" /> : <GraduationCap size={28} className="text-primary-500" />}
+            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500">{schoolName}</h1>
+          </div>
           
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-6">

@@ -4,10 +4,10 @@ import { authService } from '../services/auth';
 import { logAction } from '../services/auditService';
 
 interface AuthContextType {
-  user: (Record<string, unknown> & { id: string, email: string, username?: string, role?: string, displayName?: string }) | null;
+  user: (Record<string, unknown> & { id: string, email: string, username?: string, role?: string, displayName?: string, photoUrl?: string, phone?: string }) | null;
   profile: UserProfile | null;
   loading: boolean;
-  loginUser: (userData: Record<string, unknown> & { id: string, email: string, username?: string, role?: string }) => void;
+  loginUser: (userData: Record<string, unknown> & { id: string, email: string, username?: string, role?: string, displayName?: string, photoUrl?: string, phone?: string }) => void;
   logoutUser: () => Promise<void>;
 }
 
@@ -21,7 +21,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<(Record<string, unknown> & { id: string, email: string, username?: string, role?: string, displayName?: string }) | null>(null);
+  const [user, setUser] = useState<(Record<string, unknown> & { id: string, email: string, username?: string, role?: string, displayName?: string, photoUrl?: string, phone?: string }) | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -35,8 +35,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setProfile({
           uid: parsed.id,
           email: parsed.email,
-          displayName: parsed.username || parsed.email,
+          displayName: parsed.displayName || parsed.username || parsed.email,
+          photoUrl: parsed.photoUrl,
+          phone: parsed.phone,
           role: (parsed.role?.toLowerCase() as UserRole) || 'user',
+          status: parsed.status || 'active',
         });
       } catch (e) {
         localStorage.removeItem('erp_user');
@@ -45,15 +48,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
   }, []);
 
-  const loginUser = (userData: Record<string, unknown> & { id: string, email: string, username?: string, role?: string }) => {
+  const loginUser = (userData: Record<string, unknown> & { id: string, email: string, username?: string, role?: string, displayName?: string, photoUrl?: string, phone?: string }) => {
     localStorage.setItem('erp_user', JSON.stringify(userData));
     setUser(userData);
     logAction('Login', 'Authentication', userData.username || userData.email, 'User logged in');
     setProfile({
       uid: userData.id,
       email: userData.email,
-      displayName: userData.username || userData.email,
+      displayName: userData.displayName || userData.username || userData.email,
+      photoUrl: userData.photoUrl,
+      phone: userData.phone,
       role: (userData.role?.toLowerCase() as UserRole) || 'user',
+      status: (userData.status as any) || 'active',
     });
   };
 

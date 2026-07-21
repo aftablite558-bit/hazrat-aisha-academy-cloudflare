@@ -9,6 +9,10 @@ export const ProtectedRoute = ({ children, allowedRoles }: { children: ReactNode
 
   if (loading) return <LoadingScreen />;
   if (!user) {return <Navigate to="/login" state={{ from: location }} replace />; }
+  if (profile && (profile.status === 'inactive' || profile.status === 'suspended' || profile.status === 'blocked')) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
   if (allowedRoles && profile && !allowedRoles.includes(profile.role)) {
    return <Navigate to="/unauthorized" replace />;
   }
