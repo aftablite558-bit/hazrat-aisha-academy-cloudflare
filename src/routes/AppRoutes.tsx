@@ -7,6 +7,7 @@ import { Unauthorized } from '../pages/error/Unauthorized';
 import { NotFound } from '../pages/error/NotFound';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { DashboardLayout } from '../layouts/DashboardLayout';
+import { LoadingScreen } from '../components/common/LoadingScreen';
 
 const Home = lazy(() => import('../pages/public/Home').then(m => ({ default: m.Home })));
 const About = lazy(() => import('../pages/public/About').then(m => ({ default: m.About })));
@@ -74,7 +75,7 @@ const TeacherNotificationsPage = lazy(() => import('../pages/teacher/TeacherNoti
 
 export function AppRoutes() {
   return (
-    <Suspense fallback={<div className="flex h-screen w-full items-center justify-center bg-slate-50 dark:bg-slate-900 text-primary-500 font-medium">Loading Module...</div>}>
+    <Suspense fallback={<LoadingScreen />}>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/setup" element={<SetupOwner />} />

@@ -1,8 +1,11 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Trophy } from 'lucide-react';
+import { ArrowRight, Trophy, Award, Sparkles, Calendar, CheckCircle2 } from 'lucide-react';
 import { GlassButton } from '../common/GlassButton';
+import { GlassCard } from '../common/GlassCard';
 import { useMasterData } from '../../hooks/useMasterData';
 import { Achievement } from '../../types/content';
+import { motion } from 'motion/react';
 
 export const AchievementsPreview = () => {
   const { data: achievements, loading } = useMasterData<Achievement>('achievements');
@@ -15,46 +18,107 @@ export const AchievementsPreview = () => {
   if (!loading && publishedAchievements.length === 0) return null;
 
   return (
-    <section className="py-20 relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500 mb-4">Our Achievements</h2>
-            <p className="text-muted-foreground text-lg">Celebrating the success and hard work of our students and faculty.</p>
-          </div>
-          <Link to="/achievements">
-            <GlassButton variant="outline" className="flex items-center gap-2 whitespace-nowrap">
-              View All <ArrowRight size={18} />
-            </GlassButton>
-          </Link>
+    <section className="py-24 px-6 relative z-10 overflow-hidden">
+      {/* Background Radial Glow */}
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[300px] bg-amber-500/5 blur-[130px] pointer-events-none rounded-full" />
+
+      <div className="max-w-7xl mx-auto relative">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-2xl space-y-3"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-extrabold uppercase tracking-widest">
+              <Trophy size={14} className="text-amber-400" />
+              <span>Honors & Awards</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-foreground">
+              Student & Faculty Achievements
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground font-normal">
+              Celebrating the academic victories, Islamic competition awards, and honors achieved by our academy family.
+            </p>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+            <Link to="/achievements">
+              <GlassButton variant="outline" className="px-6 py-3 text-xs font-bold rounded-2xl flex items-center gap-2 border-amber-500/20 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10">
+                <span>View All Achievements</span>
+                <ArrowRight size={16} />
+              </GlassButton>
+            </Link>
+          </motion.div>
         </div>
 
+        {/* Content */}
         {loading ? (
-          <div className="flex justify-center p-12">
-            <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="flex justify-center p-16">
+            <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {publishedAchievements.map((achievement) => (
-              <div key={achievement.id} className="glass rounded-3xl overflow-hidden group">
-                {achievement.imageUrl ? (
-                  <div className="aspect-video relative overflow-hidden">
-                    <img src={achievement.imageUrl} alt={achievement.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+            {publishedAchievements.map((achievement, idx) => (
+              <motion.div
+                key={achievement.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+              >
+                <GlassCard className="p-0 overflow-hidden h-full flex flex-col justify-between hover:border-amber-500/40 transition-all duration-300 group hover:shadow-2xl hover:shadow-amber-950/10">
+                  {/* Image / Icon Banner */}
+                  {achievement.imageUrl ? (
+                    <div className="aspect-video relative overflow-hidden bg-slate-900">
+                      <img 
+                        src={achievement.imageUrl} 
+                        alt={achievement.title} 
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 bg-amber-500/90 text-slate-950 font-black rounded-full text-[10px] uppercase tracking-wider backdrop-blur-md shadow-md">
+                          {achievement.category || 'Award'}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="aspect-video bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-emerald-500/10 flex items-center justify-center text-amber-500 relative overflow-hidden">
+                      <Trophy size={56} className="group-hover:scale-110 transition-transform duration-500 text-amber-400 opacity-90" />
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 bg-amber-500/90 text-slate-950 font-black rounded-full text-[10px] uppercase tracking-wider shadow-md">
+                          {achievement.category || 'Award'}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Body Text */}
+                  <div className="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground mb-3">
+                        <Calendar size={13} className="text-amber-500" />
+                        <span>{new Date(achievement.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+                      </div>
+                      <h3 className="text-lg font-bold text-foreground mb-3 line-clamp-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                        {achievement.title}
+                      </h3>
+                      <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed font-normal">
+                        {achievement.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-4 mt-6 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                      <span className="flex items-center gap-1">
+                        <Award size={14} /> Official Academy Distinction
+                      </span>
+                      <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </div>
-                ) : (
-                  <div className="aspect-video bg-primary-500/10 flex items-center justify-center text-primary-500">
-                    <Trophy size={48} />
-                  </div>
-                )}
-                <div className="p-6">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="px-3 py-1 bg-primary-500/10 text-primary-500 rounded-full text-xs font-semibold">{achievement.category}</span>
-                    <span className="text-sm text-muted-foreground">{new Date(achievement.date).getFullYear()}</span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 line-clamp-2">{achievement.title}</h3>
-                  <p className="text-muted-foreground text-sm line-clamp-3">{achievement.description}</p>
-                </div>
-              </div>
+                </GlassCard>
+              </motion.div>
             ))}
           </div>
         )}
