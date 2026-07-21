@@ -20,7 +20,7 @@ export const Subjects = () => {
 
   const filteredSubjects = useMemo(() => {
     return subjectList.filter(s => 
-      (s.subjectName || (s as any).name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (s.subjectName || (s as { name?: string }).name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
       (s.code || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
       (s.classId || "").toLowerCase().includes(searchTerm.toLowerCase())
     );

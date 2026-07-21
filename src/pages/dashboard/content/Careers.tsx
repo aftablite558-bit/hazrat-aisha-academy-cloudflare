@@ -53,7 +53,7 @@ export const Careers = () => {
     if (selectedCareer?.id) {
       await updateRecord(selectedCareer.id, formData);
     } else {
-      await addRecord(formData as any);
+      await addRecord(formData);
     }
     setIsFormOpen(false);
   };
@@ -126,7 +126,7 @@ export const Careers = () => {
             <GlassInput required label="Qualification" value={formData.qualification} onChange={e => setFormData({...formData, qualification: e.target.value})} />
             <GlassInput required label="Experience" value={formData.experience} onChange={e => setFormData({...formData, experience: e.target.value})} />
             <GlassInput type="date" required label="Last Date" value={formData.lastDate} onChange={e => setFormData({...formData, lastDate: e.target.value})} />
-            <GlassSelect required label="Status" value={formData.status} onChange={e => setFormData({...formData, status: e.target.value as any})}>
+            <GlassSelect required label="Status" value={formData.status} onChange={e => setFormData({...formData, status: e.target.value as EntityStatus})}>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </GlassSelect>

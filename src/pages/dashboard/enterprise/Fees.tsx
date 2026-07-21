@@ -76,7 +76,7 @@ export const Fees = () => {
     if (selectedFee?.id) {
       await updateRecord(selectedFee.id, payload);
     } else {
-      await addRecord(payload as any);
+      await addRecord(payload);
     }
     setIsFormOpen(false);
   };

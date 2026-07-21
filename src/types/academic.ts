@@ -9,6 +9,7 @@ export interface Homework extends BaseEntity {
   attachmentUrl?: string;
   dueDate: string;
   isPublished: boolean;
+  status?: string;
 }
 
 export type AttendanceStatus = 'Present' | 'Absent' | 'Leave';

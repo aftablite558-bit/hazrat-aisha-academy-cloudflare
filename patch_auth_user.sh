@@ -1,0 +1,2 @@
+sed -i 's/user: Record<string, unknown> | null;/user: (Record<string, unknown> \& { id: string, email: string, username?: string, role?: string, displayName?: string }) | null;/g' src/contexts/AuthContext.tsx
+sed -i 's/const \[user, setUser\] = useState<Record<string, unknown> | null>(null);/const \[user, setUser\] = useState<(Record<string, unknown> \& { id: string, email: string, username?: string, role?: string, displayName?: string }) | null>(null);/g' src/contexts/AuthContext.tsx

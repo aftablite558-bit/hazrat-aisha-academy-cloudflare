@@ -53,7 +53,7 @@ export const Gallery = () => {
     if (selectedAlbum?.id) {
       await updateRecord(selectedAlbum.id, formData);
     } else {
-      await addRecord(formData as any);
+      await addRecord(formData);
     }
     setIsFormOpen(false);
   };

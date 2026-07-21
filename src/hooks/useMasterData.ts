@@ -23,8 +23,8 @@ export const useMasterData = <T extends BaseEntity>(collectionName: string, with
       }
       const result = await getCollection<T>(collectionName, queryParams);
       setData(result);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch data');
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : String(err)) || 'Failed to fetch data');
     } finally {
       setLoading(false);
     }
@@ -36,18 +36,18 @@ export const useMasterData = <T extends BaseEntity>(collectionName: string, with
     }
   }, [fetchData, withSession, activeSession]);
 
-  const addRecord = useCallback(async (record: Omit<T, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const addRecord = useCallback(async (record: Partial<Omit<T, 'id' | 'createdAt' | 'updatedAt'>>) => {
     try {
       const dataToSave = { ...record };
       if (withSession && activeSession) {
-        (dataToSave as any).sessionId = activeSession.id;
+        (dataToSave as Partial<T> & { sessionId?: string }).sessionId = activeSession.id;
       }
       const id = await addDocument(collectionName, dataToSave);
       await fetchData();
       addToast(`Record added successfully`, 'success');
       return id;
-    } catch (err: any) {
-      addToast(err.message || 'Failed to add record', 'error');
+    } catch (err: unknown) {
+      addToast((err instanceof Error ? err.message : String(err)) || 'Failed to add record', 'error');
       throw err;
     }
   }, [collectionName, withSession, activeSession, fetchData, addToast]);
@@ -57,8 +57,8 @@ export const useMasterData = <T extends BaseEntity>(collectionName: string, with
       await updateDocument(collectionName, id, record);
       await fetchData();
       addToast(`Record updated successfully`, 'success');
-    } catch (err: any) {
-      addToast(err.message || 'Failed to update record', 'error');
+    } catch (err: unknown) {
+      addToast((err instanceof Error ? err.message : String(err)) || 'Failed to update record', 'error');
       throw err;
     }
   }, [collectionName, fetchData, addToast]);
@@ -82,8 +82,8 @@ export const useMasterData = <T extends BaseEntity>(collectionName: string, with
 
       await fetchData();
       addToast(`Record deleted successfully`, 'success');
-    } catch (err: any) {
-      addToast(err.message || 'Failed to delete record', 'error');
+    } catch (err: unknown) {
+      addToast((err instanceof Error ? err.message : String(err)) || 'Failed to delete record', 'error');
       throw err;
     }
   };

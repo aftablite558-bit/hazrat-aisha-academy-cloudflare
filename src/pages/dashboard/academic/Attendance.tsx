@@ -79,7 +79,7 @@ export const Attendance = () => {
             classId,
             studentId: student.id,
             status
-          } as any);
+          });
         }
       }
       await fetchData();
@@ -107,7 +107,7 @@ export const Attendance = () => {
             label="Class" 
             value={classId} 
             onChange={e => setClassId(e.target.value)}
-            options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}
+            options={classes.map(c => ({ label: c.className || (c as { name?: string }).name, value: c.id }))}
           />
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground">Date</label>

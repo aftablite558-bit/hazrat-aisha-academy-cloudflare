@@ -117,7 +117,7 @@ export const Students = () => {
                 <td className="font-medium text-primary-500">{student.admissionNo}</td>
                 <td>{student.rollNo}</td>
                 <td className="font-semibold">{student.fullName}</td>
-                <td>{classes.find(c => c.id === student.classId)?.className || (classes.find(c => c.id === student.classId) as any)?.name || student.classId}</td>
+                <td>{classes.find(c => c.id === student.classId)?.className || student.classId}</td>
                 <td>{student.phone}</td>
                 <td>
                   <GlassBadge variant={student.status === 'Active' ? 'success' : 'default'}>

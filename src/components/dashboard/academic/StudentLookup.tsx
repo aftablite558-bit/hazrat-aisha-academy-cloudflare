@@ -24,7 +24,7 @@ export const StudentLookup = ({ onStudentSelect }: { onStudentSelect: (student: 
           label="Class" 
           value={classId} 
           onChange={e => {setClassId(e.target.value); setRollNo('');}}
-          options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}
+          options={classes.map(c => ({ label: c.className || (c as { name?: string }).name, value: c.id }))}
         />
         <GlassSelect 
           label="Roll Number" 

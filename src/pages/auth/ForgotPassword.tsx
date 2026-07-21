@@ -48,7 +48,7 @@ export const ForgotPassword = () => {
       } else {
         throw new Error(response.message || 'Failed to process request');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Password reset failed:', err);
       const friendlyError = 'Failed to process request. Please try again later or contact support.';
       setError(friendlyError);

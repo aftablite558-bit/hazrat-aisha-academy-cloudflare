@@ -38,9 +38,9 @@ export const GlassImageUpload = ({ label, value, onChange, path }: GlassImageUpl
         const url = await uploadImage(file, path);
         onChange(url);
         addToast('Image uploaded successfully.', 'info');
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('Error uploading image', error);
-        addToast(error?.message || 'Failed to upload image to Supabase Storage.', 'error');
+        addToast((error instanceof Error ? error.message : String(error)) || 'Failed to upload image to Supabase Storage.', 'error');
       } finally {
         setIsUploading(false);
         if (fileInputRef.current) fileInputRef.current.value = '';

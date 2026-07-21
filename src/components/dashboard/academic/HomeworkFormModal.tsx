@@ -11,7 +11,7 @@ import { Class, Subject, Teacher } from '../../../types/master';
 interface HomeworkFormModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: Record<string, unknown>) => Promise<void>;
   initialData?: Homework | null;
 }
 
@@ -40,7 +40,7 @@ export const HomeworkFormModal = ({ isOpen, onClose, onSubmit, initialData }: Ho
         subjectId: initialData.subjectId,
         teacherId: initialData.teacherId,
         dueDate: initialData.dueDate,
-        status: initialData.status
+        status: initialData.status || 'Active'
       });
     } else {
       setFormData({
@@ -96,7 +96,7 @@ export const HomeworkFormModal = ({ isOpen, onClose, onSubmit, initialData }: Ho
               name="classId" 
               value={formData.classId} 
               onChange={handleChange}
-              options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}
+              options={classes.map(c => ({ label: c.className || (c as { name?: string }).name, value: c.id }))}
               required
             />
             <GlassSelect 
@@ -104,7 +104,7 @@ export const HomeworkFormModal = ({ isOpen, onClose, onSubmit, initialData }: Ho
               name="subjectId" 
               value={formData.subjectId} 
               onChange={handleChange}
-              options={subjects.filter(s => s.classId === formData.classId).map(s => ({ label: s.subjectName || (s as any).name, value: s.id }))}
+              options={subjects.filter(s => s.classId === formData.classId).map(s => ({ label: s.subjectName || (s as { name?: string }).name, value: s.id }))}
               required
             />
             <GlassSelect 

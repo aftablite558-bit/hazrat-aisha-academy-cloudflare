@@ -26,7 +26,7 @@ export const StudentDetailsModal = ({ isOpen, onClose, student }: { isOpen: bool
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
-            <DetailItem label="Class" value={classes.find(c => c.id === student.classId)?.className || (classes.find(c => c.id === student.classId) as any)?.name || student.classId} />
+            <DetailItem label="Class" value={classes.find(c => c.id === student.classId)?.className || student.classId} />
             <DetailItem label="Roll No" value={student.rollNo} />
             <DetailItem label="Date of Birth" value={student.dob} />
             <DetailItem label="Gender" value={student.gender} />

@@ -40,9 +40,9 @@ export const ImageUpload = ({ value, onChange, folder }: ImageUploadProps) => {
       const url = await uploadImage(file, path);
       onChange(url);
       addToast('Photo uploaded successfully.', 'info');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Upload failed", error);
-      addToast(error?.message || 'Failed to upload image.', 'error');
+      addToast((error instanceof Error ? error.message : String(error)) || 'Failed to upload image.', 'error');
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';

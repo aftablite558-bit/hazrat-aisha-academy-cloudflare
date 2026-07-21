@@ -13,8 +13,8 @@ export function useCRUD<T extends { id: string }>(collectionName: string) {
       const result = await getCollection<T>(collectionName, params);
       setData(result);
       setError(null);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : String(err)));
     } finally {
       setLoading(false);
     }
@@ -29,8 +29,8 @@ export function useCRUD<T extends { id: string }>(collectionName: string) {
       const id = await createDocument(collectionName, newItem as Partial<T>);
       setData(prev => [...prev, { ...newItem, id } as T]);
       return id;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : String(err)));
       throw err;
     }
   };
@@ -39,8 +39,8 @@ export function useCRUD<T extends { id: string }>(collectionName: string) {
     try {
       await updateDocument(collectionName, id, updatedItem);
       setData(prev => prev.map(item => item.id === id ? { ...item, ...updatedItem } : item));
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : String(err)));
       throw err;
     }
   };
@@ -63,8 +63,8 @@ export function useCRUD<T extends { id: string }>(collectionName: string) {
       }
 
       setData(prev => prev.filter(item => item.id !== id));
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError((err instanceof Error ? err.message : String(err)));
       throw err;
     }
   };

@@ -52,7 +52,7 @@ export const AcademicCalendar = () => {
     if (selectedEvent?.id) {
       await updateRecord(selectedEvent.id, formData);
     } else {
-      await addRecord(formData as any);
+      await addRecord(formData);
     }
     setIsFormOpen(false);
   };

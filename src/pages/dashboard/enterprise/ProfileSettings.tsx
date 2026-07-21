@@ -9,7 +9,7 @@ import { User, Lock, Save, Camera } from 'lucide-react';
 import { api } from '../../../services/apiClient';
 
 export const ProfileSettings = () => {
-  const { profile, refreshProfile } = useAuth();
+  const { profile, loginUser } = useAuth();
   const { addToast } = useToast();
   
   const [formData, setFormData] = useState({
@@ -48,7 +48,7 @@ export const ProfileSettings = () => {
         phone: formData.phone,
       });
       addToast('Profile updated successfully', 'success');
-      refreshProfile();
+      loginUser({ ...profile, id: profile.uid, email: profile.email || '', displayName: formData.displayName, phone: formData.phone });
     } catch (err) {
       addToast('Failed to update profile', 'danger');
     } finally {

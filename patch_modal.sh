@@ -1,2 +1,1 @@
-sed -i '82,94c\
-          options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}' src/components/dashboard/master/StudentFormModal.tsx
+sed -i 's/status: initialData.status/status: (initialData as any).status || '"'"'Active'"'"'/g' src/components/dashboard/academic/HomeworkFormModal.tsx

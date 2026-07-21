@@ -75,8 +75,8 @@ export const Homework = () => {
     await updateRecord(hw.id, { isPublished: !hw.isPublished });
   };
 
-  const getClassName = (id: string) => classes.find(c => c.id === id)?.className || (classes.find(c => c.id === id) as any)?.name || 'Unknown';
-  const getSubjectName = (id: string) => subjects.find(s => s.id === id)?.subjectName || (subjects.find(s => s.id === id) as any)?.name || 'Unknown';
+  const getClassName = (id: string) => classes.find(c => c.id === id)?.className || 'Unknown';
+  const getSubjectName = (id: string) => subjects.find(s => s.id === id)?.subjectName || 'Unknown';
 
   return (
     <div className="space-y-6">

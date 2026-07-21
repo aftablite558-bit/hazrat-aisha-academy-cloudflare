@@ -97,7 +97,7 @@ export const Results = () => {
         if (existing) {
           await updateRecord(existing.id, calcData);
         } else {
-          await addRecord(calcData as any);
+          await addRecord(calcData);
         }
       }
       await fetchData();
@@ -140,7 +140,7 @@ export const Results = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <GlassSelect label="Class" value={classId} onChange={e => setClassId(e.target.value)}>
             <option value="">Select Class</option>
-            {classes.map(c => <option key={c.id} value={c.id}>{c.className || (c as any).name}</option>)}
+            {classes.map(c => <option key={c.id} value={c.id}>{c.className || (c as { name?: string }).name}</option>)}
           </GlassSelect>
           <GlassSelect label="Exam" value={examName} onChange={e => setExamName(e.target.value)}>
             <option value="">Select Exam</option>

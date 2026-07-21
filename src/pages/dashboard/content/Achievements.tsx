@@ -52,7 +52,7 @@ export const Achievements = () => {
     if (selectedAchievement?.id) {
       await updateRecord(selectedAchievement.id, formData);
     } else {
-      await addRecord(formData as any);
+      await addRecord(formData);
     }
     setIsFormOpen(false);
   };

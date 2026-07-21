@@ -20,7 +20,7 @@ export const Staff = () => {
 
   const filteredStaff = useMemo(() => {
     return staffList.filter(s => 
-      (s.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (((s as { name?: string }).name || "")).toLowerCase().includes(searchTerm.toLowerCase()) ||
       (s.employeeId || "").toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [staffList, searchTerm]);

@@ -53,7 +53,7 @@ export const Facilities = () => {
     if (selectedFacility?.id) {
       await updateRecord(selectedFacility.id, formData);
     } else {
-      await addRecord(formData as any);
+      await addRecord(formData);
     }
     setIsFormOpen(false);
   };

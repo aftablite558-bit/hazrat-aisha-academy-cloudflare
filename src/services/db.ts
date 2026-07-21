@@ -1,7 +1,7 @@
 import { api } from './apiClient';
 
 export const getCollection = async <T>(collectionName: string, params: Record<string, string | number> = {}): Promise<T[]> => {
-  const query = new URLSearchParams(params as any).toString();
+  const query = new URLSearchParams(Object.entries(params).map(([k, v]) => [k, String(v)])).toString();
   return await api.get(`/collection/${collectionName}${query ? '?' + query : ''}`);
 };
 

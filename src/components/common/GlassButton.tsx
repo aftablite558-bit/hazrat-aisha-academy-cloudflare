@@ -1,8 +1,8 @@
-import { motion } from 'motion/react';
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { motion, HTMLMotionProps } from 'motion/react';
+import { ReactNode } from 'react';
 import { cn } from '../../utils/index';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends HTMLMotionProps<'button'> {
   variant?: 'primary' | 'glass' | 'ghost' | 'outline';
   children: ReactNode;
 }
@@ -21,7 +21,7 @@ export const GlassButton = ({ variant = 'primary', className, children, ...props
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className={cn('px-8 py-3.5 rounded-full font-medium transition-all duration-300 flex items-center justify-center gap-2', variants[variant], className)}
-      {...props as any}
+      {...props}
     >
       {variant === 'primary' && (
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />

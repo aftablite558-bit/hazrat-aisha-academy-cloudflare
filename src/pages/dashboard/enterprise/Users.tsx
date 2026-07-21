@@ -28,7 +28,7 @@ export const Users = () => {
   const [formEmail, setFormEmail] = useState('');
   const [formPassword, setFormPassword] = useState('');
   const [formRole, setFormRole] = useState<UserRole>('teacher');
-  const [formStatus, setFormStatus] = useState<'active' | 'inactive' | 'suspended'>('active');
+  const [formStatus, setFormStatus] = useState<UserProfile['status']>('active');
   const [hasMore, setHasMore] = useState(true);
 
   const fetchUsers = useCallback(async (loadMore: boolean = false) => {
@@ -37,7 +37,7 @@ export const Users = () => {
       const profiles = await api.get('/collection/users');
       setUsers(profiles);
       setHasMore(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to fetch users:', err);
       addToast('Failed to load user list', 'danger');
     } finally {
@@ -59,7 +59,7 @@ export const Users = () => {
     setShowModal(true);
   };
 
-  const handleOpenEdit = (user: any) => {
+  const handleOpenEdit = (user: UserProfile) => {
     setEditingUserId(user.id || user.uid);
     setFormName(user.displayName || user.username || '');
     setFormEmail(user.email || '');
@@ -68,7 +68,7 @@ export const Users = () => {
     setShowModal(true);
   };
 
-  const handleOpenPasswordReset = (user: any) => {
+  const handleOpenPasswordReset = (user: UserProfile) => {
     setEditingUserId(user.id || user.uid);
     setFormPassword('');
     setShowPasswordModal(true);
@@ -116,7 +116,7 @@ export const Users = () => {
 
       setShowModal(false);
       await fetchUsers(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to save user:', err);
       addToast('Failed to save user profile', 'danger');
     } finally {
@@ -247,7 +247,7 @@ export const Users = () => {
                 </td>
               </tr>
             ) : (
-              users.map((u: any) => (
+              users.map((u: UserProfile) => (
                 <tr key={u.id || u.uid}>
                   <td className="font-semibold text-primary-500">{u.displayName || u.username || 'Unnamed User'}</td>
                   <td>{u.email}</td>
@@ -380,7 +380,7 @@ export const Users = () => {
                 <GlassSelect 
                   label="Status *" 
                   value={formStatus} 
-                  onChange={(e) => setFormStatus(e.target.value as any)} 
+                  onChange={(e) => setFormStatus(e.target.value as UserProfile['status'])} 
                   disabled={submitting}
                 >
                   <option value="active" className="bg-slate-50 dark:bg-slate-900">Active</option>

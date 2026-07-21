@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
   const { theme, toggleTheme } = useTheme();
-  const { profile, logout } = useAuth();
+  const { profile, logoutUser } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -108,7 +108,7 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
                 </button>
                 <button 
                   className="w-full text-left px-4 py-2 text-sm hover:bg-white/10 rounded-xl flex items-center gap-3 transition-colors text-danger-500"
-                  onClick={logout}
+                  onClick={logoutUser}
                 >
                   <LogOut size={16} /> Logout
                 </button>

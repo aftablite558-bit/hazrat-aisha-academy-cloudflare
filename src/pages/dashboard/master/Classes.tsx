@@ -20,7 +20,7 @@ export const Classes = () => {
 
   const filteredClasses = useMemo(() => {
     return classList.filter(c => 
-      (c.className || (c as any).name || '').toLowerCase().includes(searchTerm.toLowerCase())
+      (c.className || (c as { name?: string }).name || '').toLowerCase().includes(searchTerm.toLowerCase())
     ).sort((a, b) => a.order - b.order);
   }, [classList, searchTerm]);
 

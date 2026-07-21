@@ -60,9 +60,9 @@ export const FileUpload = ({ value, onChange, folder, accept = "image/*,applicat
       const url = await uploadImage(file, path);
       onChange(url);
       addToast('File uploaded successfully.', 'info');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Upload failed", error);
-      addToast(error?.message || 'Failed to upload file to Supabase Storage.', 'error');
+      addToast((error instanceof Error ? error.message : String(error)) || 'Failed to upload file to Supabase Storage.', 'error');
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';

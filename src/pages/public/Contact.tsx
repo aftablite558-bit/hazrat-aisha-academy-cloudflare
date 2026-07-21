@@ -22,7 +22,7 @@ export const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await addRecord({ ...formData, status: 'Pending' } as any);
+      await addRecord({ ...formData, status: 'Pending' });
       alert('Your message has been sent successfully. We will get back to you soon.');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     } catch (error) {

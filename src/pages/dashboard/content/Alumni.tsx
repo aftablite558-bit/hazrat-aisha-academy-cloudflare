@@ -53,7 +53,7 @@ export const Alumni = () => {
     if (selectedAlumni?.id) {
       await updateRecord(selectedAlumni.id, formData);
     } else {
-      await addRecord(formData as any);
+      await addRecord(formData);
     }
     setIsFormOpen(false);
   };

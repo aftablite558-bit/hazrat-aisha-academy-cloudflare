@@ -94,9 +94,9 @@ export const BackupRestore = () => {
       } else {
         throw new Error(result.error || 'Unknown error during restore');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      addToast(`Restore failed: ${error.message}`, 'danger');
+      addToast(`Restore failed: ${(error instanceof Error ? error.message : String(error))}`, 'danger');
     } finally {
       setRestoring(false);
       setFileInputKey(Date.now()); // Reset input

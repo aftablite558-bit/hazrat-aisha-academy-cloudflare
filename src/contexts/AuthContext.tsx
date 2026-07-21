@@ -1,13 +1,13 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { UserProfile } from '../types';
+import { UserProfile, UserRole } from '../types';
 import { authService } from '../services/auth';
 import { logAction } from '../services/auditService';
 
 interface AuthContextType {
-  user: any | null;
+  user: (Record<string, unknown> & { id: string, email: string, username?: string, role?: string, displayName?: string }) | null;
   profile: UserProfile | null;
   loading: boolean;
-  loginUser: (userData: any) => void;
+  loginUser: (userData: Record<string, unknown> & { id: string, email: string, username?: string, role?: string }) => void;
   logoutUser: () => Promise<void>;
 }
 
@@ -21,7 +21,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<(Record<string, unknown> & { id: string, email: string, username?: string, role?: string, displayName?: string }) | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           uid: parsed.id,
           email: parsed.email,
           displayName: parsed.username || parsed.email,
-          role: parsed.role?.toLowerCase() || 'user',
+          role: (parsed.role?.toLowerCase() as UserRole) || 'user',
         });
       } catch (e) {
         localStorage.removeItem('erp_user');
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
   }, []);
 
-  const loginUser = (userData: any) => {
+  const loginUser = (userData: Record<string, unknown> & { id: string, email: string, username?: string, role?: string }) => {
     localStorage.setItem('erp_user', JSON.stringify(userData));
     setUser(userData);
     logAction('Login', 'Authentication', userData.username || userData.email, 'User logged in');
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       uid: userData.id,
       email: userData.email,
       displayName: userData.username || userData.email,
-      role: userData.role?.toLowerCase() || 'user',
+      role: (userData.role?.toLowerCase() as UserRole) || 'user',
     });
   };
 

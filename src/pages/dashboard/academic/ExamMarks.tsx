@@ -59,7 +59,7 @@ export const ExamMarks = () => {
     }
   }, [filteredStudents, examMarks, examName, classId, subjectId]);
 
-  const handleDataChange = (studentId: string, field: 'obtainedMarks' | 'grade' | 'remarks', value: any) => {
+  const handleDataChange = (studentId: string, field: 'obtainedMarks' | 'grade' | 'remarks', value: string | number) => {
     setMarksData(prev => ({
       ...prev,
       [studentId]: {
@@ -95,7 +95,7 @@ export const ExamMarks = () => {
         if (existing) {
           await updateRecord(existing.id, recordToSave);
         } else {
-          await addRecord(recordToSave as any);
+          await addRecord(recordToSave);
         }
       }
       await fetchData();
@@ -121,13 +121,13 @@ export const ExamMarks = () => {
             label="Class" 
             value={classId} 
             onChange={e => setClassId(e.target.value)}
-            options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}
+            options={classes.map(c => ({ label: c.className || (c as { name?: string }).name, value: c.id }))}
           />
           <GlassSelect 
             label="Subject" 
             value={subjectId} 
             onChange={e => setSubjectId(e.target.value)}
-            options={subjects.filter(s => s.classId === classId).map(s => ({ label: s.subjectName || (s as any).name, value: s.id }))}
+            options={subjects.filter(s => s.classId === classId).map(s => ({ label: s.subjectName || (s as { name?: string }).name, value: s.id }))}
           />
           <GlassInput 
             type="number" 

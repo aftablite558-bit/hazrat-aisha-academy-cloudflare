@@ -58,9 +58,9 @@ export const Settings = () => {
           await api.post('/initialize', { collections: collectionsToInit });
           
           addToast("System initialized successfully.", 'success');
-        } catch (err: any) {
+        } catch (err: unknown) {
           console.error('[DEBUG] Failed to initialize system:', err);
-          addToast(`Failed to initialize system: ${err.message}`, 'danger');
+          addToast(`Failed to initialize system: ${(err instanceof Error ? err.message : String(err))}`, 'danger');
         }
       }
     };
@@ -105,10 +105,10 @@ export const Settings = () => {
     e.preventDefault();
     try {
       if (settingsData.length > 0 && settingsData[0].id) {
-        const { id, createdAt, updatedAt, ...rest } = formData as any;
+        const { id, createdAt, updatedAt, ...rest } = formData as Record<string, unknown>;
         await updateRecord(settingsData[0].id, rest);
       } else {
-        await addRecord(formData as any);
+        await addRecord(formData);
       }
       addToast("Settings saved successfully.", 'success');
       logAction('Edit', 'Settings', profile?.displayName || 'Admin', 'Updated system settings');

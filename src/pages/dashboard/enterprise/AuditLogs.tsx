@@ -40,10 +40,10 @@ export const AuditLogs = () => {
     }
   };
 
-  const getActionColor = (action: string) => {
+  const getActionColor = (action: string): 'success' | 'warning' | 'danger' | 'default' | 'primary' => {
     switch (action) {
       case 'Login': case 'Publish': return 'success';
-      case 'Logout': return 'amber';
+      case 'Logout': return 'warning';
       case 'Delete': return 'danger';
       case 'Edit': return 'default';
       default: return 'primary';
@@ -82,7 +82,7 @@ export const AuditLogs = () => {
                 <td>
                   <div className="flex items-center gap-2">
                     {getActionIcon(l.action)}
-                    <GlassBadge variant={getActionColor(l.action) as any}>{l.action}</GlassBadge>
+                    <GlassBadge variant={getActionColor(l.action)}>{l.action}</GlassBadge>
                   </div>
                 </td>
                 <td className="font-mono text-sm">{l.module}</td>

@@ -59,7 +59,7 @@ export const ExamSchedule = () => {
     if (selectedSchedule?.id) {
       await updateRecord(selectedSchedule.id, formData);
     } else {
-      await addRecord(formData as any);
+      await addRecord(formData);
     }
     setIsFormOpen(false);
   };
@@ -88,7 +88,7 @@ export const ExamSchedule = () => {
             onChange={(e) => { setFilterClass(e.target.value); setCurrentPage(1); }}
             options={[
               { value: '', label: 'All Classes' },
-              ...classes.map(c => ({ value: c.id, label: c.className || (c as any).name }))
+              ...classes.map(c => ({ value: c.id, label: c.className || (c as { name?: string }).name }))
             ]}
           />
         </div>
@@ -139,7 +139,7 @@ export const ExamSchedule = () => {
                   </td>
                   <td>{s.roomNumber}</td>
                   <td>
-                    <GlassBadge variant={getStatusColor(s.status) as any}>{s.status}</GlassBadge>
+                    <GlassBadge variant={getStatusColor(s.status)}>{s.status}</GlassBadge>
                   </td>
                   <td>
                     <div className="flex justify-end gap-2">
@@ -168,7 +168,7 @@ export const ExamSchedule = () => {
               onChange={e => setFormData({...formData, classId: e.target.value})}
               options={[
                 { value: '', label: 'Select Class' },
-                ...classes.map(c => ({ value: c.id, label: c.className || (c as any).name }))
+                ...classes.map(c => ({ value: c.id, label: c.className || (c as { name?: string }).name }))
               ]}
             />
             
@@ -179,7 +179,7 @@ export const ExamSchedule = () => {
               onChange={e => setFormData({...formData, subjectId: e.target.value})}
               options={[
                 { value: '', label: 'Select Subject' },
-                ...subjects.map(s => ({ value: s.id, label: s.subjectName || (s as any).name }))
+                ...subjects.map(s => ({ value: s.id, label: s.subjectName || (s as { name?: string }).name }))
               ]}
             />
             
@@ -192,7 +192,7 @@ export const ExamSchedule = () => {
             <GlassSelect 
               label="Status" 
               value={formData.status} 
-              onChange={e => setFormData({...formData, status: e.target.value as any})}
+              onChange={e => setFormData({...formData, status: e.target.value as 'Scheduled' | 'Completed' | 'Cancelled'})}
               options={[
                 { value: 'Scheduled', label: 'Scheduled' },
                 { value: 'Completed', label: 'Completed' },

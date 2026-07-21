@@ -52,7 +52,7 @@ export const Testimonials = () => {
     if (selectedTestimonial?.id) {
       await updateRecord(selectedTestimonial.id, formData);
     } else {
-      await addRecord(formData as any);
+      await addRecord(formData);
     }
     setIsFormOpen(false);
   };

@@ -10,13 +10,13 @@ import {
 
 export { uploadImage, deleteImage };
 
-export const getCollection = async <T extends BaseEntity>(collectionName: string, params?: Record<string, any>): Promise<T[]> => {
+export const getCollection = async <T extends BaseEntity>(collectionName: string, params?: Record<string, string | number>): Promise<T[]> => {
   try {
     const result = await dbGetCollection<T>(collectionName, params);
     // Sort by createdAt desc locally so that it matches the original orderBy('createdAt', 'desc') behavior
     return result.sort((a, b) => {
-      const dateA = a.createdAt ? new Date(a.createdAt as any).getTime() : 0;
-      const dateB = b.createdAt ? new Date(b.createdAt as any).getTime() : 0;
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
       return dateB - dateA;
     });
   } catch (error) {
@@ -36,7 +36,7 @@ export const getDocument = async <T extends BaseEntity>(collectionName: string, 
 
 export const addDocument = async <T extends Omit<BaseEntity, 'id'>>(collectionName: string, data: T): Promise<string> => {
   try {
-    return await dbCreateDocument<any>(collectionName, data);
+    return await dbCreateDocument<T>(collectionName, data);
   } catch (error) {
     console.error('Error in masterDataService.addDocument:', error);
     throw error;
@@ -45,7 +45,7 @@ export const addDocument = async <T extends Omit<BaseEntity, 'id'>>(collectionNa
 
 export const updateDocument = async <T extends Partial<BaseEntity>>(collectionName: string, id: string, data: T): Promise<void> => {
   try {
-    return await dbUpdateDocument<any>(collectionName, id, data);
+    return await dbUpdateDocument<T>(collectionName, id, data);
   } catch (error) {
     console.error('Error in masterDataService.updateDocument:', error);
   }

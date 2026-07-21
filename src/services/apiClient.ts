@@ -19,7 +19,7 @@ export const api = {
     }
     return json;
   },
-  post: async (path: string, body: any) => {
+  post: async (path: string, body: unknown) => {
     const res = await fetch(`${API_BASE}${path}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

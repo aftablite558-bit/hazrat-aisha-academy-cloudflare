@@ -53,7 +53,7 @@ export const Login = () => {
         setError(response.message || 'Login failed');
         addToast(response.message || 'Login failed', 'danger');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError('Login failed. Please try again.');
       addToast('Login failed. Please try again.', 'danger');
     } finally {

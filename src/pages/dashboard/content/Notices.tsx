@@ -63,7 +63,7 @@ export const Notices = () => {
     if (selectedNotice?.id) {
       await updateRecord(selectedNotice.id, formData);
     } else {
-      await addRecord({ ...formData, createdBy: profile?.uid || 'System' } as any);
+      await addRecord({ ...formData, createdBy: profile?.uid || 'System' });
     }
     setIsFormOpen(false);
   };
@@ -150,7 +150,7 @@ export const Notices = () => {
             </GlassSelect>
             <GlassInput required type="date" label="Publish Date" value={formData.publishDate} onChange={e => setFormData({...formData, publishDate: e.target.value})} />
             <GlassInput type="date" label="Expiry Date (Optional)" value={formData.expiryDate} onChange={e => setFormData({...formData, expiryDate: e.target.value})} />
-            <GlassSelect required label="Priority" value={formData.priority} onChange={e => setFormData({...formData, priority: e.target.value as any})}>
+            <GlassSelect required label="Priority" value={formData.priority} onChange={e => setFormData({...formData, priority: e.target.value as 'High' | 'Normal' | 'Low'})}>
               <option value="Low">Low</option>
               <option value="Normal">Normal</option>
               <option value="High">High</option>

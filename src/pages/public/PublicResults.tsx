@@ -8,7 +8,7 @@ import { GlassButton } from '../../components/common/GlassButton';
 import { GlassBadge } from '../../components/common/GlassBadge';
 import { useMasterData } from '../../hooks/useMasterData';
 import { Result } from '../../types/academic';
-import { Student, Class, Section } from '../../types/master';
+import { Student, Class } from '../../types/master';
 import { Search, Award, BookOpen, GraduationCap } from 'lucide-react';
 import { motion } from 'motion/react';
 

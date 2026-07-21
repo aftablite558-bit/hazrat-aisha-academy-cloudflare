@@ -79,7 +79,7 @@ export const StudentFormModal = ({ isOpen, onClose, onSubmit, initialData }: Stu
           <GlassInput required label="Mother's Name" name="motherName" value={formData.motherName} onChange={handleChange} />
         <GlassSelect 
           required label="Class" name="classId" value={formData.classId} onChange={handleChange}
-          options={classes.map(c => ({ label: c.className || (c as any).name, value: c.id }))}
+          options={classes.map(c => ({ label: c.className || (c as { name?: string }).name, value: c.id }))}
         />
           <GlassInput required type="tel" label="Phone" name="phone" value={formData.phone} onChange={handleChange} />
           <GlassInput required type="date" label="Admission Date" name="admissionDate" value={formData.admissionDate} onChange={handleChange} />

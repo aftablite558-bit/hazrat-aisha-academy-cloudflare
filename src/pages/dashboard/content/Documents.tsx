@@ -53,7 +53,7 @@ export const Documents = () => {
     if (selectedDoc?.id) {
       await updateRecord(selectedDoc.id, formData);
     } else {
-      await addRecord(formData as any);
+      await addRecord(formData);
     }
     setIsFormOpen(false);
   };

@@ -1,3 +1,5 @@
+import { BaseEntity, Class, Student } from '../../../types/master';
+import { SystemSettings } from '../../../types';
 import { useState, useMemo, useEffect } from 'react';
 import { useToast } from '../../../contexts/ToastContext';
 import { PageHeader } from '../../../components/common/PageHeader';
@@ -15,13 +17,13 @@ export const Reports = () => {
   const { addToast } = useToast();
   
   // Collections
-  const { data: classes } = useMasterData('classes');
-  const { data: students } = useMasterData('students');
+  const { data: classes } = useMasterData<Class>('classes');
+  const { data: students } = useMasterData<Student>('students');
   const { data: attendances } = useMasterData('attendance');
   const { data: results } = useMasterData('results');
   const { data: fees } = useMasterData('fees');
   const { data: admissions } = useMasterData('admissions');
-  const { data: settings } = useMasterData('settings');
+  const { data: settings } = useMasterData<SystemSettings>('settings');
 
   const [reportType, setReportType] = useState('students');
   const [dateRange, setDateRange] = useState('all');
@@ -38,25 +40,25 @@ export const Reports = () => {
   ];
 
   const getFilteredData = () => {
-    let data: any[] = [];
+    let data: unknown[] = [];
     if (reportType === 'students') data = students || [];
     if (reportType === 'attendance') data = attendances || [];
     if (reportType === 'results') data = results || [];
     if (reportType === 'admissions') data = admissions || [];
     if (reportType === 'fees') data = fees || [];
 
-    return data.filter((item: any) => {
+    return data.filter((item: unknown) => {
       let matches = true;
 
       // Class Filter
       if (classFilter !== 'all') {
-        if (item.classId) matches = matches && item.classId === classFilter;
-        else if (item.classApplied) matches = matches && item.classApplied === classFilter;
+        if ((item as Record<string, string>).classId) matches = matches && (item as Record<string, string>).classId === classFilter;
+        else if ((item as Record<string, string>).classApplied) matches = matches && (item as Record<string, string>).classApplied === classFilter;
       }
 
       // Status Filter
       if (statusFilter !== 'all') {
-        if (item.status) matches = matches && item.status.toLowerCase() === statusFilter.toLowerCase();
+        if ((item as Record<string, string>).status) matches = matches && (item as Record<string, string>).status.toLowerCase() === statusFilter.toLowerCase();
       }
 
       // Search Filter
@@ -68,9 +70,9 @@ export const Reports = () => {
 
       // Date Filter
       if (dateRange !== 'all') {
-        let itemDate = item.createdAt || item.date || item.dueDate;
+        let itemDate = (item as Record<string, string>).createdAt || (item as Record<string, string>).date || (item as Record<string, string>).dueDate;
         if (itemDate) {
-          const d = new Date(itemDate);
+          const d = new Date(itemDate as string);
           const now = new Date();
           if (dateRange === 'today') {
             matches = matches && d.toDateString() === now.toDateString();
@@ -95,19 +97,19 @@ export const Reports = () => {
     return [];
   };
 
-  const getTableRows = (data: any[]) => {
-    const getClass = (id: string) => classes?.find((c: any) => c.id === id)?.className || id || 'N/A';
-    const getStudent = (id: string) => students?.find((s: any) => s.id === id)?.fullName || id || 'N/A';
+  const getTableRows = (data: unknown[]) => {
+    const getClass = (id: string) => classes.find(c => c.id === id)?.className || id || 'N/A';
+    const getStudent = (id: string) => students.find(s => s.id === id)?.fullName || id || 'N/A';
 
-    if (reportType === 'students') return data.map(item => [item.admissionNo, item.rollNo, item.fullName, getClass(item.classId), item.gender, item.phone, item.status]);
-    if (reportType === 'attendance') return data.map(item => [item.date, getClass(item.classId), getStudent(item.studentId), item.status]);
-    if (reportType === 'results') return data.map(item => [item.examName, getStudent(item.studentId), getClass(item.classId), item.totalObtainedMarks, item.grade]);
-    if (reportType === 'admissions') return data.map(item => [item.admissionNumber, item.studentName, getClass(item.classApplied), item.parentPhone, item.status]);
-    if (reportType === 'fees') return data.map(item => [item.receiptNumber, item.studentName || getStudent(item.studentId), getClass(item.classId), item.amount, item.dueDate || item.date, item.status]);
+    if (reportType === 'students') return data.map(item => [(item as Record<string, unknown>).admissionNo as string, (item as Record<string, unknown>).rollNo as string, (item as Record<string, unknown>).fullName as string, getClass((item as Record<string, string>).classId), (item as Record<string, unknown>).gender as string, (item as Record<string, unknown>).phone as string, (item as Record<string, string>).status]);
+    if (reportType === 'attendance') return data.map(item => [(item as Record<string, string>).date, getClass((item as Record<string, string>).classId), getStudent((item as Record<string, unknown>).studentId as string), (item as Record<string, string>).status]);
+    if (reportType === 'results') return data.map(item => [(item as Record<string, unknown>).examName as string, getStudent((item as Record<string, unknown>).studentId as string), getClass((item as Record<string, string>).classId), (item as Record<string, unknown>).totalObtainedMarks as string, (item as Record<string, unknown>).grade as string]);
+    if (reportType === 'admissions') return data.map(item => [(item as Record<string, unknown>).admissionNumber as string, (item as Record<string, unknown>).studentName as string, getClass((item as Record<string, string>).classApplied), (item as Record<string, unknown>).parentPhone as string, (item as Record<string, string>).status]);
+    if (reportType === 'fees') return data.map(item => [(item as Record<string, unknown>).receiptNumber as string, (item as Record<string, unknown>).studentName as string || getStudent((item as Record<string, unknown>).studentId as string), getClass((item as Record<string, string>).classId), (item as Record<string, unknown>).amount as string, (item as Record<string, string>).dueDate || (item as Record<string, string>).date, (item as Record<string, string>).status]);
     return [];
   };
 
-  const schoolName = settings?.[0]?.schoolName || 'Hazrat Aisha Academy';
+  const schoolName = settings[0]?.schoolName || 'Hazrat Aisha Academy';
 
   const handleGenerate = (format: 'pdf' | 'excel' | 'print') => {
     const filteredData = getFilteredData();
@@ -128,7 +130,7 @@ export const Reports = () => {
       doc.setTextColor(100);
       doc.text(`Generated: ${dateStr}`, 14, 29);
       
-      (doc as any).autoTable({
+      (doc as jsPDF & { autoTable: (options: unknown) => unknown }).autoTable({
         startY: 35,
         head: [columns],
         body: rows,
@@ -180,7 +182,7 @@ export const Reports = () => {
             
             <GlassSelect label="Filter by Class" value={classFilter} onChange={(e) => setClassFilter(e.target.value)}>
               <option value="all">All Classes</option>
-              {classes?.map((c: any) => <option key={c.id} value={c.id}>{c.className || c.name}</option>)}
+              {classes?.map((c: Class) => <option key={c.id} value={c.id}>{c.className || (c as unknown as Record<string, string>).name}</option>)}
             </GlassSelect>
 
             <GlassSelect label="Status" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
@@ -226,7 +228,7 @@ export const Reports = () => {
                   <tbody>
                     {rows.slice(0, 10).map((r, i) => (
                       <tr key={i} className="border-b border-white/5">
-                        {r.map((cell: any, j: number) => <td key={j} className="p-2 whitespace-nowrap">{cell}</td>)}
+                        {r.map((cell: React.ReactNode, j: number) => <td key={j} className="p-2 whitespace-nowrap">{cell}</td>)}
                       </tr>
                     ))}
                   </tbody>

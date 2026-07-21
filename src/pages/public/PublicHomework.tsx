@@ -5,7 +5,7 @@ import { GlassCard } from '../../components/common/GlassCard';
 import { GlassSelect } from '../../components/common/GlassSelect';
 import { useMasterData } from '../../hooks/useMasterData';
 import { Homework } from '../../types/academic';
-import { Class, Section, Subject, Teacher } from '../../types/master';
+import { Class, Subject, Teacher } from '../../types/master';
 import { FileText, Calendar, Clock, User } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -24,7 +24,7 @@ export const PublicHomework = () => {
   const filteredHomework = useMemo(() => {
     return publishedHomework.filter(hw => {
       const matchClass = classId ? hw.classId === classId : true;
-      return matchClass && matchSection;
+      return matchClass;
     }).sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
   }, [publishedHomework, classId]);
 
