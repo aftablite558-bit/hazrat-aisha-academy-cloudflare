@@ -23,13 +23,22 @@ export const PublicResults = () => {
   
   const [hasSearched, setHasSearched] = useState(false);
   const [searchResult, setSearchResult] = useState<any>(null);
+  const [isSearching, setIsSearching] = useState(false);
 
   const publishedResults = useMemo(() => {
     return results.filter(r => r.isPublished);
   }, [results]);
 
   const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
+    
+    setIsSearching(true);
+    setTimeout(() => {
+      performSearch();
+      setIsSearching(false);
+    }, 800);
+  };
+  const performSearch = () => {
+    
     if (studentName.trim() && classId && rollNo.trim()) {
       const student = students.find(s => 
         s.fullName.toLowerCase() === studentName.trim().toLowerCase() &&
@@ -108,7 +117,11 @@ export const PublicResults = () => {
           </form>
         </GlassCard>
 
-        {hasSearched && (
+        {isSearching ? (
+          <div className="flex justify-center p-12">
+            <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        ) : hasSearched && (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

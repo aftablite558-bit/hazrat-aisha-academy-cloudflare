@@ -31,10 +31,14 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
     if (profile?.role === 'teacher') {
       return [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/teacher' },
+        { icon: Users, label: 'My Classes', path: '/teacher/classes' },
         { icon: ClipboardList, label: 'Attendance', path: '/teacher/attendance' },
         { icon: Book, label: 'Homework', path: '/teacher/homework' },
-        { icon: PenTool, label: 'Exam Marks', path: '/teacher/exam-marks' },
-        { icon: BookMarked, label: 'Results', path: '/teacher/results' },
+        { icon: BookMarked, label: 'Result Entry', path: '/teacher/results' },
+        { icon: Calendar, label: 'Timetable', path: '/teacher/timetable' },
+        { icon: FileText, label: 'Leave Management', path: '/teacher/leave' },
+        { icon: Bell, label: 'Notifications', path: '/teacher/notifications' },
+        { icon: UserCircle, label: 'My Profile', path: '/teacher/profile' },
       ];
     }
     

@@ -13,3 +13,4 @@ export interface UserProfile {
   username?: string;
 }
 export * from './enterprise';
+export * from './finance';

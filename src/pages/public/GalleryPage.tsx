@@ -35,10 +35,16 @@ export const GalleryPage = () => {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (lightboxIndex !== null) {
-        if (e.key === 'ArrowRight') handleNext();
-        if (e.key === 'ArrowLeft') handlePrev();
-        if (e.key === 'Escape') setLightboxIndex(null);
+      if (lightboxIndex !== null && selectedAlbum?.images && selectedAlbum.images.length > 0) {
+        if (e.key === 'ArrowRight') {
+          setLightboxIndex(prev => prev !== null ? (prev + 1) % selectedAlbum.images.length : null);
+        }
+        if (e.key === 'ArrowLeft') {
+          setLightboxIndex(prev => prev !== null ? (prev - 1 + selectedAlbum.images.length) % selectedAlbum.images.length : null);
+        }
+        if (e.key === 'Escape') {
+          setLightboxIndex(null);
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);

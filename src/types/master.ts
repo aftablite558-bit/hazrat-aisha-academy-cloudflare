@@ -1,5 +1,7 @@
 export type EntityStatus = 'Active' | 'Inactive';
 
+export type StudentExtendedStatus = 'Active' | 'Inactive' | 'Transferred' | 'Alumni' | 'Dropped' | 'Graduated';
+
 export type SchoolClass = 
   | 'Baby' | 'Nursery' | 'LKG' | 'UKG' 
   | 'Class 1' | 'Class 2' | 'Class 3' | 'Class 4' | 'Class 5' | 'Class 6' | 'Class 7' | 'Class 8';
@@ -10,11 +12,40 @@ export interface BaseEntity {
   updatedAt?: string;
 }
 
+export interface StudentDocument {
+  id: string;
+  type: 'Birth Certificate' | 'Aadhaar' | 'Transfer Certificate' | 'Report Card' | 'Medical Certificate' | 'Photo' | 'Other';
+  name: string;
+  url: string;
+  uploadedAt: string;
+  size?: string;
+}
+
+export interface StudentTimelineEvent {
+  id: string;
+  title: string;
+  description: string;
+  type: 'Admission' | 'Promotion' | 'Result' | 'Fee Payment' | 'Certificate' | 'Discipline' | 'General';
+  date: string;
+  author?: string;
+}
+
+export interface StudentPromotionRecord {
+  id: string;
+  fromClass: string;
+  toClass: string;
+  fromSession: string;
+  toSession: string;
+  date: string;
+  promotedBy?: string;
+  remarks?: string;
+}
+
 export interface Student extends BaseEntity {
   admissionNo: string;
   rollNo: string;
   fullName: string;
-  gender: string;
+  gender: string; // 'Male' | 'Female' | 'Other'
   dob: string;
   fatherName: string;
   motherName: string;
@@ -22,8 +53,25 @@ export interface Student extends BaseEntity {
   phone: string;
   address: string;
   photoUrl: string;
-  status: EntityStatus;
+  status: EntityStatus | StudentExtendedStatus;
   admissionDate: string;
+  
+  // Phase 7 Extended Fields
+  section?: string;
+  house?: string;
+  academicSession?: string;
+  bloodGroup?: string;
+  aadhaar?: string;
+  category?: string; // 'General' | 'OBC' | 'SC' | 'ST' | 'EWS'
+  religion?: string; // 'Islam' | 'Hinduism' | 'Christianity' | 'Sikhism' | 'Other'
+  guardianName?: string;
+  fatherOccupation?: string;
+  altMobile?: string;
+  email?: string;
+  emergencyContact?: string;
+  documents?: StudentDocument[];
+  timeline?: StudentTimelineEvent[];
+  promotionHistory?: StudentPromotionRecord[];
 }
 
 export interface Teacher extends BaseEntity {
