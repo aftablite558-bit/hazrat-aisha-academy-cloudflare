@@ -6,6 +6,8 @@ import { GlassButton } from '../../../components/common/GlassButton';
 import { GlassBadge } from '../../../components/common/GlassBadge';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { Homework as HomeworkType } from '../../../types/academic';
 import { Class, Subject, Student } from '../../../types/master';
@@ -80,6 +82,9 @@ export const Homework = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Homework Management" description="Manage class assignments and publish homework." />
       
       <GlassCard className="p-6">

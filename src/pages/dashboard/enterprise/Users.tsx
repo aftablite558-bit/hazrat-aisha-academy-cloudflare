@@ -7,6 +7,8 @@ import { GlassBadge } from '../../../components/common/GlassBadge';
 import { GlassButton } from '../../../components/common/GlassButton';
 import { GlassInput } from '../../../components/common/GlassInput';
 import { GlassSelect } from '../../../components/common/GlassSelect';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useAuth } from '../../../contexts/AuthContext';
 import { UserRole, UserProfile } from '../../../types';
 import { Users as UsersIcon, Shield, Edit, Trash2, Plus, RefreshCw, X, Check, Power, AlertTriangle, Key } from 'lucide-react';
@@ -205,7 +207,10 @@ export const Users = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <PageHeader 
+        <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
+      <PageHeader 
           title="User Management" 
           description="Manage system access, roles, and user accounts."
         />

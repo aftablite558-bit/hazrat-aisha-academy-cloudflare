@@ -9,6 +9,8 @@ import { GlassModal } from '../../../components/common/GlassModal';
 import { GlassSelect } from '../../../components/common/GlassSelect';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { StudentFee } from '../../../types/enterprise';
 import { Search, Edit, Trash2, Plus, Download, CreditCard } from 'lucide-react';
@@ -88,6 +90,9 @@ export const Fees = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Fees Management" description="Manage student fees, generate receipts, and track payments." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">

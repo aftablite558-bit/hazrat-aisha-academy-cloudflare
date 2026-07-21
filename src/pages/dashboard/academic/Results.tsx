@@ -4,6 +4,8 @@ import { GlassCard } from '../../../components/common/GlassCard';
 import { GlassButton } from '../../../components/common/GlassButton';
 import { GlassSelect } from '../../../components/common/GlassSelect';
 import { GlassBadge } from '../../../components/common/GlassBadge';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { useToast } from '../../../contexts/ToastContext';
 import { Class, Student, Subject } from '../../../types/master';
@@ -134,6 +136,9 @@ export const Results = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Results Generator" description="Generate and publish exam results." />
       
       <GlassCard className="p-6">

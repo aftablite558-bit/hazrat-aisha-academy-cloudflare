@@ -9,6 +9,8 @@ import { GlassSelect } from '../../../components/common/GlassSelect';
 import { GlassTextarea } from '../../../components/common/GlassTextarea';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { Admission } from '../../../types/enterprise';
 import { Search, Eye, CheckCircle, XCircle, Trash2, FileText, Download } from 'lucide-react';
@@ -54,6 +56,9 @@ export const Admissions = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Admissions Management" description="Review and manage student admission applications." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">

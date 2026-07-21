@@ -7,6 +7,8 @@ import { GlassCard } from '../../../components/common/GlassCard';
 import { GlassButton } from '../../../components/common/GlassButton';
 import { GlassSelect } from '../../../components/common/GlassSelect';
 import { GlassInput } from '../../../components/common/GlassInput';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { FileText, Download, Printer, FileSpreadsheet, Search } from 'lucide-react';
 import { useMasterData } from '../../../hooks/useMasterData';
 import jsPDF from 'jspdf';
@@ -162,6 +164,9 @@ export const Reports = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Reports & Analytics" description="Generate, export, and print comprehensive school reports." />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

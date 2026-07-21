@@ -5,6 +5,8 @@ import { GlassCard } from '../../../components/common/GlassCard';
 import { GlassButton } from '../../../components/common/GlassButton';
 import { GlassInput } from '../../../components/common/GlassInput';
 import { GlassSelect } from '../../../components/common/GlassSelect';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { SystemSettings } from '../../../types/enterprise';
 import { Save, UploadCloud, Database } from 'lucide-react';
@@ -124,6 +126,9 @@ export const Settings = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="System Settings" description="Configure global school preferences and system parameters." />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

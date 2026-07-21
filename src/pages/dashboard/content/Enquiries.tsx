@@ -6,6 +6,8 @@ import { GlassBadge } from '../../../components/common/GlassBadge';
 import { GlassModal } from '../../../components/common/GlassModal';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { Enquiry } from '../../../types/content';
 import { Trash2, Search, CheckCircle, Mail, Phone, User, Eye } from 'lucide-react';
@@ -43,6 +45,9 @@ export const Enquiries = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Contact Enquiries" description="Manage website contact form submissions." />
       
       <div className="relative w-full max-w-md">

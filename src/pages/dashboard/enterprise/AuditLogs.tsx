@@ -4,6 +4,8 @@ import { GlassTable } from '../../../components/common/GlassTable';
 import { GlassInput } from '../../../components/common/GlassInput';
 import { GlassBadge } from '../../../components/common/GlassBadge';
 import { Pagination } from '../../../components/common/Pagination';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { AuditLog } from '../../../types/enterprise';
 import { Search, ShieldAlert, LogIn, LogOut, Edit, Trash2, Plus, CheckCircle } from 'lucide-react';
@@ -52,6 +54,9 @@ export const AuditLogs = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="System Audit Logs" description="Track user activities and system changes." />
       
       <div className="relative w-full max-w-md mb-6">

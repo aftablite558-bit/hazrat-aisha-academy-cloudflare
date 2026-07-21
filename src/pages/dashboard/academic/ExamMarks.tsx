@@ -4,6 +4,8 @@ import { GlassCard } from '../../../components/common/GlassCard';
 import { GlassButton } from '../../../components/common/GlassButton';
 import { GlassSelect } from '../../../components/common/GlassSelect';
 import { GlassInput } from '../../../components/common/GlassInput';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { useToast } from '../../../contexts/ToastContext';
 import { Class, Subject, Student } from '../../../types/master';
@@ -107,6 +109,9 @@ export const ExamMarks = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Exam Marks" description="Record student performance and grades." />
       
       <GlassCard className="p-6">

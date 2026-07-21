@@ -8,6 +8,8 @@ import { GlassModal } from '../../../components/common/GlassModal';
 import { GlassSelect } from '../../../components/common/GlassSelect';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { Document } from '../../../types/content';
 import { Edit, Trash2, Plus, Search, CheckCircle, XCircle, FileDown } from 'lucide-react';
@@ -64,6 +66,9 @@ export const Documents = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Documents & Downloads" description="Manage public documents like syllabus and forms." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">

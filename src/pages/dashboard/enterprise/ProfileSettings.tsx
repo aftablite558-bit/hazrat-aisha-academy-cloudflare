@@ -5,6 +5,8 @@ import { PageHeader } from '../../../components/common/PageHeader';
 import { GlassCard } from '../../../components/common/GlassCard';
 import { GlassInput } from '../../../components/common/GlassInput';
 import { GlassButton } from '../../../components/common/GlassButton';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { User, Lock, Save, Camera } from 'lucide-react';
 import { api } from '../../../services/apiClient';
 
@@ -84,6 +86,9 @@ export const ProfileSettings = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Profile Settings" description="Manage your personal information and security." />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

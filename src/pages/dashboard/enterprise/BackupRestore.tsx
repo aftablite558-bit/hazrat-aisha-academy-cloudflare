@@ -5,6 +5,8 @@ import { useToast } from '../../../contexts/ToastContext';
 import { PageHeader } from '../../../components/common/PageHeader';
 import { GlassCard } from '../../../components/common/GlassCard';
 import { GlassButton } from '../../../components/common/GlassButton';
+import { BackButton } from '../../../components/common/BackButton';
+
 
 export const BackupRestore = () => {
   const { profile } = useAuth();
@@ -105,6 +107,9 @@ export const BackupRestore = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Backup & Restore" description="Safeguard your school data or migrate to a new instance." />
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

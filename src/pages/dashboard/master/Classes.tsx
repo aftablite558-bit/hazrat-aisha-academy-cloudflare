@@ -6,6 +6,8 @@ import { GlassInput } from '../../../components/common/GlassInput';
 import { GlassBadge } from '../../../components/common/GlassBadge';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { Class as ClassType } from '../../../types/master';
 import { Edit, Trash2, Plus, Search } from 'lucide-react';
@@ -67,6 +69,9 @@ export const Classes = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Classes Management" description="Manage school classes and their order." />
 
       <div className="flex flex-col sm:flex-row justify-between gap-4">

@@ -9,8 +9,11 @@ import { GlassTextarea } from '../../../components/common/GlassTextarea';
 import { GlassSelect } from '../../../components/common/GlassSelect';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
+import { BackButton } from '../../../components/common/BackButton';
+
 import { useMasterData } from '../../../hooks/useMasterData';
 import { CareerVacancy } from '../../../types/content';
+import { EntityStatus } from '../../../types/master';
 import { Edit, Trash2, Plus, Search, Briefcase } from 'lucide-react';
 
 export const Careers = () => {
@@ -60,6 +63,9 @@ export const Careers = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-start mb-[-1.5rem] relative z-20">
+        <BackButton />
+      </div>
       <PageHeader title="Careers" description="Manage job vacancies." />
       
       <div className="flex flex-col sm:flex-row justify-between gap-4">
