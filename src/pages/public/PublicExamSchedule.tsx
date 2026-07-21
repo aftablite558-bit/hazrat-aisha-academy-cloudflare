@@ -6,16 +6,15 @@ import { GlassSelect } from '../../components/common/GlassSelect';
 import { GlassInput } from '../../components/common/GlassInput';
 import { GlassButton } from '../../components/common/GlassButton';
 import { useMasterData } from '../../hooks/useMasterData';
-import { Homework } from '../../types/academic';
-import { Class, Subject, Teacher, Student } from '../../types/master';
-import { FileText, Calendar, Clock, User, Search } from 'lucide-react';
+import { ExamSchedule } from '../../types/academic';
+import { Class, Subject, Student } from '../../types/master';
+import { Calendar, Clock, Search, MapPin, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 
-export const PublicHomework = () => {
-  const { data: homeworks } = useMasterData<Homework>('homework');
+export const PublicExamSchedule = () => {
+  const { data: schedules } = useMasterData<ExamSchedule>('exam-schedule');
   const { data: classes } = useMasterData<Class>('classes');
   const { data: subjects } = useMasterData<Subject>('subjects');
-  const { data: teachers } = useMasterData<Teacher>('teachers');
   const { data: students } = useMasterData<Student>('students');
 
   const [studentName, setStudentName] = useState('');
@@ -26,9 +25,9 @@ export const PublicHomework = () => {
   const [searchResult, setSearchResult] = useState<any>(null);
   const [isSearching, setIsSearching] = useState(false);
 
-  const publishedHomework = useMemo(() => {
-    return homeworks.filter(hw => hw.isPublished);
-  }, [homeworks]);
+  const publishedSchedules = useMemo(() => {
+    return schedules.filter(s => s.status === 'Published');
+  }, [schedules]);
 
   const handleSearch = (e: React.FormEvent) => {
     
@@ -48,12 +47,26 @@ export const PublicHomework = () => {
       );
       
       if (student) {
-        const studentHomework = publishedHomework.filter(hw => hw.classId === classId)
-          .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
-          
+        // Collect all exam papers relevant to this class from published schedules
+        const relevantExams: any[] = [];
+        
+        publishedSchedules.forEach(schedule => {
+          if (schedule.classes.includes(classId) && schedule.papers) {
+            const classPapers = schedule.papers.filter(p => p.classId === classId);
+            classPapers.forEach(paper => {
+              relevantExams.push({
+                examName: schedule.examName,
+                paper
+              });
+            });
+          }
+        });
+        
+        relevantExams.sort((a, b) => new Date(a.paper.date).getTime() - new Date(b.paper.date).getTime());
+        
         setSearchResult({
           student,
-          homework: studentHomework
+          exams: relevantExams
         });
       } else {
         setSearchResult(null);
@@ -76,10 +89,10 @@ export const PublicHomework = () => {
           className="text-center max-w-3xl mx-auto mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6">
-            Student <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500">Homework</span>
+            Exam <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500">Schedule</span>
           </h1>
           <p className="text-lg text-muted-foreground">
-            Enter your details below to check your assigned homework.
+            Enter your details below to check your upcoming examinations.
           </p>
         </motion.div>
 
@@ -108,7 +121,7 @@ export const PublicHomework = () => {
             />
             <div className="md:col-span-3 mt-2">
               <GlassButton type="submit" variant="primary" className="w-full flex items-center justify-center gap-2 py-3 text-base">
-                <Search size={20} /> Check Homework
+                <Search size={20} /> Check Exam Schedule
               </GlassButton>
             </div>
           </form>
@@ -122,7 +135,7 @@ export const PublicHomework = () => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-6xl mx-auto"
+            className="max-w-5xl mx-auto"
           >
             {!searchResult ? (
               <GlassCard className="p-12 text-center max-w-4xl mx-auto">
@@ -137,64 +150,58 @@ export const PublicHomework = () => {
             ) : (
               <div className="space-y-8">
                 <div className="text-center md:text-left mb-6">
-                  <h2 className="text-2xl font-bold text-foreground">Homework for {searchResult.student.fullName}</h2>
+                  <h2 className="text-2xl font-bold text-foreground">Exam Schedule for {searchResult.student.fullName}</h2>
                   <p className="text-muted-foreground">
                     Class: {getClassName(searchResult.student.classId)}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {searchResult.homework.length === 0 ? (
-                    <div className="col-span-full text-center py-20 text-muted-foreground">
-                      No homework assigned for your class.
-                    </div>
-                  ) : (
-                    searchResult.homework.map((hw: any, idx: number) => (
-                      <motion.div
-                        key={hw.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                      >
-                        <GlassCard className="h-full flex flex-col p-6 hover:-translate-y-1 transition-transform duration-300">
+                {searchResult.exams.length === 0 ? (
+                  <GlassCard className="p-12 text-center text-muted-foreground">
+                    No exams scheduled for your class at the moment.
+                  </GlassCard>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {searchResult.exams.map((examObj: any, idx: number) => {
+                      const paper = examObj.paper;
+                      const dateObj = new Date(paper.date);
+                      return (
+                        <GlassCard key={idx} className="p-6 relative overflow-hidden group border-l-4 border-l-secondary-500">
                           <div className="flex justify-between items-start mb-4">
-                            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-primary-500/20 text-primary-500 border border-primary-500/30">
-                              {getSubjectName(hw.subjectId)}
-                            </span>
+                            <div>
+                              <h4 className="text-xl font-bold text-foreground mb-1">{getSubjectName(paper.subjectId)}</h4>
+                              <p className="text-sm font-medium text-muted-foreground">{examObj.examName}</p>
+                            </div>
+                            <div className="bg-primary-500/10 text-primary-500 px-4 py-2 rounded-xl text-center border border-primary-500/20">
+                              <div className="text-xs font-bold uppercase tracking-wider">{dateObj.toLocaleString('default', { month: 'short' })}</div>
+                              <div className="text-2xl font-black leading-none">{dateObj.getDate()}</div>
+                            </div>
                           </div>
                           
-                          <h3 className="text-xl font-bold text-foreground mb-3">{hw.title}</h3>
-                          <p className="text-sm text-muted-foreground mb-6 flex-grow line-clamp-3">
-                            {hw.description}
-                          </p>
-                          
-                          <div className="space-y-3 mt-auto pt-4 border-t border-white/10">
-                            <div className="flex items-center text-xs text-muted-foreground gap-2">
-                              <Calendar size={14} className="text-secondary-500" />
-                              <span>Assigned: {new Date(hw.createdAt || Date.now()).toLocaleDateString()}</span>
+                          <div className="space-y-3 mt-6">
+                            <div className="flex items-center gap-3 text-sm text-muted-foreground bg-white/5 p-3 rounded-lg border border-white/5">
+                              <Clock size={16} className="text-emerald-500" />
+                              <span className="font-medium text-foreground">{paper.startTime} - {paper.endTime}</span>
+                              <span className="ml-auto text-xs text-muted-foreground">{paper.duration}</span>
                             </div>
-                            <div className="flex items-center text-xs text-muted-foreground gap-2">
-                              <Clock size={14} className="text-rose-500" />
-                              <span className="font-semibold text-rose-500/80">Due: {new Date(hw.dueDate).toLocaleDateString()}</span>
+                            
+                            <div className="flex items-center gap-3 text-sm text-muted-foreground bg-white/5 p-3 rounded-lg border border-white/5">
+                              <MapPin size={16} className="text-rose-500" />
+                              <span className="font-medium">Room: <span className="text-foreground">{paper.room}</span></span>
                             </div>
-                            {hw.attachmentUrl && (
-                              <div className="flex justify-end mt-2 pt-2">
-                                <a 
-                                  href={hw.attachmentUrl} 
-                                  target="_blank" 
-                                  rel="noopener noreferrer"
-                                  className="flex items-center gap-1 text-xs font-semibold text-primary-500 hover:text-primary-400 transition-colors bg-primary-500/10 px-3 py-1.5 rounded-md"
-                                >
-                                  <FileText size={14} /> View Attachment
-                                </a>
+                            
+                            {paper.instructions && (
+                              <div className="flex items-start gap-3 text-sm text-muted-foreground bg-white/5 p-3 rounded-lg border border-white/5">
+                                <AlertCircle size={16} className="text-amber-500 mt-0.5 shrink-0" />
+                                <span className="italic">{paper.instructions}</span>
                               </div>
                             )}
                           </div>
                         </GlassCard>
-                      </motion.div>
-                    ))
-                  )}
-                </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             )}
           </motion.div>

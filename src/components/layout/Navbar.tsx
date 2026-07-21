@@ -40,7 +40,7 @@ export const Navbar = () => {
     { label: 'Achievements', path: '/achievements' },
     { label: 'Testimonials', path: '/testimonials' },
     { label: 'Alumni', path: '/alumni' },
-    { label: 'FAQ', path: '/faq' },
+    { label: 'Feedback', path: '/feedback' },
     { label: 'Careers', path: '/careers' },
     { label: 'Contact', path: '/contact' },
   ];
@@ -79,7 +79,7 @@ export const Navbar = () => {
     {
       title: 'SUPPORT',
       links: [
-        { label: 'FAQ', path: '/faq' },
+        { label: 'Feedback', path: '/feedback' },
         { label: 'Careers', path: '/careers' },
       ]
     }

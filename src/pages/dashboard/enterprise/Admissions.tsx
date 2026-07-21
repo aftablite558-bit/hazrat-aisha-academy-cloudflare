@@ -12,6 +12,7 @@ import { Pagination } from '../../../components/common/Pagination';
 import { BackButton } from '../../../components/common/BackButton';
 
 import { useMasterData } from '../../../hooks/useMasterData';
+import { api } from '../../../services/apiClient';
 import { Admission } from '../../../types/enterprise';
 import { Search, Eye, CheckCircle, XCircle, Trash2, FileText, Download } from 'lucide-react';
 
@@ -50,6 +51,31 @@ export const Admissions = () => {
   const handleStatusChange = async (status: 'Approved' | 'Rejected') => {
     if (selectedAdmission?.id) {
       await updateRecord(selectedAdmission.id, { status, remarks });
+      
+      if (status === 'Approved') {
+        const studentData = {
+          admissionNo: selectedAdmission.admissionNumber,
+          rollNo: 'TBD',
+          fullName: selectedAdmission.studentName,
+          gender: (selectedAdmission as any).gender || 'Unknown',
+          dob: (selectedAdmission as any).dob || '',
+          fatherName: (selectedAdmission as any).fatherName || '',
+          motherName: (selectedAdmission as any).motherName || '',
+          classId: selectedAdmission.classApplied,
+          phone: selectedAdmission.parentPhone,
+          address: (selectedAdmission as any).address || '',
+          photoUrl: (selectedAdmission as any).photoUrl || '',
+          status: 'Active',
+          admissionDate: new Date().toISOString().split('T')[0],
+          createdAt: new Date().toISOString()
+        };
+        try {
+          await api.post('/collection/students', studentData);
+        } catch (e) {
+          console.error("Failed to auto-create student:", e);
+        }
+      }
+
       setIsViewOpen(false);
     }
   };
@@ -61,6 +87,31 @@ export const Admissions = () => {
       </div>
       <PageHeader title="Admissions Management" description="Review and manage student admission applications." />
       
+      
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col justify-center items-center">
+          <p className="text-muted-foreground text-sm">Pending</p>
+          <p className="text-2xl font-bold text-amber-500">{admissions.filter(a => a.status === 'Pending').length}</p>
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col justify-center items-center">
+          <p className="text-muted-foreground text-sm">Approved</p>
+          <p className="text-2xl font-bold text-emerald-500">{admissions.filter(a => a.status === 'Approved').length}</p>
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col justify-center items-center">
+          <p className="text-muted-foreground text-sm">Rejected</p>
+          <p className="text-2xl font-bold text-rose-500">{admissions.filter(a => a.status === 'Rejected').length}</p>
+        </div>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col justify-center items-center">
+          <p className="text-muted-foreground text-sm">Today's Applications</p>
+          <p className="text-2xl font-bold text-primary-500">
+            {admissions.filter(a => {
+              const today = new Date().toISOString().split('T')[0];
+              return a.createdAt?.startsWith(today);
+            }).length}
+          </p>
+        </div>
+      </div>
+
       <div className="flex flex-col sm:flex-row justify-between gap-4">
         <div className="relative w-full max-w-md">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />

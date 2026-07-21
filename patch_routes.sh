@@ -1,2 +1,3 @@
-sed -i "/const DashboardUsers/i const ProfileSettings = lazy(() => import('../pages/dashboard/enterprise/ProfileSettings').then(m => ({ default: m.ProfileSettings })));" src/routes/AppRoutes.tsx
-sed -i "/<Route path=\"users\"/i \          <Route path=\"profile\" element={<ProfileSettings />} />" src/routes/AppRoutes.tsx
+sed -i "s/const FAQ = lazy(() => import('..\/pages\/public\/FAQ').then(m => ({ default: m.FAQ })));/const PublicFeedback = lazy(() => import('..\/pages\/public\/PublicFeedback').then(m => ({ default: m.PublicFeedback })));\nconst PublicAchievements = lazy(() => import('..\/pages\/public\/PublicAchievements').then(m => ({ default: m.PublicAchievements })));\nconst PublicTestimonials = lazy(() => import('..\/pages\/public\/PublicTestimonials').then(m => ({ default: m.PublicTestimonials })));/" src/routes/AppRoutes.tsx
+
+sed -i 's/<Route path="\/faq" element={<FAQ \/>} \/>/<Route path="\/feedback" element={<PublicFeedback \/>} \/>\n        <Route path="\/achievements" element={<PublicAchievements \/>} \/>\n        <Route path="\/testimonials" element={<PublicTestimonials \/>} \/>/' src/routes/AppRoutes.tsx

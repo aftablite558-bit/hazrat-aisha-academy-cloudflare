@@ -24,7 +24,13 @@ export const Hero = () => (
         <p className="text-xl md:text-2xl text-secondary-foreground mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
           Providing quality English Medium and Islamic education to nurture knowledgeable, disciplined, and morally responsible future generations.
         </p>
-        <div className="flex flex-col sm:flex-row gap-6 justify-center">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center"> 
+          <Link to="/admissions">
+            <GlassButton variant="primary" className="w-full sm:w-auto px-8 py-4 text-lg">Apply for Admission</GlassButton>
+          </Link>
+          <Link to="/about">
+            <GlassButton variant="glass" className="w-full sm:w-auto px-8 py-4 text-lg">Learn More</GlassButton>
+          </Link>
         </div>
       </motion.div>
     </div>

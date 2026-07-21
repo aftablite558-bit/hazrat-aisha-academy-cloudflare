@@ -107,3 +107,16 @@ export interface Achievement extends BaseEntity {
   imageUrl?: string;
   isPublished: boolean;
 }
+
+export interface FeedbackTicket extends BaseEntity {
+  ticketId: string;
+  name: string;
+  mobile: string;
+  email?: string;
+  category: 'Appreciation' | 'Complaint' | 'Suggestion' | 'Issue Report';
+  subject: string;
+  description: string;
+  status: 'Pending' | 'In Progress' | 'Resolved' | 'Rejected';
+  internalNotes?: string;
+  submittedAt: string;
+}

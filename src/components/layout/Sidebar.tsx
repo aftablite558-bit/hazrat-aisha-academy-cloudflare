@@ -38,7 +38,8 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
       ];
     }
     
-    return [
+    
+    const baseItems = [
       { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
       { icon: Users, label: 'Students', path: '/dashboard/students' },
       { icon: UserCircle, label: 'Teachers', path: '/dashboard/teachers' },
@@ -50,7 +51,13 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
       { icon: PenTool, label: 'Exam Marks', path: '/dashboard/exam-marks' },
       { icon: Calendar, label: 'Exam Schedule', path: '/dashboard/exam-schedule' },
       { icon: BookMarked, label: 'Results', path: '/dashboard/results' },
-      { icon: Contact, label: 'Admissions', path: '/dashboard/admissions' },
+    ];
+    
+    if (['owner', 'super_admin', 'admin', 'principal'].includes(profile?.role || '')) {
+      baseItems.push({ icon: Contact, label: 'Admission Requests', path: '/dashboard/admissions' }, { icon: MessageCircle, label: 'Public Feedback', path: '/dashboard/feedback' });
+    }
+    
+    baseItems.push(
       { icon: Wallet, label: 'Fees', path: '/dashboard/fees' },
       { icon: Image, label: 'Gallery', path: '/dashboard/gallery' },
       { icon: Award, label: 'Achievements', path: '/dashboard/achievements' },
@@ -68,9 +75,12 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
       { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
       { icon: Shield, label: 'User Management', path: '/dashboard/users' },
       { icon: Shield, label: 'Audit Logs', path: '/dashboard/audit-logs' },
-      { icon: Database, label: 'Backup & Restore', path: '/dashboard/backup' },
-    ];
+      { icon: Database, label: 'Backup & Restore', path: '/dashboard/backup' }
+    );
+    
+    return baseItems;
   };
+
 
   const menuItems = getMenuItems();
 

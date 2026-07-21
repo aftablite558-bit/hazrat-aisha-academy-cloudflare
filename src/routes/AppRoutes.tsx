@@ -16,12 +16,16 @@ const Admissions = lazy(() => import('../pages/public/Admissions').then(m => ({ 
 const GalleryPage = lazy(() => import('../pages/public/GalleryPage').then(m => ({ default: m.GalleryPage })));
 const NoticeBoard = lazy(() => import('../pages/public/NoticeBoard').then(m => ({ default: m.NoticeBoard })));
 const Downloads = lazy(() => import('../pages/public/Downloads').then(m => ({ default: m.Downloads })));
-const FAQ = lazy(() => import('../pages/public/FAQ').then(m => ({ default: m.FAQ })));
+const PublicFeedback = lazy(() => import('../pages/public/PublicFeedback').then(m => ({ default: m.PublicFeedback })));
+const PublicAchievements = lazy(() => import('../pages/public/PublicAchievements').then(m => ({ default: m.PublicAchievements })));
+const PublicTestimonials = lazy(() => import('../pages/public/PublicTestimonials').then(m => ({ default: m.PublicTestimonials })));
 const Contact = lazy(() => import('../pages/public/Contact').then(m => ({ default: m.Contact })));
 const PublicCalendar = lazy(() => import('../pages/public/PublicCalendar').then(m => ({ default: m.PublicCalendar })));
 const PublicCareers = lazy(() => import('../pages/public/Careers').then(m => ({ default: m.Careers })));
 const PublicAlumni = lazy(() => import('../pages/public/Alumni').then(m => ({ default: m.Alumni })));
 const PublicHomework = lazy(() => import('../pages/public/PublicHomework').then(m => ({ default: m.PublicHomework })));
+const PublicAttendance = lazy(() => import('../pages/public/PublicAttendance').then(m => ({ default: m.PublicAttendance })));
+const PublicExamSchedule = lazy(() => import('../pages/public/PublicExamSchedule').then(m => ({ default: m.PublicExamSchedule })));
 const PublicResults = lazy(() => import('../pages/public/PublicResults').then(m => ({ default: m.PublicResults })));
 
 // Lazy loaded dashboard modules to improve chunk size
@@ -48,6 +52,7 @@ const Careers = lazy(() => import('../pages/dashboard/content/Careers').then(m =
 const CareerRequests = lazy(() => import('../pages/dashboard/content/CareerRequests').then(m => ({ default: m.CareerRequests })));
 const Alumni = lazy(() => import('../pages/dashboard/content/Alumni').then(m => ({ default: m.Alumni })));
 const Enquiries = lazy(() => import('../pages/dashboard/content/Enquiries').then(m => ({ default: m.Enquiries })));
+const PublicFeedbackDashboard = lazy(() => import('../pages/dashboard/content/PublicFeedbackDashboard').then(m => ({ default: m.PublicFeedbackDashboard })));
 const DashboardAdmissions = lazy(() => import('../pages/dashboard/enterprise/Admissions').then(m => ({ default: m.Admissions })));
 const Fees = lazy(() => import('../pages/dashboard/enterprise/Fees').then(m => ({ default: m.Fees })));
 const Reports = lazy(() => import('../pages/dashboard/enterprise/Reports').then(m => ({ default: m.Reports })));
@@ -74,9 +79,13 @@ export function AppRoutes() {
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/notices" element={<NoticeBoard />} />
         <Route path="/downloads" element={<Downloads />} />
-        <Route path="/faq" element={<FAQ />} />
+        <Route path="/feedback" element={<PublicFeedback />} />
+        <Route path="/achievements" element={<PublicAchievements />} />
+        <Route path="/testimonials" element={<PublicTestimonials />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/homework" element={<PublicHomework />} />
+        <Route path="/attendance" element={<PublicAttendance />} />
+        <Route path="/exam-schedule" element={<PublicExamSchedule />} />
         <Route path="/results" element={<PublicResults />} />
         <Route path="/calendar" element={<PublicCalendar />} />
         <Route path="/careers" element={<PublicCareers />} />
@@ -119,6 +128,7 @@ export function AppRoutes() {
           <Route path="career-requests" element={<CareerRequests />} />
           <Route path="alumni" element={<Alumni />} />
           <Route path="contact" element={<Enquiries />} />
+          <Route path="feedback" element={<PublicFeedbackDashboard />} />
           <Route path="documents" element={<Documents />} />
           <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />

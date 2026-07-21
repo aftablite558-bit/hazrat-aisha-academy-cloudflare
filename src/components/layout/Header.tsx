@@ -14,6 +14,7 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
   const { profile, logoutUser } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState<any[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -31,6 +32,31 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    // Load notifications periodically or on mount
+    const loadNotifs = () => {
+      const stored = JSON.parse(localStorage.getItem('notifications') || '[]');
+      // Filter for admin if the role matches
+      if (['owner', 'super_admin', 'admin', 'principal'].includes(profile?.role || '')) {
+        setNotifications(stored.filter((n: any) => n.role === 'admin' || !n.role).reverse());
+      } else {
+        setNotifications(stored.filter((n: any) => n.role === profile?.role).reverse());
+      }
+    };
+    loadNotifs();
+    const interval = setInterval(loadNotifs, 5000);
+    return () => clearInterval(interval);
+  }, [profile]);
+
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  const markAllRead = () => {
+    const stored = JSON.parse(localStorage.getItem('notifications') || '[]');
+    const updated = stored.map((n: any) => ({ ...n, read: true }));
+    localStorage.setItem('notifications', JSON.stringify(updated));
+    setNotifications(notifications.map(n => ({ ...n, read: true })));
+  };
+
   return (
     <header className="fixed top-0 left-0 lg:left-[280px] right-0 h-20 glass border-t-0 border-x-0 border-b-white/30 dark:border-b-white/10 shadow-sm flex items-center justify-between px-4 lg:px-8 z-40 transition-all duration-300">
       <div className="flex items-center gap-4">
@@ -42,6 +68,7 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
           <input type="text" placeholder="Search..." className="bg-transparent outline-none text-sm w-full text-foreground placeholder-muted-foreground" />
         </div>
       </div>
+
       <div className="flex items-center gap-2 lg:gap-4">
         <GlassButton variant="ghost" className="p-2 rounded-full glass hover:bg-white/10 transition-colors" onClick={toggleTheme}>
           {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-secondary-foreground" />}
@@ -50,26 +77,29 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
         <div className="relative" ref={notifRef}>
           <GlassButton variant="ghost" className="p-2 relative rounded-full glass hover:bg-white/10 transition-colors" onClick={() => setShowNotifications(!showNotifications)}>
             <Bell size={20} />
-            <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-danger-500 rounded-full border-2 border-background"></span>
+            {unreadCount > 0 && (
+              <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-danger-500 rounded-full border-2 border-background"></span>
+            )}
           </GlassButton>
           
           {showNotifications && (
             <div className="absolute right-0 mt-4 w-80 glass rounded-2xl shadow-2xl border border-white/20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
               <div className="p-4 border-b border-white/10 flex justify-between items-center bg-white/5 dark:bg-black/10">
-                <h4 className="font-bold">Notifications</h4>
-                <button className="text-xs text-primary-500 hover:underline">Mark all as read</button>
+                <h4 className="font-bold flex items-center gap-2">Notifications {unreadCount > 0 && <span className="bg-primary-500 text-white text-[10px] px-2 py-0.5 rounded-full">{unreadCount}</span>}</h4>
+                {unreadCount > 0 && <button className="text-xs text-primary-500 hover:underline" onClick={markAllRead}>Mark all as read</button>}
               </div>
               <div className="max-h-80 overflow-y-auto">
-                <div className="p-4 border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer">
-                  <p className="text-sm font-medium">New Admission Application</p>
-                  <p className="text-xs text-muted-foreground mt-1">John Doe applied for Class 5.</p>
-                  <p className="text-xs text-primary-500 mt-2">Just now</p>
-                </div>
-                <div className="p-4 border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer">
-                  <p className="text-sm font-medium">System Backup Completed</p>
-                  <p className="text-xs text-muted-foreground mt-1">Automatic daily backup was successful.</p>
-                  <p className="text-xs text-primary-500 mt-2">2 hours ago</p>
-                </div>
+                {notifications.length === 0 ? (
+                  <div className="p-4 text-center text-sm text-muted-foreground">No notifications</div>
+                ) : (
+                  notifications.map(n => (
+                    <div key={n.id} className={`p-4 border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer ${!n.read ? 'bg-primary-500/5' : ''}`}>
+                      <p className="text-sm font-medium">{n.title}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{n.message}</p>
+                      <p className="text-xs text-primary-500 mt-2">{new Date(n.date).toLocaleString()}</p>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
           )}
