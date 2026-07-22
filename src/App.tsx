@@ -1,79 +1,36 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { ProtectedRoute } from './components/auth/ProtectedRoute';
-
-// Layouts
-import PublicLayout from './layouts/PublicLayout';
-import DashboardLayout from './layouts/DashboardLayout';
-
-// Public Pages
-import Home from './pages/public/Home';
-import { About, Academics, Admissions, Gallery, Contact } from './pages/public/Placeholders';
-
-// Auth Pages
-const Login = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  
-  const handleLogin = async () => {
-    await login({});
-    navigate('/dashboard');
-  };
-
+function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-mesh">
-      <div className="w-full max-w-md space-y-8 text-center">
-        <h1 className="text-4xl font-black text-white">Marhaba</h1>
-        <p className="text-slate-400">Welcome back to Hazrat Aisha Academy ERP</p>
-        <div className="glass-card p-8 space-y-6">
-          <input className="glass-input w-full" placeholder="Email Address" type="email" />
-          <input className="glass-input w-full" placeholder="Password" type="password" />
-          <button onClick={handleLogin} className="glass-button w-full bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
-            Sign In
-          </button>
+    <div className="min-h-screen bg-neutral-50 flex flex-col items-center justify-center p-4">
+      <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8 border border-neutral-100">
+        <h1 className="text-4xl font-bold text-neutral-900 mb-4 text-center">
+          Hazrat Aisha Academy ERP
+        </h1>
+        <p className="text-lg text-neutral-600 mb-8 text-center leading-relaxed">
+          Welcome back. The system environment has been restored. 
+          We are currently rebuilding the application modules following the recent cleanup.
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-100">
+            <h3 className="font-semibold text-neutral-800 mb-2">Restoration Progress</h3>
+            <div className="w-full bg-neutral-200 rounded-full h-2">
+              <div className="bg-emerald-500 h-2 rounded-full w-1/4"></div>
+            </div>
+            <p className="text-sm text-neutral-500 mt-2">Core environment restored</p>
+          </div>
+          
+          <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-100">
+            <h3 className="font-semibold text-neutral-800 mb-2">Next Steps</h3>
+            <ul className="text-sm text-neutral-500 list-disc list-inside space-y-1">
+              <li>Restore Auth Module</li>
+              <li>Rebuild Dashboard</li>
+              <li>Connect Database</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   );
-};
-
-// Dashboard Pages
-import DashboardHome from './pages/dashboard/DashboardHome';
-
-const App: React.FC = () => {
-  return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          {/* Public Routes */}
-          <Route element={<PublicLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/academics" element={<Academics />} />
-            <Route path="/admissions" element={<Admissions />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/contact" element={<Contact />} />
-          </Route>
-
-          {/* Auth Routes */}
-          <Route path="/login" element={<Login />} />
-
-          {/* Dashboard Routes */}
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <DashboardHome />
-              </DashboardLayout>
-            </ProtectedRoute>
-          } />
-          
-          {/* Catch all */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </AuthProvider>
-  );
-};
+}
 
 export default App;

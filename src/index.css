@@ -2,69 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --glass-bg: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.15);
-    --glass-blur: 16px;
-    --emerald-glow: 0 0 30px rgba(52, 211, 153, 0.15);
-  }
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 
-  body {
-    @apply antialiased text-slate-200;
-    background: fixed radial-gradient(circle at 0% 0%, #0f172a 0%, #020617 100%);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-  }
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
 
-  .font-amiri {
-    font-family: 'Amiri', serif;
-  }
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@layer components {
-  .glass {
-    @apply backdrop-blur-md border border-white/20 bg-white/10;
-  }
-  
-  .glass-dark {
-    @apply backdrop-blur-xl border border-white/10 bg-black/40;
-  }
-  
-  .glass-card {
-    @apply glass rounded-[2.5rem] p-8 transition-all duration-500 hover:bg-white/15 hover:border-white/30 hover:shadow-2xl hover:shadow-emerald-500/10 hover:-translate-y-1;
-  }
-  
-  .glass-button {
-    @apply glass px-8 py-3 rounded-full font-bold tracking-tight transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
-  }
-  
-  .glass-input {
-    @apply bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl px-6 py-4 text-white placeholder:text-slate-500 outline-none focus:border-emerald-500/50 focus:bg-white/10 transition-all duration-300;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
-  }
-}
-
-.text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-br from-white via-emerald-200 to-emerald-400;
-}
-
-.text-glow {
-  text-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
-}
-
-.bg-mesh {
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(161, 74%, 48%, 0.1) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, hsla(180, 74%, 48%, 0.05) 0px, transparent 50%);
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
 }
