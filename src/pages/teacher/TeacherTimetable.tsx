@@ -183,7 +183,7 @@ export const TeacherTimetable: React.FC = () => {
                   onClick={() => setActiveDay(day)}
                   className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 shrink-0 ${
                     activeDay === day
-                      ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-950/20 scale-105'
+                      ? 'bg-primary-500 text-white shadow-lg scale-105'
                       : 'glass text-muted-foreground hover:bg-white/10'
                   }`}
                 >
@@ -210,7 +210,7 @@ export const TeacherTimetable: React.FC = () => {
       {/* Schedule Cards for Active Day */}
       <div className="space-y-4">
         <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
-          <Clock size={20} className="text-emerald-500" />
+          <Clock size={20} className="text-primary-500" />
           {activeDay} Teaching Schedule ({currentDaySchedule.length} Periods)
         </h3>
 
@@ -225,10 +225,10 @@ export const TeacherTimetable: React.FC = () => {
             {currentDaySchedule.map((slot) => (
               <GlassCard
                 key={slot.id}
-                className="p-6 space-y-4 border-l-4 border-l-emerald-500 hover:border-emerald-500/50 transition-all"
+                className="p-6 space-y-4 border-l-4 border-l-primary-500 hover:border-primary-500/50 transition-all"
               >
                 <div className="flex justify-between items-center">
-                  <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                  <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-primary-500/20 text-primary-500 border border-primary-500/30">
                     Period {slot.periodNumber}
                   </span>
                   <span className="text-xs font-mono font-bold text-muted-foreground flex items-center gap-1">

@@ -11,11 +11,11 @@ export const GlassTextarea = ({ label, className, id, ...props }: TextareaProps)
 
   return (
     <div className="flex flex-col gap-2">
-      {label && <label htmlFor={textareaId} className="text-sm font-extrabold text-foreground tracking-wide">{label}</label>}
+      {label && <label htmlFor={textareaId} className="text-sm font-semibold text-secondary-foreground">{label}</label>}
       <textarea
         id={textareaId}
         className={cn(
-          'w-full px-5 py-3.5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/80 border border-white/10 dark:border-white/10 text-foreground shadow-inner focus:border-emerald-500/80 focus:ring-4 focus:ring-emerald-500/20 outline-none transition-all duration-300 min-h-[120px] resize-y custom-scrollbar font-medium placeholder:text-muted-foreground/60',
+          'w-full px-5 py-3.5 !rounded-2xl glass text-foreground !shadow-[inset_0_2px_8px_rgba(0,0,0,0.05),0_1px_2px_rgba(255,255,255,0.2)] focus:!shadow-[0_0_0_4px_rgba(16,185,129,0.2),inset_0_2px_8px_rgba(0,0,0,0.05)] focus:!border-emerald-500/60 outline-none transition-all duration-300 min-h-[120px] resize-y custom-scrollbar',
           className
         )}
         {...props}
@@ -23,6 +23,3 @@ export const GlassTextarea = ({ label, className, id, ...props }: TextareaProps)
     </div>
   );
 };
-
-export const PremiumTextarea = GlassTextarea;
-export const Textarea = GlassTextarea;

@@ -130,7 +130,7 @@ export const CareerRequests = () => {
                 onClick={() => setStatusFilter(status)}
                 className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                   statusFilter === status 
-                    ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold shadow-md' 
+                    ? 'bg-primary-500 text-white' 
                     : 'bg-white/5 text-muted-foreground hover:bg-white/10'
                 }`}
               >

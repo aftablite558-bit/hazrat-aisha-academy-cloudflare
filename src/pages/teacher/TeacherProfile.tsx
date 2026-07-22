@@ -127,7 +127,7 @@ export const TeacherProfilePage: React.FC = () => {
                   {assignedClasses.map((c) => (
                     <span
                       key={c.id}
-                      className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20"
+                      className="px-2.5 py-1 rounded-full bg-primary-500/10 text-primary-500 font-bold border border-primary-500/20"
                     >
                       Class {c.className}
                     </span>
@@ -141,7 +141,7 @@ export const TeacherProfilePage: React.FC = () => {
                   {assignedSubjects.map((s) => (
                     <span
                       key={s.id}
-                      className="px-2.5 py-1 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 font-bold border border-teal-500/20"
+                      className="px-2.5 py-1 rounded-full bg-secondary-500/10 text-secondary-500 font-bold border border-secondary-500/20"
                     >
                       {s.subjectName}
                     </span>
@@ -157,13 +157,13 @@ export const TeacherProfilePage: React.FC = () => {
           {/* Personal & Professional Details */}
           <GlassCard className="p-6 space-y-6">
             <h4 className="text-lg font-bold text-foreground flex items-center gap-2 border-b border-white/10 pb-3">
-              <User size={20} className="text-emerald-500" />
+              <User size={20} className="text-primary-500" />
               Personal & Professional Information
             </h4>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
               <div className="flex items-start gap-3">
-                <div className="p-2.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shrink-0">
+                <div className="p-2.5 rounded-xl bg-primary-500/10 text-primary-500 shrink-0">
                   <Mail size={18} />
                 </div>
                 <div>

@@ -132,19 +132,19 @@ export const TeacherClasses: React.FC = () => {
                 return (
                   <GlassCard
                     key={cls.id}
-                    className="p-6 flex flex-col justify-between hover:border-emerald-500/50 transition-all space-y-6 group"
+                    className="p-6 flex flex-col justify-between hover:border-primary-500/50 transition-all space-y-6 group"
                   >
                     <div className="space-y-4">
                       <div className="flex justify-between items-start">
                         <div>
-                          <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                          <span className="px-3 py-1 rounded-full text-xs font-bold bg-primary-500/20 text-primary-500 border border-primary-500/30">
                             Class {cls.className}
                           </span>
                           <h3 className="text-2xl font-extrabold text-foreground mt-2">
                             Class {cls.className} - Section A
                           </h3>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
+                        <div className="w-12 h-12 rounded-2xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center text-primary-500 group-hover:scale-110 transition-transform">
                           <GraduationCap size={24} />
                         </div>
                       </div>
@@ -230,7 +230,7 @@ export const TeacherClasses: React.FC = () => {
                     }}
                     className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                       genderFilter === gen
-                        ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md font-bold'
+                        ? 'bg-primary-500 text-white shadow-md'
                         : 'glass text-muted-foreground hover:bg-white/10'
                     }`}
                   >

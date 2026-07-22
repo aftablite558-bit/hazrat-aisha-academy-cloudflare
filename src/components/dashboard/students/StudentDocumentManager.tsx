@@ -80,13 +80,13 @@ export const StudentDocumentManager: React.FC<StudentDocumentManagerProps> = ({
                 placeholder="e.g. Birth Cert 2024"
                 value={docName}
                 onChange={(e) => setDocName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 rounded-xl text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
 
             <div>
               <label className="text-xs font-medium text-slate-600 dark:text-slate-400 block mb-1">Select File (PDF / Image)</label>
-              <label className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white cursor-pointer transition-all shadow-md">
+              <label className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold bg-primary-600 hover:bg-primary-700 text-white cursor-pointer transition-colors">
                 <Upload size={14} /> {isUploading ? 'Uploading...' : 'Browse & Upload'}
                 <input
                   type="file"
@@ -120,7 +120,7 @@ export const StudentDocumentManager: React.FC<StudentDocumentManagerProps> = ({
                 className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-3 shadow-sm hover:shadow transition-shadow"
               >
                 <div className="flex items-center gap-3 overflow-hidden">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-primary-500/10 text-primary-600 dark:text-primary-400 flex items-center justify-center flex-shrink-0">
                     <FileText size={18} />
                   </div>
                   <div className="overflow-hidden">
@@ -144,7 +144,7 @@ export const StudentDocumentManager: React.FC<StudentDocumentManagerProps> = ({
                   <a
                     href={doc.url}
                     download={doc.name}
-                    className="p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition-colors"
+                    className="p-1.5 rounded-lg text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-950/40 transition-colors"
                     title="Download File"
                   >
                     <Download size={15} />
@@ -194,7 +194,7 @@ export const StudentDocumentManager: React.FC<StudentDocumentManagerProps> = ({
                   <a
                     href={previewDoc.url}
                     download={previewDoc.name}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 shadow-md"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-primary-600 text-white hover:bg-primary-700"
                   >
                     <Download size={14} /> Download File
                   </a>

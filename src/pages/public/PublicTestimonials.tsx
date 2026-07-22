@@ -17,7 +17,7 @@ export const PublicTestimonials = () => {
   }, [testimonials]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-primary-500/30">
       <Navbar />
       <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto min-h-screen">
         <PageHeader title="Testimonials" description="Hear what our students, parents, and alumni say about us." />
@@ -32,7 +32,7 @@ export const PublicTestimonials = () => {
               publishedTestimonials.map((t, idx) => (
                 <motion.div key={t.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
                   <GlassCard className="h-full flex flex-col p-8 relative">
-                    <div className="absolute top-8 right-8 text-emerald-500/10">
+                    <div className="absolute top-8 right-8 text-primary-500/10">
                       <Quote size={64} />
                     </div>
                     
@@ -50,13 +50,13 @@ export const PublicTestimonials = () => {
                       {t.photoUrl ? (
                         <img src={t.photoUrl} alt={t.name} className="w-12 h-12 rounded-full object-cover shadow-md" />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                        <div className="w-12 h-12 rounded-full bg-primary-500/10 flex items-center justify-center text-primary-500">
                           <User size={20} />
                         </div>
                       )}
                       <div>
                         <h4 className="font-bold text-foreground text-sm">{t.name}</h4>
-                        <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider mt-0.5">{t.role}</p>
+                        <p className="text-xs text-primary-500 font-medium uppercase tracking-wider mt-0.5">{t.role}</p>
                       </div>
                     </div>
                   </GlassCard>

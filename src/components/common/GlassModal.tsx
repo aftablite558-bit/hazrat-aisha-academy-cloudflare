@@ -41,13 +41,12 @@ export const GlassModal = ({ isOpen, onClose, title, children, className = '' }:
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className={`relative z-10 w-[95%] sm:w-full max-h-[85vh] flex flex-col ${className || 'max-w-lg'}`}
           >
-            <GlassCard hoverable={false} className="p-0 flex flex-col max-h-[85vh] overflow-hidden border border-emerald-500/30 dark:border-amber-500/20 shadow-2xl">
-              <div className="flex shrink-0 items-center justify-between p-5 sm:p-6 border-b border-white/10 relative z-10 bg-slate-900/40 dark:bg-slate-950/60 backdrop-blur-md">
-                <h2 className="text-xl sm:text-2xl font-extrabold text-foreground bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-emerald-400 to-amber-400">{title}</h2>
+            <GlassCard className="p-0 flex flex-col max-h-[85vh] overflow-hidden">
+              <div className="flex shrink-0 items-center justify-between p-5 sm:p-6 border-b border-white/10 relative z-10">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground">{title}</h2>
                 <button
                   onClick={onClose}
-                  aria-label="Close modal"
-                  className="p-2 rounded-full hover:bg-emerald-500/10 dark:hover:bg-white/10 transition-colors text-secondary-foreground shrink-0"
+                  className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-secondary-foreground shrink-0"
                 >
                   <X size={20} />
                 </button>
@@ -62,6 +61,3 @@ export const GlassModal = ({ isOpen, onClose, title, children, className = '' }:
     </AnimatePresence>
   );
 };
-
-export const PremiumModal = GlassModal;
-export const Modal = GlassModal;

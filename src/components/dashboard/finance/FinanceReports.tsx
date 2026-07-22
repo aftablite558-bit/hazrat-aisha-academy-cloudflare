@@ -244,7 +244,7 @@ export const FinanceReports = ({
             onClick={() => setReportType(tab.id as any)}
             className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-colors ${
               reportType === tab.id
-                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md font-bold'
+                ? 'bg-primary-500 text-white shadow-lg'
                 : 'text-muted-foreground hover:text-white hover:bg-white/5'
             }`}
           >

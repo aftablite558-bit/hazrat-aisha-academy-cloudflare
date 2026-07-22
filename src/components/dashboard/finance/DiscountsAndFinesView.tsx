@@ -137,7 +137,7 @@ export const DiscountsAndFinesView = ({
           <button
             onClick={() => setActiveSubTab('discounts')}
             className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center gap-2 ${
-              activeSubTab === 'discounts' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md font-bold' : 'text-muted-foreground hover:text-white'
+              activeSubTab === 'discounts' ? 'bg-primary-500 text-white' : 'text-muted-foreground hover:text-white'
             }`}
           >
             <Percent size={16} /> Discounts & Concessions ({discounts.length})
@@ -145,7 +145,7 @@ export const DiscountsAndFinesView = ({
           <button
             onClick={() => setActiveSubTab('fines')}
             className={`px-4 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center gap-2 ${
-              activeSubTab === 'fines' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md font-bold' : 'text-muted-foreground hover:text-white'
+              activeSubTab === 'fines' ? 'bg-primary-500 text-white' : 'text-muted-foreground hover:text-white'
             }`}
           >
             <AlertCircle size={16} /> Fine & Waive Management ({fines.length})

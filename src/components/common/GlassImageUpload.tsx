@@ -68,13 +68,11 @@ export const GlassImageUpload = ({ label, value, onChange, path }: GlassImageUpl
       {label && <label className="text-sm font-semibold text-secondary-foreground">{label}</label>}
       <div className="flex items-center gap-4">
         {value ? (
-          <div className="relative w-28 h-28 rounded-2xl overflow-hidden glass border-2 border-emerald-500/40 shadow-lg group">
+          <div className="relative w-24 h-24 rounded-2xl overflow-hidden glass border border-white/20">
             <img src={value} alt="Uploaded" className="w-full h-full object-cover" />
             <button
               onClick={handleClear}
-              type="button"
-              aria-label="Remove image"
-              className="absolute top-1.5 right-1.5 p-1.5 bg-rose-600 hover:bg-rose-700 rounded-full text-white shadow-md transition-all hover:scale-110"
+              className="absolute top-1 right-1 p-1 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors"
             >
               <X size={14} />
             </button>
@@ -82,14 +80,14 @@ export const GlassImageUpload = ({ label, value, onChange, path }: GlassImageUpl
         ) : (
           <div
             onClick={() => fileInputRef.current?.click()}
-            className="w-28 h-28 rounded-2xl glass border-2 border-dashed border-emerald-500/30 hover:border-emerald-500 flex flex-col items-center justify-center cursor-pointer hover:bg-emerald-500/10 transition-all group"
+            className="w-24 h-24 rounded-2xl glass border border-white/20 flex flex-col items-center justify-center cursor-pointer hover:bg-white/10 transition-colors"
           >
             {isUploading ? (
-              <span className="text-xs font-bold text-emerald-500 animate-pulse">Uploading...</span>
+              <span className="text-xs text-muted-foreground animate-pulse">Uploading...</span>
             ) : (
               <>
-                <Upload size={24} className="text-emerald-500/80 group-hover:text-emerald-500 group-hover:scale-110 transition-all mb-1" />
-                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">Upload Image</span>
+                <Upload size={24} className="text-muted-foreground mb-1" />
+                <span className="text-xs text-muted-foreground">Upload</span>
               </>
             )}
           </div>

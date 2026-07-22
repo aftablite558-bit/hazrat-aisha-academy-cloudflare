@@ -15,12 +15,12 @@ export const Alumni = () => {
   }, [alumni]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-primary-500/30">
       <Navbar />
       <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto min-h-screen">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6">
-            Our <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400">Alumni</span>
+            Our <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500">Alumni</span>
           </h1>
           <p className="text-lg text-muted-foreground">Discover the inspiring journeys of our graduates making a difference worldwide.</p>
         </motion.div>

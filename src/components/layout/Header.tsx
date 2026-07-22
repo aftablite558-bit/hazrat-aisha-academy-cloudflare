@@ -1,6 +1,6 @@
 import { Bell, Search, Sun, Moon, User, LogOut, Settings, Menu } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { PremiumButton } from '../common/PremiumComponents';
+import { GlassButton } from '../common/GlassButton';
 import { useAuth } from '../../contexts/AuthContext';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -70,33 +70,33 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
       </div>
 
       <div className="flex items-center gap-2 lg:gap-4">
-        <PremiumButton variant="ghost" className="p-2 rounded-full glass hover:bg-white/10 transition-colors" onClick={toggleTheme}>
+        <GlassButton variant="ghost" className="p-2 rounded-full glass hover:bg-white/10 transition-colors" onClick={toggleTheme}>
           {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-secondary-foreground" />}
-        </PremiumButton>
+        </GlassButton>
         
         <div className="relative" ref={notifRef}>
-          <PremiumButton variant="ghost" className="p-2 relative rounded-full glass hover:bg-white/10 transition-colors" onClick={() => setShowNotifications(!showNotifications)}>
+          <GlassButton variant="ghost" className="p-2 relative rounded-full glass hover:bg-white/10 transition-colors" onClick={() => setShowNotifications(!showNotifications)}>
             <Bell size={20} />
             {unreadCount > 0 && (
               <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-danger-500 rounded-full border-2 border-background"></span>
             )}
-          </PremiumButton>
+          </GlassButton>
           
           {showNotifications && (
             <div className="absolute right-0 mt-4 w-80 glass rounded-2xl shadow-2xl border border-white/20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
               <div className="p-4 border-b border-white/10 flex justify-between items-center bg-white/5 dark:bg-black/10">
-                <h4 className="font-bold flex items-center gap-2">Notifications {unreadCount > 0 && <span className="bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-full">{unreadCount}</span>}</h4>
-                {unreadCount > 0 && <button className="text-xs text-emerald-600 dark:text-emerald-400 font-bold hover:underline" onClick={markAllRead}>Mark all as read</button>}
+                <h4 className="font-bold flex items-center gap-2">Notifications {unreadCount > 0 && <span className="bg-primary-500 text-white text-[10px] px-2 py-0.5 rounded-full">{unreadCount}</span>}</h4>
+                {unreadCount > 0 && <button className="text-xs text-primary-500 hover:underline" onClick={markAllRead}>Mark all as read</button>}
               </div>
               <div className="max-h-80 overflow-y-auto">
                 {notifications.length === 0 ? (
                   <div className="p-4 text-center text-sm text-muted-foreground">No notifications</div>
                 ) : (
                   notifications.map(n => (
-                    <div key={n.id} className={`p-4 border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer ${!n.read ? 'bg-emerald-500/10' : ''}`}>
+                    <div key={n.id} className={`p-4 border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer ${!n.read ? 'bg-primary-500/5' : ''}`}>
                       <p className="text-sm font-medium">{n.title}</p>
                       <p className="text-xs text-muted-foreground mt-1">{n.message}</p>
-                      <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-2">{new Date(n.date).toLocaleString()}</p>
+                      <p className="text-xs text-primary-500 mt-2">{new Date(n.date).toLocaleString()}</p>
                     </div>
                   ))
                 )}
@@ -150,6 +150,3 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
     </header>
   );
 };
-
-export const Header = GlassHeader;
-export const PremiumHeader = GlassHeader;

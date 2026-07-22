@@ -268,7 +268,7 @@ export const Reports = () => {
               </div>
             ) : (
               <>
-                <div className="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mb-6">
+                <div className="w-20 h-20 bg-primary-500/10 text-primary-500 rounded-full flex items-center justify-center mb-6">
                   <FileText size={40} />
                 </div>
                 <h3 className="text-xl font-bold mb-2">No Records Found</h3>

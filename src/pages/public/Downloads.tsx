@@ -30,7 +30,7 @@ export const Downloads = () => {
   const categories = ['All', ...Array.from(new Set(publishedDocs.map(d => d.category)))];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-emerald-500/30">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-primary-500/30">
       <Navbar />
       <main className="pt-32 pb-20 px-6 max-w-5xl mx-auto min-h-screen">
         <PageHeader title="Downloads" description="Access important forms, syllabus, and circulars." />
@@ -42,7 +42,7 @@ export const Downloads = () => {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${activeCategory === cat ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-950/20' : 'bg-white/10 text-foreground hover:bg-white/20 border border-white/20'}`}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${activeCategory === cat ? 'bg-primary-500 text-white' : 'bg-white/10 text-foreground hover:bg-white/20 border border-white/20'}`}
                 >
                   {cat}
                 </button>
@@ -62,9 +62,9 @@ export const Downloads = () => {
             ) : (
               filteredDocs.map((d, idx) => (
                 <motion.div key={d.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: idx * 0.05 }}>
-                  <GlassCard className="p-6 flex flex-col h-full hover:border-emerald-500/50 transition-colors">
+                  <GlassCard className="p-6 flex flex-col h-full hover:border-primary-500/50 transition-colors">
                     <div className="flex items-start gap-4 mb-4">
-                      <div className="p-3 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl">
+                      <div className="p-3 bg-primary-500/10 text-primary-500 rounded-xl">
                         <FileDown size={24} />
                       </div>
                       <div>
@@ -74,7 +74,7 @@ export const Downloads = () => {
                     </div>
                     
                     <div className="mt-auto pt-4">
-                      <a href={d.fileUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center w-full py-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-xl font-bold transition-colors text-sm border border-emerald-500/20">
+                      <a href={d.fileUrl} target="_blank" rel="noreferrer" className="flex items-center justify-center w-full py-2.5 bg-primary-500/10 hover:bg-primary-500/20 text-primary-500 rounded-lg font-medium transition-colors text-sm">
                         Download PDF
                       </a>
                     </div>

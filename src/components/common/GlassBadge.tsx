@@ -9,7 +9,7 @@ interface GlassBadgeProps {
 
 export const GlassBadge = ({ children, variant = 'default', className }: GlassBadgeProps) => {
   const variants = {
-    primary: 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-bold',
+    primary: 'bg-primary-500/20 text-primary-600 dark:text-primary-400 border border-primary-500/30',
     success: 'bg-success-500/20 text-success-600 dark:text-success-400 border border-success-500/30',
     warning: 'bg-warning-500/20 text-warning-600 dark:text-warning-400 border border-warning-500/30',
     danger: 'bg-danger-500/20 text-danger-600 dark:text-danger-400 border border-danger-500/30',

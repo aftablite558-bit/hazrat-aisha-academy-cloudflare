@@ -52,7 +52,7 @@ export const NotificationCenterWidget: React.FC<NotificationCenterWidgetProps> =
       case 'Feedback': return { icon: MessageSquareText, color: 'text-orange-500 bg-orange-500/10' };
       case 'Career Requests': return { icon: Briefcase, color: 'text-purple-500 bg-purple-500/10' };
       case 'Announcements': return { icon: Megaphone, color: 'text-sky-500 bg-sky-500/10' };
-      default: return { icon: Bell, color: 'text-emerald-500 bg-emerald-500/10' };
+      default: return { icon: Bell, color: 'text-primary-500 bg-primary-500/10' };
     }
   };
 
@@ -60,7 +60,7 @@ export const NotificationCenterWidget: React.FC<NotificationCenterWidgetProps> =
     <GlassCard className="p-6 flex flex-col h-full">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 border-b border-white/10 pb-3">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-emerald-500/10 text-emerald-500 rounded-xl relative">
+          <div className="p-2.5 bg-primary-500/10 text-primary-500 rounded-xl relative">
             <Bell size={20} />
             {unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white rounded-full text-[10px] font-black flex items-center justify-center animate-pulse">
@@ -77,7 +77,7 @@ export const NotificationCenterWidget: React.FC<NotificationCenterWidgetProps> =
         {onMarkAllRead && unreadCount > 0 && (
           <button
             onClick={onMarkAllRead}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-semibold text-emerald-600 dark:text-emerald-400 rounded-xl transition-all border border-white/10"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-xs font-semibold text-primary-500 rounded-xl transition-all border border-white/10"
           >
             <CheckCheck size={14} /> Mark All as Read
           </button>
@@ -90,8 +90,8 @@ export const NotificationCenterWidget: React.FC<NotificationCenterWidgetProps> =
           <button
             key={cat}
             onClick={() => setActiveTab(cat)}
-            className={`px-2.5 py-1 rounded-lg font-bold whitespace-nowrap transition-all ${
-              activeTab === cat ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'bg-white/5 text-muted-foreground hover:text-foreground'
+            className={`px-2.5 py-1 rounded-lg font-semibold whitespace-nowrap transition-all ${
+              activeTab === cat ? 'bg-primary-500 text-white' : 'bg-white/5 text-muted-foreground hover:text-foreground'
             }`}
           >
             {cat}
@@ -114,7 +114,7 @@ export const NotificationCenterWidget: React.FC<NotificationCenterWidgetProps> =
                 className={`p-3.5 rounded-2xl border transition-all flex items-start justify-between gap-3 group ${
                   notif.isRead
                     ? 'bg-white/5 border-white/10 opacity-75'
-                    : 'bg-emerald-500/10 border-emerald-500/30 shadow-sm'
+                    : 'bg-primary-500/5 border-primary-500/30 shadow-sm'
                 }`}
               >
                 <div
@@ -138,7 +138,7 @@ export const NotificationCenterWidget: React.FC<NotificationCenterWidgetProps> =
                       </span>
                     </div>
 
-                    <h4 className={`text-sm font-bold text-foreground group-hover:text-emerald-500 transition-colors ${!notif.isRead ? 'font-extrabold' : ''}`}>
+                    <h4 className={`text-sm font-bold text-foreground group-hover:text-primary-500 transition-colors ${!notif.isRead ? 'font-extrabold' : ''}`}>
                       {notif.title}
                     </h4>
                     <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
@@ -154,14 +154,14 @@ export const NotificationCenterWidget: React.FC<NotificationCenterWidgetProps> =
                     className={`p-1.5 rounded-lg border transition-colors ${
                       notif.isRead
                         ? 'text-muted-foreground bg-white/5 border-white/10 hover:text-foreground'
-                        : 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20 hover:bg-emerald-600 hover:text-white'
+                        : 'text-primary-500 bg-primary-500/10 border-primary-500/20 hover:bg-primary-500 hover:text-white'
                     }`}
                   >
                     <CheckCheck size={14} />
                   </button>
                   <button
                     onClick={() => navigate(notif.link)}
-                    className="p-1.5 rounded-lg text-muted-foreground hover:text-emerald-500 hover:bg-white/10 transition-colors"
+                    className="p-1.5 rounded-lg text-muted-foreground hover:text-primary-500 hover:bg-white/10 transition-colors"
                   >
                     <ArrowRight size={14} />
                   </button>
