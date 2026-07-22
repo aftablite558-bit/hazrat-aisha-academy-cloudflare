@@ -1,6 +1,6 @@
 {
   "name": "Hazrat Aisha Academy ERP",
-  "description": "A premium school ERP for Hazrat Aisha Academy, featuring academic management, communications, and administrative tools.",
+  "description": "Hazrat Aisha Academy — a premium Islamic school in Sitamarhi, Bihar, blending CBSE-aligned academics with Islamic values. Complete digital platform for admissions, results, staff management, and school communication.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
