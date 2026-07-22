@@ -45,7 +45,7 @@ export const StudentIDCardModal: React.FC<StudentIDCardModalProps> = ({
               onClick={() => setMode('single')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 mode === 'single'
-                  ? 'bg-primary-600 text-white shadow'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -56,7 +56,7 @@ export const StudentIDCardModal: React.FC<StudentIDCardModalProps> = ({
               onClick={() => setMode('bulk')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 mode === 'bulk'
-                  ? 'bg-primary-600 text-white shadow'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >

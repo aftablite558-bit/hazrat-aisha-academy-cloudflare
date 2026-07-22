@@ -16,7 +16,7 @@ export const FacilitiesPage = () => {
   }, [facilities]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-primary-500/30">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-emerald-500/30">
       <Navbar />
       <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto min-h-screen">
         <PageHeader title="Our Facilities" description="World-class infrastructure designed to foster learning, creativity, and growth." />

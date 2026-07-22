@@ -85,18 +85,18 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
           {showNotifications && (
             <div className="absolute right-0 mt-4 w-80 glass rounded-2xl shadow-2xl border border-white/20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
               <div className="p-4 border-b border-white/10 flex justify-between items-center bg-white/5 dark:bg-black/10">
-                <h4 className="font-bold flex items-center gap-2">Notifications {unreadCount > 0 && <span className="bg-primary-500 text-white text-[10px] px-2 py-0.5 rounded-full">{unreadCount}</span>}</h4>
-                {unreadCount > 0 && <button className="text-xs text-primary-500 hover:underline" onClick={markAllRead}>Mark all as read</button>}
+                <h4 className="font-bold flex items-center gap-2">Notifications {unreadCount > 0 && <span className="bg-emerald-600 text-white text-[10px] px-2 py-0.5 rounded-full">{unreadCount}</span>}</h4>
+                {unreadCount > 0 && <button className="text-xs text-emerald-600 dark:text-emerald-400 font-bold hover:underline" onClick={markAllRead}>Mark all as read</button>}
               </div>
               <div className="max-h-80 overflow-y-auto">
                 {notifications.length === 0 ? (
                   <div className="p-4 text-center text-sm text-muted-foreground">No notifications</div>
                 ) : (
                   notifications.map(n => (
-                    <div key={n.id} className={`p-4 border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer ${!n.read ? 'bg-primary-500/5' : ''}`}>
+                    <div key={n.id} className={`p-4 border-b border-white/10 hover:bg-white/5 transition-colors cursor-pointer ${!n.read ? 'bg-emerald-500/10' : ''}`}>
                       <p className="text-sm font-medium">{n.title}</p>
                       <p className="text-xs text-muted-foreground mt-1">{n.message}</p>
-                      <p className="text-xs text-primary-500 mt-2">{new Date(n.date).toLocaleString()}</p>
+                      <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-2">{new Date(n.date).toLocaleString()}</p>
                     </div>
                   ))
                 )}

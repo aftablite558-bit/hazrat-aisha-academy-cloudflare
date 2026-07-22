@@ -2,7 +2,14 @@ import { ReactNode, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../utils/index';
 
-export const GlassCard = ({ children, className, style }: { children: ReactNode; className?: string; style?: React.CSSProperties }) => {
+interface GlassCardProps {
+  children: ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  hoverable?: boolean;
+}
+
+export const GlassCard = ({ children, className, style, hoverable = true }: GlassCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -22,7 +29,7 @@ export const GlassCard = ({ children, className, style }: { children: ReactNode;
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      whileHover={{ y: -8, scale: 1.02 }}
+      whileHover={hoverable ? { y: -6, scale: 1.01 } : undefined}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       style={style} className={cn(
         'glass rounded-[32px] p-6 transition-all duration-300 hover:shadow-[0_20px_50px_rgba(0,0,0,0.15),inset_0_6px_16px_rgba(255,255,255,0.2)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.4),inset_0_6px_16px_rgba(255,255,255,0.1)] relative overflow-hidden group',

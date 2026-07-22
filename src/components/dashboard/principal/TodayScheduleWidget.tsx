@@ -38,32 +38,32 @@ export const TodayScheduleWidget: React.FC<TodayScheduleWidgetProps> = ({ events
         <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl text-xs border border-white/10">
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-              activeTab === 'all' ? 'bg-primary-500 text-white' : 'text-muted-foreground hover:text-foreground'
+            className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
+              activeTab === 'all' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             All
           </button>
           <button
             onClick={() => setActiveTab('classes')}
-            className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-              activeTab === 'classes' ? 'bg-primary-500 text-white' : 'text-muted-foreground hover:text-foreground'
+            className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
+              activeTab === 'classes' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Classes ({classesCount})
           </button>
           <button
             onClick={() => setActiveTab('exams')}
-            className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-              activeTab === 'exams' ? 'bg-primary-500 text-white' : 'text-muted-foreground hover:text-foreground'
+            className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
+              activeTab === 'exams' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Exams ({todayExams.length})
           </button>
           <button
             onClick={() => setActiveTab('events')}
-            className={`px-2.5 py-1 rounded-lg font-medium transition-all ${
-              activeTab === 'events' ? 'bg-primary-500 text-white' : 'text-muted-foreground hover:text-foreground'
+            className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
+              activeTab === 'events' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Events ({todayEvents.length})
@@ -129,11 +129,11 @@ export const TodayScheduleWidget: React.FC<TodayScheduleWidgetProps> = ({ events
                 className={`p-3.5 rounded-2xl border flex items-center justify-between ${
                   ev.isHoliday
                     ? 'bg-amber-500/10 border-amber-500/20'
-                    : 'bg-primary-500/10 border-primary-500/20'
+                    : 'bg-emerald-500/10 border-emerald-500/20'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-lg ${ev.isHoliday ? 'bg-amber-500/20 text-amber-500' : 'bg-primary-500/20 text-primary-500'}`}>
+                  <div className={`p-2 rounded-lg ${ev.isHoliday ? 'bg-amber-500/20 text-amber-500' : 'bg-emerald-500/20 text-emerald-500'}`}>
                     {ev.isHoliday ? <Sun size={18} /> : <Calendar size={18} />}
                   </div>
                   <div>
@@ -142,7 +142,7 @@ export const TodayScheduleWidget: React.FC<TodayScheduleWidgetProps> = ({ events
                   </div>
                 </div>
                 <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
-                  ev.isHoliday ? 'bg-amber-500/20 text-amber-500' : 'bg-primary-500/20 text-primary-500'
+                  ev.isHoliday ? 'bg-amber-500/20 text-amber-500' : 'bg-emerald-500/20 text-emerald-500'
                 }`}>
                   {ev.date}
                 </span>

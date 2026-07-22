@@ -94,7 +94,7 @@ export const HeaderWidget: React.FC<HeaderWidgetProps> = ({
         {/* Right Session & Time Widget */}
         <div className="flex flex-wrap items-center gap-4 border-t lg:border-t-0 lg:border-l border-white/20 pt-4 lg:pt-0 lg:pl-6">
           <div className="flex items-center gap-3 bg-white/10 dark:bg-slate-800/50 p-3 rounded-2xl border border-white/20">
-            <div className="p-2.5 bg-primary-500/10 text-primary-500 rounded-xl">
+            <div className="p-2.5 bg-emerald-500/10 text-emerald-500 rounded-xl">
               <Clock size={20} />
             </div>
             <div>

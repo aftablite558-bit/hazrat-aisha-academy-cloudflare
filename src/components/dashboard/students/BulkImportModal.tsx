@@ -132,8 +132,8 @@ export const BulkImportModal: React.FC<BulkImportModalProps> = ({
         </div>
 
         {/* Upload Box */}
-        <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-8 text-center hover:border-primary-500 dark:hover:border-primary-500 transition-colors bg-white/40 dark:bg-slate-900/40">
-          <Upload size={36} className="mx-auto text-primary-500 mb-3 opacity-80" />
+        <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-3xl p-8 text-center hover:border-emerald-500 dark:hover:border-emerald-500 transition-colors bg-white/40 dark:bg-slate-900/40">
+          <Upload size={36} className="mx-auto text-emerald-500 mb-3 opacity-80" />
           <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 mb-1">
             Step 2: Upload Completed CSV / XLSX File
           </h4>
@@ -141,7 +141,7 @@ export const BulkImportModal: React.FC<BulkImportModalProps> = ({
             Supports Microsoft Excel (.xlsx, .xls) or CSV files.
           </p>
 
-          <label className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold bg-primary-600 hover:bg-primary-700 text-white cursor-pointer shadow-lg transition-transform active:scale-95">
+          <label className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white cursor-pointer shadow-lg transition-transform active:scale-95">
             <Upload size={16} /> Choose File to Import
             <input
               type="file"

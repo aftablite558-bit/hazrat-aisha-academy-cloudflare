@@ -64,7 +64,7 @@ export const ForgotPassword = () => {
       <motion.div 
         animate={{ x: [0, 100, 0], y: [0, -50, 0] }}
         transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-        className="absolute top-0 -left-20 w-96 h-96 bg-primary-500/20 rounded-full blur-3xl" 
+        className="absolute top-0 -left-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl" 
       />
       <motion.div 
         animate={{ x: [0, -100, 0], y: [0, 50, 0] }}

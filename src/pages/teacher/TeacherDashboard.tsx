@@ -306,16 +306,16 @@ export const TeacherDashboard: React.FC = () => {
             {assignedClasses.map((cls) => {
               const classStudentCount = students.filter((s) => s.classId === cls.id).length;
               return (
-                <GlassCard key={cls.id} className="p-5 flex flex-col justify-between hover:border-primary-500/40 transition-all space-y-4">
+                <GlassCard key={cls.id} className="p-5 flex flex-col justify-between hover:border-emerald-500/40 transition-all space-y-4">
                   <div className="flex justify-between items-start">
                     <div>
-                      <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary-500/10 text-primary-500 border border-primary-500/20">
+                      <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                         {cls.className}
                       </span>
                       <h4 className="text-lg font-bold text-foreground mt-2">Class {cls.className}</h4>
                       <p className="text-xs text-muted-foreground mt-0.5">Section A • Morning Shift</p>
                     </div>
-                    <div className="w-10 h-10 rounded-2xl bg-primary-500/10 flex items-center justify-center text-primary-500">
+                    <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                       <Users size={20} />
                     </div>
                   </div>
@@ -391,8 +391,8 @@ export const TeacherDashboard: React.FC = () => {
             </div>
 
             <div className="space-y-3">
-              <div className="p-3 rounded-xl bg-primary-500/10 border border-primary-500/20 space-y-1">
-                <div className="flex justify-between text-xs font-semibold text-primary-500">
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                <div className="flex justify-between text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                   <span>Period 1 (08:30 AM - 09:15 AM)</span>
                   <span>Room 102</span>
                 </div>
