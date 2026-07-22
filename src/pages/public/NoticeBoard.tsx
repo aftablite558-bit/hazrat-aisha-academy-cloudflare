@@ -30,7 +30,7 @@ export const NoticeBoard = () => {
   const categories = ['All', ...Array.from(new Set(publishedNotices.map(n => n.category)))];
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-primary-500/30">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-emerald-500/30">
       <Navbar />
       <main className="pt-32 pb-20 px-6 max-w-5xl mx-auto min-h-screen">
         <PageHeader title="Notice Board" description="Latest announcements and updates from the school." />
@@ -41,7 +41,7 @@ export const NoticeBoard = () => {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${activeCategory === cat ? 'bg-primary-500 text-white' : 'bg-white/10 text-foreground hover:bg-white/20 border border-white/20'}`}
+                className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${activeCategory === cat ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-950/20' : 'bg-white/10 text-foreground hover:bg-white/20 border border-white/20'}`}
               >
                 {cat}
               </button>
@@ -116,7 +116,7 @@ export const NoticeBoard = () => {
                   href={selectedNotice.attachmentUrl} 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="inline-flex items-center justify-center w-full sm:w-auto gap-2 px-6 py-3 bg-primary-500 text-white rounded-xl hover:bg-primary-600 transition-colors font-medium shadow-lg shadow-primary-500/30"
+                  className="inline-flex items-center justify-center w-full sm:w-auto gap-2 px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl hover:from-emerald-700 hover:to-teal-700 transition-all font-bold shadow-lg shadow-emerald-950/20"
                 >
                   <FileText size={18} /> View / Download Attachment <Download size={16} className="ml-1" />
                 </a>

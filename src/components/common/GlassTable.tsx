@@ -4,7 +4,7 @@ import { cn } from '../../utils';
 
 export const GlassTable = ({ children, className }: { children: ReactNode; className?: string }) => {
   return (
-    <GlassCard className={cn("p-0 overflow-hidden", className)}>
+    <GlassCard hoverable={false} className={cn("p-0 overflow-hidden border border-emerald-500/20 dark:border-white/10", className)}>
       <div className="overflow-x-auto w-full custom-scrollbar max-h-[600px]">
         <table className="w-full text-left border-collapse glass-table">
           {children}
@@ -13,4 +13,7 @@ export const GlassTable = ({ children, className }: { children: ReactNode; class
     </GlassCard>
   );
 };
+
+export const PremiumTable = GlassTable;
+export const Table = GlassTable;
 

@@ -11,11 +11,11 @@ export const GlassInput = ({ label, className, id, ...props }: InputProps) => {
 
   return (
     <div className="flex flex-col gap-2">
-      {label && <label htmlFor={inputId} className="text-sm font-semibold text-secondary-foreground">{label}</label>}
+      {label && <label htmlFor={inputId} className="text-sm font-extrabold text-foreground tracking-wide">{label}</label>}
       <input
         id={inputId}
         className={cn(
-          'w-full px-5 py-3.5 !rounded-2xl glass text-foreground !shadow-[inset_0_2px_8px_rgba(0,0,0,0.05),0_1px_2px_rgba(255,255,255,0.2)] focus:!shadow-[0_0_0_4px_rgba(6,182,212,0.15),inset_0_2px_8px_rgba(0,0,0,0.05)] focus:!border-primary-500/50 outline-none transition-all duration-300',
+          'w-full px-5 py-3.5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/80 border border-white/10 dark:border-white/10 text-foreground shadow-inner focus:border-emerald-500/80 focus:ring-4 focus:ring-emerald-500/20 outline-none transition-all duration-300 placeholder:text-muted-foreground/60 font-medium',
           className
         )}
         {...props}
@@ -23,3 +23,6 @@ export const GlassInput = ({ label, className, id, ...props }: InputProps) => {
     </div>
   );
 };
+
+export const PremiumInput = GlassInput;
+export const Input = GlassInput;

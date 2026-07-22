@@ -16,12 +16,12 @@ export const PublicCalendar = () => {
   }, [events]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-primary-500/30">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-emerald-500/30">
       <Navbar />
       <main className="pt-32 pb-20 px-6 max-w-5xl mx-auto min-h-screen">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground mb-6">
-            Academic <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500">Calendar</span>
+            Academic <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400">Calendar</span>
           </h1>
           <p className="text-lg text-muted-foreground">Stay updated with upcoming school events, holidays, and examinations.</p>
         </motion.div>

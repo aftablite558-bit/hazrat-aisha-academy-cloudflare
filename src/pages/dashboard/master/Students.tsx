@@ -529,13 +529,13 @@ export const Students = () => {
               const className = classes.find(c => c.id === student.classId)?.className || student.classId;
 
               return (
-                <tr key={student.id} className={isSelected ? 'bg-primary-500/5' : ''}>
+                <tr key={student.id} className={isSelected ? 'bg-emerald-500/10 dark:bg-emerald-950/30' : ''}>
                   <td className="text-center">
                     <input
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => handleToggleSelect(student.id)}
-                      className="rounded text-primary-600"
+                      className="rounded text-emerald-600 accent-emerald-600"
                     />
                   </td>
 

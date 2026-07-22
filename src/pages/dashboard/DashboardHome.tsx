@@ -76,7 +76,7 @@ export const DashboardHome: React.FC = () => {
         getCollection<Admission>('admissions'),
         getCollection<StudentFee>('fees'),
         getCollection<Notice>('notices'),
-        getCollection<CalendarEvent>('calendar'),
+        getCollection<CalendarEvent>('calendar_events'),
         getCollection<ExamSchedule>('exam_schedules'),
         getCollection<GalleryAlbum>('gallery'),
         getCollection<FeedbackTicket>('feedback_tickets'),

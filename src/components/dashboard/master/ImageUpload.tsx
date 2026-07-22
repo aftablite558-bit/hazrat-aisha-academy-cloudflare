@@ -64,12 +64,12 @@ export const ImageUpload = ({ value, onChange, folder }: ImageUploadProps) => {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative w-32 h-32 rounded-full glass flex items-center justify-center overflow-hidden border-2 border-white/20">
+      <div className="relative w-32 h-32 rounded-3xl glass flex items-center justify-center overflow-hidden border-2 border-emerald-500/30 dark:border-amber-500/20 shadow-lg group">
         {value ? (
           <>
             <img src={value} alt="Uploaded" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-              <button type="button" onClick={handleRemove} className="p-2 rounded-full bg-danger-500 text-white">
+            <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <button type="button" onClick={handleRemove} aria-label="Remove image" className="p-2.5 rounded-full bg-rose-600 text-white shadow-lg hover:scale-110 transition-transform">
                 <X size={20} />
               </button>
             </div>
@@ -77,9 +77,9 @@ export const ImageUpload = ({ value, onChange, folder }: ImageUploadProps) => {
         ) : (
           <div className="text-secondary-foreground flex flex-col items-center">
             {isUploading ? (
-              <span className="text-sm font-medium animate-pulse">Uploading...</span>
+              <span className="text-xs font-bold text-emerald-500 animate-pulse">Uploading...</span>
             ) : (
-              <Camera size={32} className="opacity-50" />
+              <Camera size={32} className="text-emerald-500/70 opacity-80" />
             )}
           </div>
         )}
@@ -88,7 +88,7 @@ export const ImageUpload = ({ value, onChange, folder }: ImageUploadProps) => {
         <GlassButton 
           type="button" 
           variant="ghost" 
-          className="text-xs px-4 py-2"
+          className="text-xs px-4 py-2 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-bold"
           onClick={() => fileInputRef.current?.click()}
         >
           <Upload size={16} className="mr-2 inline" /> Upload Photo

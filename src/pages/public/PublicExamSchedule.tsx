@@ -17,7 +17,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 
 export const PublicExamSchedule = () => {
-  const { data: schedules } = useMasterData<ExamSchedule>('exam_schedules');
+  const { data: schedules } = useMasterData<ExamSchedule>('exam-schedule');
   const { data: classes } = useMasterData<Class>('classes');
   const { data: subjects } = useMasterData<Subject>('subjects');
   const { data: students } = useMasterData<Student>('students');

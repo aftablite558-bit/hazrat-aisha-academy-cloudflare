@@ -27,7 +27,7 @@ export const UpcomingEventsWidget: React.FC<UpcomingEventsWidgetProps> = ({ even
       case 'Exam': return { icon: Award, label: 'Exam', color: 'bg-purple-500/10 text-purple-500 border-purple-500/20' };
       case 'Meeting': return { icon: Users, label: 'Meeting', color: 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20' };
       case 'Birthday': return { icon: Cake, label: 'Birthday', color: 'bg-pink-500/10 text-pink-500 border-pink-500/20' };
-      default: return { icon: Sparkles, label: category || 'Event', color: 'bg-primary-500/10 text-primary-500 border-primary-500/20' };
+      default: return { icon: Sparkles, label: category || 'Event', color: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' };
     }
   };
 

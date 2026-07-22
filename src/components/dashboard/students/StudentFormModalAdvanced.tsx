@@ -125,14 +125,14 @@ export const StudentFormModalAdvanced: React.FC<StudentFormModalAdvancedProps> =
     >
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Tab Navigation */}
-        <div className="grid grid-cols-3 gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
+        <div className="grid grid-cols-3 gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/50 dark:border-white/10">
           <button
             type="button"
             onClick={() => setActiveTab('personal')}
-            className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+            className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
               activeTab === 'personal'
-                ? 'bg-primary-600 text-white shadow-md'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-950/20'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/5'
             }`}
           >
             <User size={15} /> 1. Personal Info
@@ -141,10 +141,10 @@ export const StudentFormModalAdvanced: React.FC<StudentFormModalAdvancedProps> =
           <button
             type="button"
             onClick={() => setActiveTab('academic')}
-            className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+            className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
               activeTab === 'academic'
-                ? 'bg-primary-600 text-white shadow-md'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-950/20'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/5'
             }`}
           >
             <BookOpen size={15} /> 2. Academic Info
@@ -153,10 +153,10 @@ export const StudentFormModalAdvanced: React.FC<StudentFormModalAdvancedProps> =
           <button
             type="button"
             onClick={() => setActiveTab('parent')}
-            className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
+            className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
               activeTab === 'parent'
-                ? 'bg-primary-600 text-white shadow-md'
-                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-950/20'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/40 dark:hover:bg-white/5'
             }`}
           >
             <Users size={15} /> 3. Parent & Contacts
@@ -467,7 +467,7 @@ export const StudentFormModalAdvanced: React.FC<StudentFormModalAdvancedProps> =
               type="submit"
               variant="primary"
               disabled={loading}
-              className="flex items-center gap-2 bg-gradient-to-r from-primary-600 to-indigo-600 text-white"
+              className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold"
             >
               <Save size={16} /> {loading ? 'Saving Record...' : 'Save Student Profile'}
             </GlassButton>

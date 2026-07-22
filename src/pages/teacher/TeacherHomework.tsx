@@ -246,7 +246,7 @@ export const TeacherHomework: React.FC = () => {
                   onClick={() => setStatusFilter(st)}
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                     statusFilter === st
-                      ? 'bg-primary-500 text-white shadow-md'
+                      ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md font-bold'
                       : 'glass text-muted-foreground hover:bg-white/10'
                   }`}
                 >

@@ -84,7 +84,7 @@ app.use(async (c, next) => {
   await next();
 });
 
-const ALLOWED_COLLECTIONS = ['academic_sessions', 'teachers', 'calendar_events', 'feedback_tickets', 
+const ALLOWED_COLLECTIONS = [
   'users', 'students', 'staff', 'teachers', 'classes', 'subjects', 'attendance', 
   'homework', 'results', 'reportcards', 'admissions', 'fees', 'notices', 
   'gallery', 'documents', 'calendar', 'achievements', 'testimonials', 

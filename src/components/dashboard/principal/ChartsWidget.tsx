@@ -101,32 +101,32 @@ export const ChartsWidget: React.FC<ChartsWidgetProps> = ({
         <div className="flex items-center gap-1.5 bg-white/5 p-1 rounded-xl border border-white/10 text-xs">
           <button
             onClick={() => setActiveChartTab('overview')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-              activeChartTab === 'overview' ? 'bg-primary-500 text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+              activeChartTab === 'overview' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Growth & Fees
           </button>
           <button
             onClick={() => setActiveChartTab('admissions')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-              activeChartTab === 'admissions' ? 'bg-primary-500 text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+              activeChartTab === 'admissions' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Admissions & Attendance
           </button>
           <button
             onClick={() => setActiveChartTab('performance')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-              activeChartTab === 'performance' ? 'bg-primary-500 text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+              activeChartTab === 'performance' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Academics
           </button>
           <button
             onClick={() => setActiveChartTab('demographics')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-              activeChartTab === 'demographics' ? 'bg-primary-500 text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+              activeChartTab === 'demographics' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Demographics
@@ -142,7 +142,7 @@ export const ChartsWidget: React.FC<ChartsWidgetProps> = ({
           <GlassCard className="p-6 flex flex-col h-[340px]">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <div className="p-2 bg-primary-500/10 text-primary-500 rounded-lg">
+                <div className="p-2 bg-emerald-500/10 text-emerald-500 rounded-lg">
                   <TrendingUp size={18} />
                 </div>
                 <h3 className="text-base font-bold text-foreground">Student Growth Trajectory</h3>
@@ -157,14 +157,14 @@ export const ChartsWidget: React.FC<ChartsWidgetProps> = ({
                 <AreaChart data={growthData}>
                   <defs>
                     <linearGradient id="growthGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
-                      <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <XAxis dataKey="month" stroke="#94a3b8" />
                   <YAxis stroke="#94a3b8" />
                   <Tooltip contentStyle={tooltipStyle} />
-                  <Area type="monotone" dataKey="students" stroke="#06b6d4" strokeWidth={3} fillOpacity={1} fill="url(#growthGrad)" />
+                  <Area type="monotone" dataKey="students" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#growthGrad)" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -183,7 +183,7 @@ export const ChartsWidget: React.FC<ChartsWidgetProps> = ({
                   {activeChartTab === 'overview' ? 'Monthly Fee Collection (₹)' : 'Monthly Admission Funnel'}
                 </h3>
               </div>
-              <span className="text-xs text-primary-500 font-bold bg-primary-500/10 px-2.5 py-1 rounded-full border border-primary-500/20">
+              <span className="text-xs text-emerald-500 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
                 Live Data
               </span>
             </div>

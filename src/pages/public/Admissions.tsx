@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { PublicLayout } from '../../layouts/PublicLayout';
 import { PageHeader } from '../../components/common/PageHeader';
-import { GlassCard } from '../../components/common/GlassCard';
-import { GlassButton } from '../../components/common/GlassButton';
-import { GlassModal } from '../../components/common/GlassModal';
-import { GlassInput } from '../../components/common/GlassInput';
-import { GlassSelect } from '../../components/common/GlassSelect';
-import { GlassTextarea } from '../../components/common/GlassTextarea';
+import { 
+  PremiumCard, 
+  PremiumButton, 
+  PremiumModal, 
+  PremiumInput, 
+  PremiumSelect, 
+  PremiumTextarea 
+} from '../../components/common/PremiumComponents';
 import { GlassImageUpload } from '../../components/common/GlassImageUpload';
 import { useToast } from '../../contexts/ToastContext';
 import { api } from '../../services/apiClient';
@@ -152,30 +154,30 @@ export const Admissions = () => {
       <div className="py-16 px-6 max-w-7xl mx-auto space-y-20 relative z-10">
 
         {/* Hero Section Banner */}
-        <GlassCard className="p-8 sm:p-12 relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-slate-900/90 via-slate-900/95 to-emerald-950/80 shadow-2xl">
+        <PremiumCard variant="luxury" glow="emerald" gradientBorder className="p-8 sm:p-12 relative overflow-hidden border-emerald-500/30">
           <div className="absolute -right-16 -top-16 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="flex flex-col lg:flex-row items-center justify-between gap-10 relative z-10">
             <div className="space-y-4 max-w-2xl text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-amber-300 text-xs font-extrabold uppercase tracking-widest">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-amber-300 text-xs font-extrabold uppercase tracking-widest shadow-md">
                 <Sparkles size={14} className="text-amber-400 animate-pulse" />
                 <span>Admissions Open • Pre-Nursery to Class X</span>
               </div>
               <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
                 Empower Your Child with Knowledge & Faith
               </h2>
-              <p className="text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-300 font-medium leading-relaxed">
                 We welcome bright young minds to experience an integrated education combining CBSE modern curriculum with Quranic recitation, Deeniyat, and moral values.
               </p>
               
               <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-semibold text-slate-300">
-                <span className="flex items-center gap-2 text-emerald-400">
+                <span className="flex items-center gap-2 text-emerald-400 font-bold">
                   <ShieldCheck size={16} /> Transparent Fee Policy
                 </span>
-                <span className="flex items-center gap-2 text-amber-400">
+                <span className="flex items-center gap-2 text-amber-400 font-bold">
                   <UserCheck size={16} /> Equal Opportunity Campus
                 </span>
-                <span className="flex items-center gap-2 text-teal-400">
+                <span className="flex items-center gap-2 text-teal-400 font-bold">
                   <Clock size={16} /> Morning & Day Batches
                 </span>
               </div>
@@ -187,50 +189,50 @@ export const Admissions = () => {
                 <p className="text-xl font-black text-white">Seats Are Filling Fast!</p>
                 <p className="text-xs text-slate-400">Apply early to secure your preferred grade</p>
               </div>
-              <GlassButton 
+              <PremiumButton 
                 variant="primary" 
+                size="lg"
                 onClick={() => setIsModalOpen(true)}
-                className="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-black text-sm shadow-xl shadow-emerald-950/40 hover:scale-105 transition-all flex items-center justify-center gap-2"
+                icon={<ArrowRight size={18} />}
               >
                 <GraduationCap size={20} />
                 <span>Apply Online Now</span>
-                <ArrowRight size={18} />
-              </GlassButton>
-              <a href="tel:+919470818538" className="text-xs font-semibold text-amber-300 hover:underline flex items-center gap-1.5 pt-1">
+              </PremiumButton>
+              <a href="tel:+919470818538" className="text-xs font-bold text-amber-300 hover:underline flex items-center gap-1.5 pt-1">
                 <PhoneCall size={14} /> Helpline: +91 9470818538
               </a>
             </div>
           </div>
-        </GlassCard>
+        </PremiumCard>
 
         {/* 4 Step Admission Process Grid */}
         <div className="space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30 shadow-md">
               Simple 4-Step Journey
             </span>
             <h3 className="text-2xl sm:text-4xl font-black text-foreground">How Admission Works</h3>
-            <p className="text-xs sm:text-sm text-muted-foreground">Follow these simple steps to enroll your child at Hazrat Aisha Academy.</p>
+            <p className="text-xs sm:text-sm text-muted-foreground font-medium">Follow these simple steps to enroll your child at Hazrat Aisha Academy.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step) => (
-              <GlassCard key={step.num} className="p-6 h-full flex flex-col justify-between hover:border-emerald-500/40 transition-all group">
+              <PremiumCard key={step.num} hoverable className="p-6 h-full flex flex-col justify-between group">
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono bg-emerald-500/10 px-3 py-1 rounded-xl">
+                    <span className="text-2xl font-black text-emerald-400 font-mono bg-emerald-500/10 px-3 py-1 rounded-xl border border-emerald-500/20">
                       {step.num}
                     </span>
-                    <CheckCircle2 size={18} className="text-slate-300 dark:text-slate-700 group-hover:text-emerald-500 transition-colors" />
+                    <CheckCircle2 size={18} className="text-slate-400 group-hover:text-emerald-500 transition-colors" />
                   </div>
-                  <h4 className="text-base font-bold text-foreground mb-2 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  <h4 className="text-base font-bold text-foreground mb-2 group-hover:text-emerald-400 transition-colors">
                     {step.title}
                   </h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                     {step.desc}
                   </p>
                 </div>
-              </GlassCard>
+              </PremiumCard>
             ))}
           </div>
         </div>
@@ -239,71 +241,71 @@ export const Admissions = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           
           {/* Required Documents Card */}
-          <GlassCard className="p-8 border-emerald-500/20">
+          <PremiumCard variant="emerald" className="p-8 border-emerald-500/30">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+              <div className="p-3 rounded-2xl bg-emerald-500/10 text-emerald-400 shadow-inner">
                 <FileText size={24} />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-foreground">Required Documents</h3>
-                <p className="text-xs text-muted-foreground">Keep digital copies ready for online application</p>
+                <p className="text-xs text-muted-foreground font-medium">Keep digital copies ready for online application</p>
               </div>
             </div>
 
             <ul className="space-y-3">
               {documentChecklist.map((doc, idx) => (
-                <li key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/50 text-xs font-semibold text-slate-700 dark:text-slate-300">
-                  <CheckCircle2 size={16} className="text-emerald-500 flex-none mt-0.5" />
+                <li key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-800 text-xs font-semibold text-slate-300">
+                  <CheckCircle2 size={16} className="text-emerald-400 flex-none mt-0.5" />
                   <span>{doc}</span>
                 </li>
               ))}
             </ul>
-          </GlassCard>
+          </PremiumCard>
 
           {/* Age Criteria & Guidelines */}
-          <GlassCard className="p-8 border-amber-500/20 flex flex-col justify-between">
+          <PremiumCard variant="gold" className="p-8 border-amber-500/30 flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                <div className="p-3 rounded-2xl bg-amber-500/10 text-amber-400 shadow-inner">
                   <Calendar size={24} />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-foreground">Age Criteria (as of April 1, 2026)</h3>
-                  <p className="text-xs text-muted-foreground">Standard age guidelines according to CBSE norms</p>
+                  <p className="text-xs text-muted-foreground font-medium">Standard age guidelines according to CBSE norms</p>
                 </div>
               </div>
 
               <div className="space-y-2 mb-6 text-xs">
-                <div className="flex justify-between p-3 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 font-semibold text-slate-700 dark:text-slate-300">
+                <div className="flex justify-between p-3 rounded-xl bg-slate-900/40 border border-slate-800 font-semibold text-slate-300">
                   <span>Nursery / LKG</span>
-                  <span className="text-amber-600 dark:text-amber-400 font-bold">3.0 – 4.5 Years</span>
+                  <span className="text-amber-400 font-bold">3.0 – 4.5 Years</span>
                 </div>
-                <div className="flex justify-between p-3 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 font-semibold text-slate-700 dark:text-slate-300">
+                <div className="flex justify-between p-3 rounded-xl bg-slate-900/40 border border-slate-800 font-semibold text-slate-300">
                   <span>UKG / Prep</span>
-                  <span className="text-amber-600 dark:text-amber-400 font-bold">4.5 – 5.5 Years</span>
+                  <span className="text-amber-400 font-bold">4.5 – 5.5 Years</span>
                 </div>
-                <div className="flex justify-between p-3 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 font-semibold text-slate-700 dark:text-slate-300">
+                <div className="flex justify-between p-3 rounded-xl bg-slate-900/40 border border-slate-800 font-semibold text-slate-300">
                   <span>Class 1</span>
-                  <span className="text-amber-600 dark:text-amber-400 font-bold">5.5 – 6.5 Years</span>
+                  <span className="text-amber-400 font-bold">5.5 – 6.5 Years</span>
                 </div>
-                <div className="flex justify-between p-3 rounded-xl bg-slate-100/70 dark:bg-slate-800/50 font-semibold text-slate-700 dark:text-slate-300">
+                <div className="flex justify-between p-3 rounded-xl bg-slate-900/40 border border-slate-800 font-semibold text-slate-300">
                   <span>Class 2 to Class 10</span>
-                  <span className="text-amber-600 dark:text-amber-400 font-bold">Corresponding Age + TC</span>
+                  <span className="text-amber-400 font-bold">Corresponding Age + TC</span>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-800 dark:text-amber-300 flex items-start gap-2.5">
-              <AlertCircle size={18} className="flex-none text-amber-500 mt-0.5" />
+            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 flex items-start gap-2.5">
+              <AlertCircle size={18} className="flex-none text-amber-400 mt-0.5" />
               <span>For details on fee structure, scholarships for deserving students, and transportation routes, please visit the administrative office or contact our helpline.</span>
             </div>
-          </GlassCard>
+          </PremiumCard>
         </div>
 
       </div>
 
       {/* Apply Now Modal */}
-      <GlassModal 
+      <PremiumModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         title="Student Admission Application (Session 2026–2027)"
@@ -312,25 +314,25 @@ export const Admissions = () => {
         <form onSubmit={handleSubmit} className="space-y-8 max-h-[75vh] overflow-y-auto pr-2 custom-scrollbar p-1">
           
           {/* Section 1: Student Details */}
-          <div className="p-6 rounded-2xl bg-slate-100/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-4">
-            <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-3">
-              <User size={18} className="text-emerald-500" />
+          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+              <User size={18} className="text-emerald-400" />
               <h4 className="text-sm font-extrabold uppercase tracking-wider text-foreground">1. Student Details</h4>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <GlassInput label="Student Full Name *" placeholder="e.g. Abdullah Khan" value={studentName} onChange={e => setStudentName(e.target.value)} required />
+              <PremiumInput label="Student Full Name *" placeholder="e.g. Abdullah Khan" value={studentName} onChange={e => setStudentName(e.target.value)} required />
               
-              <GlassSelect label="Gender *" value={gender} onChange={e => setGender(e.target.value)} required>
+              <PremiumSelect label="Gender *" value={gender} onChange={e => setGender(e.target.value)} required>
                 <option value="" disabled>Select Gender</option>
                 <option value="Male" className="bg-slate-900">Male</option>
                 <option value="Female" className="bg-slate-900">Female</option>
                 <option value="Other" className="bg-slate-900">Other</option>
-              </GlassSelect>
+              </PremiumSelect>
               
-              <GlassInput type="date" label="Date of Birth *" value={dob} onChange={e => setDob(e.target.value)} required />
+              <PremiumInput type="date" label="Date of Birth *" value={dob} onChange={e => setDob(e.target.value)} required />
               
-              <GlassSelect label="Class Applying For *" value={classApplied} onChange={e => setClassApplied(e.target.value)} required>
+              <PremiumSelect label="Class Applying For *" value={classApplied} onChange={e => setClassApplied(e.target.value)} required>
                 <option value="" disabled>Select Class</option>
                 <option value="Nursery" className="bg-slate-900">Nursery</option>
                 <option value="LKG" className="bg-slate-900">LKG</option>
@@ -345,45 +347,45 @@ export const Admissions = () => {
                 <option value="Class 8" className="bg-slate-900">Class 8</option>
                 <option value="Class 9" className="bg-slate-900">Class 9</option>
                 <option value="Class 10" className="bg-slate-900">Class 10</option>
-              </GlassSelect>
+              </PremiumSelect>
               
-              <GlassInput label="Previous School (if applicable)" placeholder="Name of previous school" value={previousSchool} onChange={e => setPreviousSchool(e.target.value)} />
-              <GlassInput label="Student Aadhaar Number (optional)" placeholder="12-digit Aadhaar Number" value={studentAadhaar} onChange={e => setStudentAadhaar(e.target.value)} />
-              <GlassInput label="Blood Group (optional)" placeholder="e.g. O+, A+, B+" value={bloodGroup} onChange={e => setBloodGroup(e.target.value)} />
+              <PremiumInput label="Previous School (if applicable)" placeholder="Name of previous school" value={previousSchool} onChange={e => setPreviousSchool(e.target.value)} />
+              <PremiumInput label="Student Aadhaar Number (optional)" placeholder="12-digit Aadhaar Number" value={studentAadhaar} onChange={e => setStudentAadhaar(e.target.value)} />
+              <PremiumInput label="Blood Group (optional)" placeholder="e.g. O+, A+, B+" value={bloodGroup} onChange={e => setBloodGroup(e.target.value)} />
             </div>
           </div>
 
           {/* Section 2: Parent/Guardian Details */}
-          <div className="p-6 rounded-2xl bg-slate-100/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-4">
-            <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-3">
-              <Users size={18} className="text-amber-500" />
+          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+              <Users size={18} className="text-amber-400" />
               <h4 className="text-sm font-extrabold uppercase tracking-wider text-foreground">2. Parent / Guardian Information</h4>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <GlassInput label="Father's Name *" placeholder="Father's full name" value={fatherName} onChange={e => setFatherName(e.target.value)} required />
-              <GlassInput label="Mother's Name *" placeholder="Mother's full name" value={motherName} onChange={e => setMotherName(e.target.value)} required />
-              <GlassInput label="Guardian's Name (if applicable)" placeholder="Guardian name if different" value={guardianName} onChange={e => setGuardianName(e.target.value)} />
-              <GlassInput label="Primary Mobile Number *" type="tel" placeholder="10-digit mobile number" value={parentPhone} onChange={e => setParentPhone(e.target.value)} required />
-              <GlassInput label="Alternate Mobile Number" type="tel" placeholder="Secondary mobile number" value={alternatePhone} onChange={e => setAlternatePhone(e.target.value)} />
-              <GlassInput label="Email Address (Optional)" type="email" placeholder="parent@example.com" value={parentEmail} onChange={e => setParentEmail(e.target.value)} />
+              <PremiumInput label="Father's Name *" placeholder="Father's full name" value={fatherName} onChange={e => setFatherName(e.target.value)} required />
+              <PremiumInput label="Mother's Name *" placeholder="Mother's full name" value={motherName} onChange={e => setMotherName(e.target.value)} required />
+              <PremiumInput label="Guardian's Name (if applicable)" placeholder="Guardian name if different" value={guardianName} onChange={e => setGuardianName(e.target.value)} />
+              <PremiumInput label="Primary Mobile Number *" type="tel" placeholder="10-digit mobile number" value={parentPhone} onChange={e => setParentPhone(e.target.value)} required />
+              <PremiumInput label="Alternate Mobile Number" type="tel" placeholder="Secondary mobile number" value={alternatePhone} onChange={e => setAlternatePhone(e.target.value)} />
+              <PremiumInput label="Email Address (Optional)" type="email" placeholder="parent@example.com" value={parentEmail} onChange={e => setParentEmail(e.target.value)} />
             </div>
             
             <div>
-              <GlassTextarea label="Complete Residential Address *" placeholder="Door No, Street, Colony, Village/Town, Sitamarhi, Bihar PIN" value={address} onChange={e => setAddress(e.target.value)} required rows={3} />
+              <PremiumTextarea label="Complete Residential Address *" placeholder="Door No, Street, Colony, Village/Town, Sitamarhi, Bihar PIN" value={address} onChange={e => setAddress(e.target.value)} required rows={3} />
             </div>
           </div>
 
           {/* Section 3: Documents Upload */}
-          <div className="p-6 rounded-2xl bg-slate-100/80 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-4">
-            <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-3">
-              <Upload size={18} className="text-teal-500" />
+          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+            <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+              <Upload size={18} className="text-teal-400" />
               <h4 className="text-sm font-extrabold uppercase tracking-wider text-foreground">3. Document Uploads (Optional during preliminary form)</h4>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Student Photograph</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Student Photograph</label>
                 <GlassImageUpload path="admissions/photos" value={photoUrl} onChange={setPhotoUrl} />
               </div>
               
@@ -396,31 +398,21 @@ export const Admissions = () => {
           </div>
 
           {/* Form Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-700">
-            <GlassButton type="button" variant="ghost" onClick={() => setIsModalOpen(false)} disabled={submitting}>
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+            <PremiumButton type="button" variant="ghost" onClick={() => setIsModalOpen(false)} disabled={submitting}>
               Cancel
-            </GlassButton>
-            <GlassButton 
+            </PremiumButton>
+            <PremiumButton 
               type="submit" 
               variant="primary" 
               disabled={submitting}
-              className="px-8 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-extrabold text-xs shadow-lg shadow-emerald-950/20 hover:scale-105 transition-all flex items-center gap-2"
+              icon={submitting ? undefined : <GraduationCap size={16} />}
             >
-              {submitting ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Submitting Application...</span>
-                </>
-              ) : (
-                <>
-                  <GraduationCap size={16} />
-                  <span>Submit Admission Application</span>
-                </>
-              )}
-            </GlassButton>
+              {submitting ? 'Submitting Application...' : 'Submit Admission Application'}
+            </PremiumButton>
           </div>
         </form>
-      </GlassModal>
+      </PremiumModal>
 
     </PublicLayout>
   );

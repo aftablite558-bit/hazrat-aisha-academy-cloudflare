@@ -84,19 +84,19 @@ export const StudentPromotionModal: React.FC<StudentPromotionModalProps> = ({
     <GlassModal isOpen={isOpen} onClose={onClose} title={isSingle ? `Promote Student: ${student?.fullName}` : "Bulk Student Promotion Engine"} className="max-w-3xl">
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Promotion Overview Card */}
-        <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 border border-indigo-200 dark:border-indigo-900/50 flex items-center justify-between gap-4">
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-amber-500/10 border border-emerald-500/30 dark:border-emerald-900/50 flex items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Source Grade</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Source Grade</p>
             <h4 className="text-base font-bold text-slate-900 dark:text-slate-100">{sourceClassName}</h4>
           </div>
 
-          <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 shadow-md">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white flex items-center justify-center flex-shrink-0 shadow-md shadow-emerald-950/20">
             <ArrowRight size={20} />
           </div>
 
           <div className="text-center sm:text-right">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Target Grade</p>
-            <h4 className="text-base font-bold text-indigo-600 dark:text-indigo-400">{targetClassName}</h4>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Target Grade</p>
+            <h4 className="text-base font-bold text-emerald-600 dark:text-emerald-400">{targetClassName}</h4>
           </div>
         </div>
 
@@ -180,7 +180,7 @@ export const StudentPromotionModal: React.FC<StudentPromotionModalProps> = ({
                     key={st.id}
                     className={`flex items-center justify-between p-2.5 rounded-xl text-xs transition-colors cursor-pointer ${
                       selectedStudentIds.includes(st.id)
-                        ? 'bg-primary-50 dark:bg-primary-950/40 border border-primary-200 dark:border-primary-800/60'
+                        ? 'bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60'
                         : 'bg-white dark:bg-slate-800/80 border border-slate-200/60 dark:border-slate-700/50 hover:bg-slate-100'
                     }`}
                   >

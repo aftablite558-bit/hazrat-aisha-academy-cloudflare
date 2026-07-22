@@ -14,31 +14,34 @@ export const GlassSelect = ({ label, options, children, className, id, ...props 
 
   return (
     <div className="flex flex-col gap-2">
-      {label && <label htmlFor={selectId} className="text-sm font-semibold text-secondary-foreground">{label}</label>}
+      {label && <label htmlFor={selectId} className="text-sm font-extrabold text-foreground tracking-wide">{label}</label>}
       <div className="relative">
         <select
           id={selectId}
           className={cn(
-            'w-full px-5 py-3.5 !rounded-2xl glass text-foreground !shadow-[inset_0_2px_8px_rgba(0,0,0,0.05),0_1px_2px_rgba(255,255,255,0.2)] focus:!shadow-[0_0_0_4px_rgba(6,182,212,0.15),inset_0_2px_8px_rgba(0,0,0,0.05)] focus:!border-primary-500/50 outline-none transition-all duration-300 appearance-none',
+            'w-full px-5 py-3.5 rounded-2xl bg-slate-900/60 dark:bg-slate-950/80 border border-white/10 dark:border-white/10 text-foreground shadow-inner focus:border-emerald-500/80 focus:ring-4 focus:ring-emerald-500/20 outline-none transition-all duration-300 appearance-none font-medium',
             className
           )}
           {...props}
         >
           {children ? children : (
             <>
-              <option value="" disabled className="bg-slate-50 dark:bg-slate-900 text-muted-foreground">Select an option</option>
+              <option value="" disabled className="bg-slate-900 text-muted-foreground">Select an option</option>
               {options?.map((option) => (
-                <option key={option.value} value={option.value} className="bg-slate-50 dark:bg-slate-900 text-foreground">
+                <option key={option.value} value={option.value} className="bg-slate-900 text-foreground">
                   {option.label}
                 </option>
               ))}
             </>
           )}
         </select>
-        <div className="absolute inset-y-0 right-6 flex items-center pointer-events-none text-secondary-foreground">
+        <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none text-muted-foreground">
           <ChevronDown size={20} />
         </div>
       </div>
     </div>
   );
 };
+
+export const PremiumSelect = GlassSelect;
+export const Select = GlassSelect;

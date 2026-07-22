@@ -14,7 +14,7 @@ export const getCollection = async <T extends BaseEntity>(collectionName: string
   try {
     const result = await dbGetCollection<T>(collectionName, params);
     // Sort by createdAt desc locally so that it matches the original orderBy('createdAt', 'desc') behavior
-    return (Array.isArray(result) ? result : []).sort((a, b) => {
+    return result.sort((a, b) => {
       const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
       const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
       return dateB - dateA;

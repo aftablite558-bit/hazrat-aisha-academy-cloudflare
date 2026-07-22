@@ -146,7 +146,7 @@ export const TeacherNotificationsPage: React.FC = () => {
                 onClick={() => setFilterType(ft)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0 ${
                   filterType === ft
-                    ? 'bg-primary-500 text-white shadow-md'
+                    ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md font-bold'
                     : 'glass text-muted-foreground hover:bg-white/10'
                 }`}
               >
@@ -161,11 +161,11 @@ export const TeacherNotificationsPage: React.FC = () => {
 
           <div className="flex items-center gap-3 self-end sm:self-auto">
             <span className="text-xs font-bold text-muted-foreground">
-              Unread: <strong className="text-primary-500">{unreadCount}</strong>
+              Unread: <strong className="text-emerald-500">{unreadCount}</strong>
             </span>
             <GlassButton
               variant="ghost"
-              className="text-xs font-semibold flex items-center gap-1.5 text-primary-500"
+              className="text-xs font-semibold flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400"
               onClick={markAllAsRead}
             >
               <CheckCheck size={16} /> Mark All Read
@@ -186,7 +186,7 @@ export const TeacherNotificationsPage: React.FC = () => {
               key={item.id}
               className={`p-5 transition-all flex flex-col sm:flex-row items-start justify-between gap-4 border-l-4 ${
                 !item.isRead
-                  ? 'border-l-primary-500 bg-primary-500/5'
+                  ? 'border-l-emerald-500 bg-emerald-500/10'
                   : 'border-l-transparent bg-white/5 opacity-80'
               }`}
             >

@@ -11,7 +11,7 @@ export const SetupGuard = ({ children }: { children: React.ReactNode }) => {
     const checkSetup = async () => {
       try {
         const response = await api.get('/auth/check-setup');
-        const count = response && typeof response.count === 'number' ? response.count : 0;
+        const count = typeof response.count === 'number' ? response.count : 0;
         if (count === 0 && location.pathname !== '/setup') {
           setNeedsSetup(true);
           navigate('/setup');

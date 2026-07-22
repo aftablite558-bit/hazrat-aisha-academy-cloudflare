@@ -205,7 +205,7 @@ export const Admissions = () => {
             {selectedAdmission.documentUrl && (
               <div className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-primary-500/10 text-primary-500 rounded-lg"><FileText size={20} /></div>
+                  <div className="p-2 bg-emerald-500/10 text-emerald-500 rounded-lg"><FileText size={20} /></div>
                   <div>
                     <h4 className="font-semibold text-sm">Supporting Documents</h4>
                     <p className="text-xs text-muted-foreground">PDF or Image</p>

@@ -88,9 +88,9 @@ export const StudentFeeProfileModal = ({
         <div className="p-5 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col md:flex-row gap-5 items-center justify-between">
           <div className="flex items-center gap-4">
             {student.photoUrl ? (
-              <img src={student.photoUrl} alt={student.fullName} className="w-16 h-16 rounded-full object-cover border-2 border-primary-500" />
+              <img src={student.photoUrl} alt={student.fullName} className="w-16 h-16 rounded-full object-cover border-2 border-emerald-500" />
             ) : (
-              <div className="w-16 h-16 rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center font-bold text-2xl border-2 border-primary-500/30">
+              <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-2xl border-2 border-emerald-500/30">
                 <User size={32} />
               </div>
             )}

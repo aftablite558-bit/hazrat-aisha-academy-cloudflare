@@ -75,7 +75,7 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
       <div className="space-y-6">
         {/* Profile Hero Section */}
         <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white relative overflow-hidden shadow-xl">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 relative z-10">
             {/* Photo Avatar */}
@@ -151,12 +151,12 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
         </div>
 
         {/* Tab Navigation */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 p-1.5 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/50 dark:border-white/10">
           <button
             onClick={() => setActiveTab('profile')}
             className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
               activeTab === 'profile'
-                ? 'bg-primary-600 text-white shadow-md'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
             }`}
           >
@@ -167,7 +167,7 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
             onClick={() => setActiveTab('parent')}
             className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
               activeTab === 'parent'
-                ? 'bg-primary-600 text-white shadow-md'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
             }`}
           >
@@ -178,7 +178,7 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
             onClick={() => setActiveTab('documents')}
             className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
               activeTab === 'documents'
-                ? 'bg-primary-600 text-white shadow-md'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
             }`}
           >
@@ -189,7 +189,7 @@ export const StudentProfileModal: React.FC<StudentProfileModalProps> = ({
             onClick={() => setActiveTab('timeline')}
             className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 ${
               activeTab === 'timeline'
-                ? 'bg-primary-600 text-white shadow-md'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
             }`}
           >

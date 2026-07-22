@@ -1,41 +1,25 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { MainLayout } from './components/layout/MainLayout';
-import { PublicLayout } from './components/layout/PublicLayout';
-import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
-import Admissions from './pages/Admissions';
-import Results from './pages/Results';
-import Notices from './pages/Notices';
-import Calendar from './pages/Calendar';
-import Gallery from './pages/Gallery';
-import Communication from './pages/Communication';
-import Staff from './pages/Staff';
-import Apply from './pages/Apply';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { ToastProvider } from './contexts/ToastContext';
+import { AuthProvider } from './contexts/AuthContext';
+import { SessionProvider } from './contexts/SessionContext';
+import { AppRoutes } from './routes/AppRoutes';
+import { SetupGuard } from './components/auth/SetupGuard';
 
-function App() {
+export default function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/results" element={<Results />} />
-          <Route path="/notices" element={<Notices />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/apply" element={<Apply />} />
-        </Route>
-
-        {/* ERP Routes */}
-        <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admissions" element={<Admissions />} />
-          <Route path="/communication" element={<Communication />} />
-          <Route path="/staff" element={<Staff />} />
-        </Route>
-      </Routes>
-    </Router>
+    <BrowserRouter>
+      <ThemeProvider>
+        <SessionProvider>
+          <ToastProvider>
+            <AuthProvider>
+              <SetupGuard>
+                <AppRoutes />
+              </SetupGuard>
+            </AuthProvider>
+          </ToastProvider>
+        </SessionProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
-
-export default App;

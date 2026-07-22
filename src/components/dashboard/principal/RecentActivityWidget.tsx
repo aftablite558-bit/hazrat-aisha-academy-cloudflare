@@ -47,7 +47,7 @@ export const RecentActivityWidget: React.FC<RecentActivityWidgetProps> = ({ acti
       case 'career': return { icon: Briefcase, color: 'text-purple-500 bg-purple-500/10 border-purple-500/20' };
       case 'notice': return { icon: Bell, color: 'text-sky-500 bg-sky-500/10 border-sky-500/20' };
       case 'gallery': return { icon: ImageIcon, color: 'text-pink-500 bg-pink-500/10 border-pink-500/20' };
-      default: return { icon: FileText, color: 'text-primary-500 bg-primary-500/10 border-primary-500/20' };
+      default: return { icon: FileText, color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' };
     }
   };
 
@@ -65,8 +65,8 @@ export const RecentActivityWidget: React.FC<RecentActivityWidgetProps> = ({ acti
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-2.5 py-1 rounded-lg font-semibold capitalize whitespace-nowrap transition-all ${
-                filter === f ? 'bg-primary-500 text-white' : 'bg-white/5 text-muted-foreground hover:text-foreground'
+              className={`px-2.5 py-1 rounded-lg font-bold capitalize whitespace-nowrap transition-all ${
+                filter === f ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md' : 'bg-white/5 text-muted-foreground hover:text-foreground'
               }`}
             >
               {f}
