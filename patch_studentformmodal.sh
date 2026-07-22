@@ -1,2 +1,0 @@
-sed -i "/import { Student } from '..\/..\/..\/types\/master';/a import { useMasterData } from '../../../hooks/useMasterData';\nimport { Class } from '../../../types/master';" src/components/dashboard/master/StudentFormModal.tsx
-sed -i "/const \[loading, setLoading\] = useState(false);/a \  const { data: classes } = useMasterData<Class>('classes', true);" src/components/dashboard/master/StudentFormModal.tsx

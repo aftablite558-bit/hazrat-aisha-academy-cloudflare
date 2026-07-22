@@ -1,46 +1,55 @@
-import { Navbar } from '../components/layout/Navbar';
-import { Footer } from '../components/layout/Footer';
-import { ReactNode } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { useLocation } from 'react-router-dom';
-import { ScrollProgressBar } from '../components/common/ScrollProgressBar';
-import { ScrollToTop } from '../components/common/ScrollToTop';
-import { MobileActionBar } from '../components/common/MobileActionBar';
+import React from 'react';
+import { Outlet, Link } from 'react-router-dom';
+import { GlassButton } from '../components/common/GlassComponents';
+import { Menu, X, GraduationCap } from 'lucide-react';
 
-export const PublicLayout = ({ children }: { children: ReactNode }) => {
-  const location = useLocation();
-  
+const PublicLayout: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   return (
-    <div className="min-h-screen flex flex-col bg-transparent transition-colors pb-16 sm:pb-0 relative overflow-x-clip">
-      {/* Scroll Progress Bar at Top */}
-      <ScrollProgressBar />
+    <div className="min-h-screen flex flex-col">
+      <nav className="fixed top-0 w-full z-50 bg-slate-950/50 backdrop-blur-xl border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-20 items-center">
+            <Link to="/" className="flex items-center gap-3">
+              <div className="p-2 bg-emerald-500/20 rounded-xl border border-emerald-500/30">
+                <GraduationCap className="w-8 h-8 text-emerald-400" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold tracking-tight text-white leading-none">HAZRAT AISHA</h1>
+                <p className="text-[10px] font-medium text-emerald-400 uppercase tracking-widest mt-1">Academy Sitamarhi</p>
+              </div>
+            </Link>
 
-      {/* Main Navbar Header */}
-      <Navbar />
+            <div className="hidden md:flex items-center gap-8">
+              <Link to="/about" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">About</Link>
+              <Link to="/academics" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Academics</Link>
+              <Link to="/admissions" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Admissions</Link>
+              <Link to="/gallery" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Gallery</Link>
+              <Link to="/contact" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Contact</Link>
+              <Link to="/login">
+                <GlassButton variant="primary" size="sm">ERP Login</GlassButton>
+              </Link>
+            </div>
 
-      {/* Animated Route Page Content */}
-      <AnimatePresence mode="wait">
-        <motion.main
-          key={location.pathname}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -15 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-          className="flex-1 pt-20"
-        >
-          {children}
-        </motion.main>
-      </AnimatePresence>
+            <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+        </div>
+      </nav>
 
-      {/* Main Footer */}
-      <Footer />
+      <main className="flex-grow pt-20">
+        <Outlet />
+      </main>
 
-      {/* Floating Scroll To Top Button */}
-      <ScrollToTop />
-
-      {/* Mobile Bottom Quick Action Bar */}
-      <MobileActionBar />
+      <footer className="bg-slate-950 border-t border-white/5 py-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-slate-500 text-sm">© 2026 Hazrat Aisha Academy. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 };
 
+export default PublicLayout;

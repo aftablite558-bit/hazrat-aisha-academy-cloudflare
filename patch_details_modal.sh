@@ -1,3 +1,0 @@
-sed -i "/import { Student } from '..\/..\/..\/types\/master';/a import { useMasterData } from '../../../hooks/useMasterData';\nimport { Class } from '../../../types/master';" src/components/dashboard/master/StudentDetailsModal.tsx
-sed -i "/export const StudentDetailsModal =/a \  const { data: classes } = useMasterData<Class>('classes', true);" src/components/dashboard/master/StudentDetailsModal.tsx
-sed -i 's/value={`${student.classId}`}/value={classes.find(c => c.id === student.classId)?.className || (classes.find(c => c.id === student.classId) as any)?.name || student.classId}/g' src/components/dashboard/master/StudentDetailsModal.tsx

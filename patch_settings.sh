@@ -1,1 +1,0 @@
-sed -i 's/await updateRecord(settingsData\[0\].id, formData);/const { id, createdAt, updatedAt, ...rest } = formData as any;\n        await updateRecord(settingsData[0].id, rest);/g' src/pages/dashboard/enterprise/Settings.tsx

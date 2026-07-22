@@ -1,1 +1,0 @@
-sed -i 's/import { motion, AnimatePresence } from '\''motion\/react'\'';/import { motion, AnimatePresence } from '\''motion\/react'\'';\nimport { useState, useMemo, useEffect } from '\''react'\'';\nimport { Navbar } from '\''..\/..\/components\/layout\/Navbar'\'';/' src/pages/public/GalleryPage.tsx
