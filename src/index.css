@@ -185,3 +185,50 @@
     padding: 20px !important;
   }
 }
+
+/* Mobile Responsive Modal Adjustments */
+@media (max-width: 768px) {
+  /* Make the form container fill the modal */
+  .mobile-modal-content form {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  /* Make button containers sticky at the bottom */
+  .mobile-modal-content > div:last-child,
+  .mobile-modal-content form > div:last-child {
+    position: sticky;
+    bottom: -20px; /* Accounts for modal padding */
+    margin: auto -20px -20px -20px;
+    padding: 16px 20px 20px;
+    background: inherit;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 50;
+  }
+  
+  /* Buttons should be full width */
+  .mobile-modal-content > div:last-child button,
+  .mobile-modal-content form > div:last-child button {
+    flex: 1;
+    width: 100%;
+  }
+
+  /* Reduce spacing between fields */
+  .mobile-modal-content .space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
+
+  /* Force height of GlassInput/GlassSelect to 48px */
+  .mobile-modal-content input:not([type="checkbox"]):not([type="radio"]),
+  .mobile-modal-content select {
+    height: 48px !important;
+  }
+
+  /* Make the upload image area smaller */
+  .mobile-modal-content .image-upload-area {
+    height: 120px !important;
+  }
+}

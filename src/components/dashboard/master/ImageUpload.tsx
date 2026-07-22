@@ -64,7 +64,7 @@ export const ImageUpload = ({ value, onChange, folder }: ImageUploadProps) => {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative w-32 h-32 rounded-full glass flex items-center justify-center overflow-hidden border-2 border-white/20">
+      <div className="relative w-32 h-32 image-upload-area rounded-full glass flex items-center justify-center overflow-hidden border-2 border-white/20">
         {value ? (
           <>
             <img src={value} alt="Uploaded" className="w-full h-full object-cover" />
