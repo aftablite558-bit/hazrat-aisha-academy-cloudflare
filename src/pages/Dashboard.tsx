@@ -1,3 +1,5 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Users, 
   BookOpen, 
@@ -7,7 +9,15 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 
-const StatCard = ({ icon: Icon, label, value, color, trend }: any) => (
+interface StatCardProps {
+  icon: React.ElementType;
+  label: string;
+  value: string;
+  color: string;
+  trend?: string;
+}
+
+const StatCard = ({ icon: Icon, label, value, color, trend }: StatCardProps) => (
   <div className="bg-white p-6 rounded-2xl border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
     <div className="flex items-start justify-between">
       <div className={`${color} p-3 rounded-xl text-white`}>
@@ -59,7 +69,7 @@ const Dashboard = () => {
                 <Bell className="h-5 w-5 mr-2 text-emerald-600" />
                 Latest Announcements
               </h2>
-              <button className="text-emerald-700 text-sm font-semibold hover:underline">View All</button>
+              <Link to="/notices" className="text-emerald-700 text-sm font-semibold hover:underline">View All</Link>
             </div>
             <div className="divide-y divide-neutral-50">
               {[
@@ -91,9 +101,9 @@ const Dashboard = () => {
                 <p className="text-emerald-100 text-sm mb-6 leading-relaxed">
                   Plan your schedule with integrated school events and holidays.
                 </p>
-                <button className="bg-white/10 hover:bg-white/20 px-6 py-2 rounded-xl text-sm font-semibold transition-colors border border-white/10">
+                <Link to="/calendar" className="inline-block bg-white/10 hover:bg-white/20 px-6 py-2 rounded-xl text-sm font-semibold transition-colors border border-white/10">
                   Open Calendar
-                </button>
+                </Link>
               </div>
               <CalendarIcon className="absolute -bottom-6 -right-6 h-32 w-32 text-white/5 group-hover:rotate-12 transition-transform duration-500" />
             </div>
@@ -103,7 +113,7 @@ const Dashboard = () => {
               </div>
               <h3 className="text-lg font-bold text-neutral-900">Staff Management</h3>
               <p className="text-neutral-500 text-sm">Efficiently manage teacher profiles and assignments.</p>
-              <button className="text-emerald-700 font-bold hover:underline">Access Directory &rarr;</button>
+              <Link to="/staff" className="text-emerald-700 font-bold hover:underline">Access Directory &rarr;</Link>
             </div>
           </div>
         </div>
@@ -114,18 +124,19 @@ const Dashboard = () => {
             <h3 className="font-bold text-neutral-900 mb-4">Quick Actions</h3>
             <div className="grid grid-cols-1 gap-3">
               {[
-                'New Admission Request',
-                'Upload Exam Results',
-                'Post New Notice',
-                'Send Message to Parents',
+                { label: 'New Admission Request', path: '/admissions' },
+                { label: 'Upload Exam Results', path: '/results' },
+                { label: 'Post New Notice', path: '/notices' },
+                { label: 'Send Message to Parents', path: '/communication' },
               ].map((action, i) => (
-                <button
+                <Link
                   key={i}
+                  to={action.path}
                   className="w-full text-left px-4 py-3 rounded-xl border border-neutral-100 hover:border-emerald-200 hover:bg-emerald-50 transition-all text-neutral-700 text-sm font-medium flex items-center justify-between group"
                 >
-                  {action}
+                  {action.label}
                   <ArrowUpRight className="h-4 w-4 text-neutral-300 group-hover:text-emerald-500" />
-                </button>
+                </Link>
               ))}
             </div>
           </div>

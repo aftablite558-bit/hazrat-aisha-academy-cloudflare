@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 import { 
   School, 
   Users, 
@@ -15,16 +15,17 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
+  { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
   { icon: Users, label: 'Admissions', path: '/admissions' },
   { icon: ClipboardList, label: 'Results', path: '/results' },
   { icon: Bell, label: 'Notices', path: '/notices' },
   { icon: Calendar, label: 'Calendar', path: '/calendar' },
   { icon: Image, label: 'Gallery', path: '/gallery' },
   { icon: MessageSquare, label: 'Communication', path: '/communication' },
+  { icon: Users, label: 'Staff', path: '/staff' },
 ];
 
-export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const MainLayout: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -117,7 +118,7 @@ export const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          {children}
+          <Outlet />
         </motion.div>
       </main>
 
