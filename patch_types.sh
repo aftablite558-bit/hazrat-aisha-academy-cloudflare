@@ -1,1 +1,0 @@
-sed -i 's/export type UserRole = '"'"'owner'"'"' | '"'"'super_admin'"'"' | '"'"'admin'"'"' | '"'"'principal'"'"' | '"'"'teacher'"'"' | '"'"'student'"'"' | '"'"'parent'"'"';/export type UserRole = '"'"'owner'"'"' | '"'"'super_admin'"'"' | '"'"'admin'"'"' | '"'"'principal'"'"' | '"'"'teacher'"'"' | '"'"'student'"'"' | '"'"'parent'"'"' | '"'"'user'"'"';/g' src/types/index.ts

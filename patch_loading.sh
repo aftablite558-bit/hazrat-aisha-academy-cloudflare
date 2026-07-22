@@ -1,1 +1,0 @@
-sed -i 's/{hasSearched && (/{isSearching ? (\n          <div className="flex justify-center p-12">\n            <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"><\/div>\n          <\/div>\n        ) : hasSearched \&\& (/' src/pages/public/PublicAttendance.tsx
