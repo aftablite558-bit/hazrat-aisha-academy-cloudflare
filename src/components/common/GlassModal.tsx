@@ -62,3 +62,6 @@ export const GlassModal = ({ isOpen, onClose, title, children, className = '' }:
     </AnimatePresence>
   );
 };
+
+export const PremiumModal = GlassModal;
+export const Modal = GlassModal;

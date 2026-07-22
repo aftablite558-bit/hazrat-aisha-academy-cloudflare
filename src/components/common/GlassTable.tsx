@@ -14,3 +14,6 @@ export const GlassTable = ({ children, className }: { children: ReactNode; class
   );
 };
 
+export const PremiumTable = GlassTable;
+export const Table = GlassTable;
+

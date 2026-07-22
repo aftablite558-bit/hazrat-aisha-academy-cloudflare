@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Image as ImageIcon, Sparkles, Eye, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { GlassButton } from '../common/GlassButton';
-import { GlassCard } from '../common/GlassCard';
+import { ArrowRight, Sparkles, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { PremiumButton, PremiumGalleryCard, PremiumCard } from '../common/PremiumComponents';
 import { useMasterData } from '../../hooks/useMasterData';
 import { GalleryAlbum } from '../../types/content';
 import { motion, AnimatePresence } from 'motion/react';
@@ -39,7 +38,7 @@ export const GalleryPreview = () => {
   return (
     <section className="py-24 px-6 relative z-10 overflow-hidden bg-slate-900/30 dark:bg-slate-950/50">
       {/* Background Radial Glow */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-500/5 blur-[130px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[300px] bg-emerald-500/10 blur-[130px] pointer-events-none rounded-full" />
 
       <div className="max-w-7xl mx-auto relative">
         {/* Header */}
@@ -50,24 +49,24 @@ export const GalleryPreview = () => {
             viewport={{ once: true }}
             className="max-w-2xl space-y-3"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-extrabold uppercase tracking-widest">
-              <Sparkles size={14} className="text-amber-400" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-extrabold uppercase tracking-widest shadow-md">
+              <Sparkles size={14} className="text-amber-400 animate-pulse" />
               <span>Campus Life & Events</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-foreground">
               Life at Hazrat Aisha Academy
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground font-normal">
+            <p className="text-sm sm:text-base text-muted-foreground font-medium">
               Glimpses of academic celebrations, sports, Islamic competitions, and vibrant daily activities.
             </p>
           </motion.div>
 
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <Link to="/gallery">
-              <GlassButton variant="outline" className="px-6 py-3 text-xs font-bold rounded-2xl flex items-center gap-2 border-emerald-500/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10">
+              <PremiumButton variant="outline" size="sm">
                 <span>View Full Photo Gallery</span>
                 <ArrowRight size={16} />
-              </GlassButton>
+              </PremiumButton>
             </Link>
           </motion.div>
         </div>
@@ -87,40 +86,19 @@ export const GalleryPreview = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
               >
-                <GlassCard 
+                <PremiumGalleryCard 
+                  title={album.title}
+                  category={album.category || 'Event'}
+                  imageUrl={album.images[0]}
                   onClick={() => openLightbox(album, 0)}
-                  className="group relative rounded-3xl overflow-hidden aspect-[4/3] cursor-pointer hover:border-emerald-500/40 transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-emerald-950/20"
-                >
-                  <img 
-                    src={album.images[0]} 
-                    alt={album.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent p-6 flex flex-col justify-end transition-opacity">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-md flex items-center gap-1">
-                        <ImageIcon size={12} /> {album.images.length} Photos
-                      </span>
-                      <span className="px-2.5 py-1 rounded-full bg-white/10 text-white/80 text-[10px] font-bold backdrop-blur-md">
-                        {album.category || 'Event'}
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-bold text-white leading-tight group-hover:text-amber-300 transition-colors">
-                      {album.title}
-                    </h3>
-                    <div className="flex items-center gap-1 text-emerald-400 text-xs font-semibold mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span>Click to view photos</span>
-                      <Eye size={14} />
-                    </div>
-                  </div>
-                </GlassCard>
+                />
               </motion.div>
             ))}
           </div>
         ) : (
-          <GlassCard className="text-center p-12">
+          <PremiumCard variant="luxury" className="text-center p-12">
             <p className="text-sm text-muted-foreground font-medium">Gallery is currently being updated with new school event photos.</p>
-          </GlassCard>
+          </PremiumCard>
         )}
       </div>
 
@@ -206,3 +184,4 @@ export const GalleryPreview = () => {
     </section>
   );
 };
+

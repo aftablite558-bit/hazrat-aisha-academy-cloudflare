@@ -105,4 +105,5 @@ export const GlassCard = ({
 
 // Reusable Card alias export for consistency across design components
 export const Card = GlassCard;
+export const PremiumCard = GlassCard;
 
