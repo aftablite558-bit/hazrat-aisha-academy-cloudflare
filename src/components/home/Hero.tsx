@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { GlassButton } from '../common/GlassButton';
+import { PremiumButton } from '../common/PremiumComponents';
 import { Link } from 'react-router-dom';
 import { 
   Sparkles, ArrowRight, ShieldCheck, Award, GraduationCap, 
@@ -132,34 +132,39 @@ export const Hero = () => {
           className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
         >
           <Link to="/admissions" className="w-full sm:w-auto">
-            <GlassButton 
-              variant="primary" 
-              className="w-full sm:w-auto px-8 py-4 text-sm font-extrabold rounded-2xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 text-slate-950 shadow-2xl shadow-amber-500/30 hover:shadow-amber-500/50 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 border border-amber-300/40"
+            <PremiumButton 
+              variant="gold" 
+              size="lg"
+              className="w-full sm:w-auto font-black tracking-wide"
+              icon={<ArrowRight size={16} />}
             >
               <Sparkles size={18} className="text-slate-950" />
               <span>Apply for Admission 2026-27</span>
-              <ArrowRight size={16} />
-            </GlassButton>
+            </PremiumButton>
           </Link>
 
           <Link to="/about" className="w-full sm:w-auto">
-            <GlassButton 
+            <PremiumButton 
               variant="glass" 
-              className="w-full sm:w-auto px-8 py-4 text-sm font-bold rounded-2xl bg-slate-900/80 text-slate-100 hover:text-white border border-emerald-500/30 hover:border-emerald-400/60 hover:bg-emerald-950/40 transition-all flex items-center justify-center gap-2"
+              size="lg"
+              className="w-full sm:w-auto"
+              icon={<Compass size={18} className="text-emerald-400" />}
+              iconPosition="left"
             >
-              <Compass size={18} className="text-emerald-400" />
               <span>Explore Academy</span>
-            </GlassButton>
+            </PremiumButton>
           </Link>
 
           <a href="https://wa.me/919470818538" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-            <GlassButton 
+            <PremiumButton 
               variant="ghost" 
-              className="w-full sm:w-auto px-6 py-4 text-sm font-semibold rounded-2xl text-emerald-300 hover:text-emerald-200 hover:bg-emerald-500/10 transition-colors flex items-center justify-center gap-2 border border-emerald-500/20"
+              size="lg"
+              className="w-full sm:w-auto text-emerald-300 border border-emerald-500/20"
+              icon={<PhoneCall size={16} />}
+              iconPosition="left"
             >
-              <PhoneCall size={16} />
               <span>+91 9470818538</span>
-            </GlassButton>
+            </PremiumButton>
           </a>
         </motion.div>
 
