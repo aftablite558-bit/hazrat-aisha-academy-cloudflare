@@ -88,8 +88,7 @@ const ALLOWED_COLLECTIONS = [
   'users', 'students', 'staff', 'teachers', 'classes', 'subjects', 'attendance', 
   'homework', 'results', 'reportcards', 'admissions', 'fees', 'notices', 
   'gallery', 'documents', 'calendar', 'achievements', 'testimonials', 
-  'audit_logs', 'settings', 'school_info', 'notifications', 'exam_marks', 'alumni', 'sections', 'enquiries', 'careers', 'facilities', 'exam_schedules', 'career_applications',
-  'teacher_leaves', 'teacher_timetables', 'fee_structures', 'fee_receipts', 'fee_discounts', 'fee_fines', 'fee_refunds'
+  'audit_logs', 'settings', 'school_info', 'notifications', 'exam_marks', 'alumni', 'sections', 'enquiries', 'careers', 'facilities', 'exam_schedules', 'career_applications'
 ];
 
 // Generic CRUD (stripped /api prefix)
@@ -122,6 +121,16 @@ app.get('/collection/:name', async (c) => {
     .all();
     
   return c.json({ success: true, data: results });
+});
+
+app.get('/collection/:name/:id', async (c) => {
+  const name = c.req.param('name');
+  const id = c.req.param('id');
+  if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
+  await ensureTableAndColumns(c.env.DB, name, []);
+  const result = await c.env.DB.prepare().bind(id).first();
+  if (!result) return c.json({ success: false, error: 'Not found' }, 404);
+  return c.json({ success: true, data: result });
 });
 
 app.get('/collection/:name/:id', async (c) => {

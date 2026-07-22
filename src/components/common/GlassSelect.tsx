@@ -1,4 +1,4 @@
-import { SelectHTMLAttributes, ReactNode, useId } from 'react';
+import { SelectHTMLAttributes, ReactNode } from 'react';
 import { cn } from '../../utils/index';
 import { ChevronDown } from 'lucide-react';
 
@@ -8,18 +8,14 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   children?: ReactNode;
 }
 
-export const GlassSelect = ({ label, options, children, className, id, ...props }: SelectProps) => {
-  const autoId = useId();
-  const selectId = id || (label ? `select-${autoId}` : undefined);
-
+export const GlassSelect = ({ label, options, children, className, ...props }: SelectProps) => {
   return (
     <div className="flex flex-col gap-2">
-      {label && <label htmlFor={selectId} className="text-sm font-semibold text-secondary-foreground">{label}</label>}
+      {label && <label className="text-sm font-semibold text-secondary-foreground">{label}</label>}
       <div className="relative">
         <select
-          id={selectId}
           className={cn(
-            'w-full px-5 py-3.5 !rounded-2xl glass text-foreground !shadow-[inset_0_2px_8px_rgba(0,0,0,0.05),0_1px_2px_rgba(255,255,255,0.2)] focus:!shadow-[0_0_0_4px_rgba(16,185,129,0.2),inset_0_2px_8px_rgba(0,0,0,0.05)] focus:!border-emerald-500/60 outline-none transition-all duration-300 appearance-none',
+            'w-full px-5 py-3.5 !rounded-2xl glass text-foreground !shadow-[inset_0_2px_8px_rgba(0,0,0,0.05),0_1px_2px_rgba(255,255,255,0.2)] focus:!shadow-[0_0_0_4px_rgba(6,182,212,0.15),inset_0_2px_8px_rgba(0,0,0,0.05)] focus:!border-primary-500/50 outline-none transition-all duration-300 appearance-none',
             className
           )}
           {...props}

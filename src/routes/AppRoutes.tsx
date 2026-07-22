@@ -7,7 +7,6 @@ import { Unauthorized } from '../pages/error/Unauthorized';
 import { NotFound } from '../pages/error/NotFound';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { DashboardLayout } from '../layouts/DashboardLayout';
-import { LoadingScreen } from '../components/common/LoadingScreen';
 
 const Home = lazy(() => import('../pages/public/Home').then(m => ({ default: m.Home })));
 const About = lazy(() => import('../pages/public/About').then(m => ({ default: m.About })));
@@ -62,20 +61,9 @@ const Settings = lazy(() => import('../pages/dashboard/enterprise/Settings').the
 const Users = lazy(() => import('../pages/dashboard/enterprise/Users').then(m => ({ default: m.Users })));
 const BackupRestore = lazy(() => import('../pages/dashboard/enterprise/BackupRestore').then(m => ({ default: m.BackupRestore })));
 
-// Teacher Portal Modules
-const TeacherDashboard = lazy(() => import('../pages/teacher/TeacherDashboard').then(m => ({ default: m.TeacherDashboard })));
-const TeacherClasses = lazy(() => import('../pages/teacher/TeacherClasses').then(m => ({ default: m.TeacherClasses })));
-const TeacherAttendance = lazy(() => import('../pages/teacher/TeacherAttendance').then(m => ({ default: m.TeacherAttendance })));
-const TeacherHomework = lazy(() => import('../pages/teacher/TeacherHomework').then(m => ({ default: m.TeacherHomework })));
-const TeacherResults = lazy(() => import('../pages/teacher/TeacherResults').then(m => ({ default: m.TeacherResults })));
-const TeacherTimetable = lazy(() => import('../pages/teacher/TeacherTimetable').then(m => ({ default: m.TeacherTimetable })));
-const TeacherLeavePage = lazy(() => import('../pages/teacher/TeacherLeave').then(m => ({ default: m.TeacherLeavePage })));
-const TeacherProfilePage = lazy(() => import('../pages/teacher/TeacherProfile').then(m => ({ default: m.TeacherProfilePage })));
-const TeacherNotificationsPage = lazy(() => import('../pages/teacher/TeacherNotifications').then(m => ({ default: m.TeacherNotificationsPage })));
-
 export function AppRoutes() {
   return (
-    <Suspense fallback={<LoadingScreen />}>
+    <Suspense fallback={<div className="flex h-screen w-full items-center justify-center bg-slate-50 dark:bg-slate-900 text-primary-500 font-medium">Loading Module...</div>}>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/setup" element={<SetupOwner />} />
@@ -154,20 +142,17 @@ export function AppRoutes() {
         <Route
           path="/teacher"
           element={
-            <ProtectedRoute allowedRoles={['teacher', 'admin', 'principal', 'owner', 'super_admin']}>
+            <ProtectedRoute allowedRoles={['teacher']}>
               <DashboardLayout />
             </ProtectedRoute>
           }
         >
-          <Route index element={<TeacherDashboard />} />
-          <Route path="classes" element={<TeacherClasses />} />
-          <Route path="attendance" element={<TeacherAttendance />} />
-          <Route path="homework" element={<TeacherHomework />} />
-          <Route path="results" element={<TeacherResults />} />
-          <Route path="timetable" element={<TeacherTimetable />} />
-          <Route path="leave" element={<TeacherLeavePage />} />
-          <Route path="notifications" element={<TeacherNotificationsPage />} />
-          <Route path="profile" element={<TeacherProfilePage />} />
+          <Route index element={<DashboardHome />} />
+          <Route path="attendance" element={<Attendance />} />
+          <Route path="homework" element={<Homework />} />
+          <Route path="exam-marks" element={<ExamMarks />} />
+          <Route path="exam-schedule" element={<ExamSchedule />} />
+          <Route path="results" element={<Results />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

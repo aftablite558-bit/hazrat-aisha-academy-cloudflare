@@ -31,14 +31,10 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
     if (profile?.role === 'teacher') {
       return [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/teacher' },
-        { icon: Users, label: 'My Classes', path: '/teacher/classes' },
         { icon: ClipboardList, label: 'Attendance', path: '/teacher/attendance' },
         { icon: Book, label: 'Homework', path: '/teacher/homework' },
-        { icon: BookMarked, label: 'Result Entry', path: '/teacher/results' },
-        { icon: Calendar, label: 'Timetable', path: '/teacher/timetable' },
-        { icon: FileText, label: 'Leave Management', path: '/teacher/leave' },
-        { icon: Bell, label: 'Notifications', path: '/teacher/notifications' },
-        { icon: UserCircle, label: 'My Profile', path: '/teacher/profile' },
+        { icon: PenTool, label: 'Exam Marks', path: '/teacher/exam-marks' },
+        { icon: BookMarked, label: 'Results', path: '/teacher/results' },
       ];
     }
     
@@ -90,13 +86,13 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
 
   const sidebarContent = (
     <>
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-amber-300 to-emerald-300 flex items-center gap-2 truncate">
-          {logoUrl ? <img src={logoUrl} alt="Logo" className="w-8 h-8 object-contain" /> : <GraduationCap className="text-emerald-400 shrink-0" />} 
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500 flex items-center gap-2 truncate">
+          {logoUrl ? <img src={logoUrl} alt="Logo" className="w-8 h-8 object-contain" /> : <GraduationCap className="text-primary-500 shrink-0" />} 
           <span className="truncate">{schoolName.replace(' Academy', '')}</span>
         </h1>
         {onClose && (
-          <button className="lg:hidden p-3 rounded-full glass hover:bg-white/10 transition-colors" onClick={onClose} aria-label="Close sidebar">
+          <button className="lg:hidden p-3 rounded-full glass hover:bg-white/10 transition-colors" onClick={onClose}>
             <X size={20} className="text-secondary-foreground" />
           </button>
         )}
@@ -109,10 +105,10 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
             end={item.path === '/dashboard' || item.path === '/teacher'}
             onClick={() => onClose?.()}
             className={({ isActive }) =>
-              `flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all relative overflow-hidden ${
+              `flex items-center gap-4 px-4 py-3.5 rounded-full transition-all relative overflow-hidden ${
                 isActive
-                  ? 'text-white bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-600 backdrop-blur-xl border border-emerald-400/50 shadow-[0_0_20px_rgba(16,185,129,0.35),inset_0_2px_4px_rgba(255,255,255,0.3)] font-bold'
-                  : 'text-secondary-foreground font-medium hover:bg-emerald-500/10 hover:text-emerald-400 dark:hover:bg-white/5'
+                  ? 'text-white bg-[rgba(6,182,212,0.4)] backdrop-blur-xl border border-[rgba(6,182,212,0.5)] shadow-[0_0_20px_rgba(6,182,212,0.4),inset_0_2px_4px_rgba(255,255,255,0.4)] font-bold'
+                  : 'text-secondary-foreground font-medium hover:bg-white/20 dark:hover:bg-white/5'
               }`
             }
           >
