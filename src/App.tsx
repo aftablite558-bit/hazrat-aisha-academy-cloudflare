@@ -1,35 +1,37 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { School } from 'lucide-react';
+import { MainLayout } from './components/layout/MainLayout';
+import Dashboard from './pages/Dashboard';
+import Admissions from './pages/Admissions';
+
+const PlaceholderPage = ({ title }: { title: string }) => (
+  <div className="bg-white p-12 rounded-3xl border border-neutral-100 shadow-sm flex flex-col items-center text-center">
+    <div className="h-16 w-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
+      <School className="h-8 w-8" />
+    </div>
+    <h2 className="text-2xl font-bold text-neutral-900 mb-2">{title} Portal</h2>
+    <p className="text-neutral-500 max-w-md">
+      This module is currently being synchronized with the academy's central database. 
+      Please check back shortly for full access.
+    </p>
+  </div>
+);
+
 function App() {
   return (
-    <div className="min-h-screen bg-neutral-50 flex flex-col items-center justify-center p-4">
-      <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8 border border-neutral-100">
-        <h1 className="text-4xl font-bold text-neutral-900 mb-4 text-center">
-          Hazrat Aisha Academy ERP
-        </h1>
-        <p className="text-lg text-neutral-600 mb-8 text-center leading-relaxed">
-          Welcome back. The system environment has been restored. 
-          We are currently rebuilding the application modules following the recent cleanup.
-        </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-100">
-            <h3 className="font-semibold text-neutral-800 mb-2">Restoration Progress</h3>
-            <div className="w-full bg-neutral-200 rounded-full h-2">
-              <div className="bg-emerald-500 h-2 rounded-full w-1/4"></div>
-            </div>
-            <p className="text-sm text-neutral-500 mt-2">Core environment restored</p>
-          </div>
-          
-          <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-100">
-            <h3 className="font-semibold text-neutral-800 mb-2">Next Steps</h3>
-            <ul className="text-sm text-neutral-500 list-disc list-inside space-y-1">
-              <li>Restore Auth Module</li>
-              <li>Rebuild Dashboard</li>
-              <li>Connect Database</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Router>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/admissions" element={<Admissions />} />
+          <Route path="/results" element={<PlaceholderPage title="Results" />} />
+          <Route path="/notices" element={<PlaceholderPage title="Notice Board" />} />
+          <Route path="/calendar" element={<PlaceholderPage title="Academic Calendar" />} />
+          <Route path="/gallery" element={<PlaceholderPage title="School Gallery" />} />
+          <Route path="/communication" element={<PlaceholderPage title="Communication" />} />
+        </Routes>
+      </MainLayout>
+    </Router>
   );
 }
 
