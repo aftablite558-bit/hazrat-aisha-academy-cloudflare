@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hazrat-aisha-academy-erp",
+  "compatibility_date": "2026-07-20",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hazrat-aisha-erp-db",
+      "database_id": "YOUR_D1_DATABASE_ID"
+    }
+  ]
+}

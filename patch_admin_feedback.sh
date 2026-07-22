@@ -1,0 +1,3 @@
+sed -i "s/const Enquiries = lazy(() => import('..\/pages\/dashboard\/content\/Enquiries').then(m => ({ default: m.Enquiries })));/const Enquiries = lazy(() => import('..\/pages\/dashboard\/content\/Enquiries').then(m => ({ default: m.Enquiries })));\nconst PublicFeedbackDashboard = lazy(() => import('..\/pages\/dashboard\/content\/PublicFeedbackDashboard').then(m => ({ default: m.PublicFeedbackDashboard })));/" src/routes/AppRoutes.tsx
+
+sed -i "s/<Route path=\"contact\" element={<Enquiries \/>} \/>/<Route path=\"contact\" element={<Enquiries \/>} \/>\n          <Route path=\"feedback\" element={<PublicFeedbackDashboard \/>} \/>/" src/routes/AppRoutes.tsx

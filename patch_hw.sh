@@ -1,0 +1,1 @@
+sed -i 's/if (!selectedStudent) return \[\];/if (!selectedStudent) return homeworks.sort((a,b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());/g' src/pages/dashboard/academic/Homework.tsx
