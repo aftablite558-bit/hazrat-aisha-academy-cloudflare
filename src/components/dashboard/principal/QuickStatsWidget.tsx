@@ -180,32 +180,32 @@ export const QuickStatsWidget: React.FC<QuickStatsWidgetProps> = ({ stats }) => 
         <div className="flex items-center gap-1.5 bg-white/5 p-1 rounded-xl border border-white/10 text-xs">
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-              activeTab === 'all' ? 'bg-primary-500 text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+              activeTab === 'all' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-950/20' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             All Stats ({allCards.length})
           </button>
           <button
             onClick={() => setActiveTab('students')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-              activeTab === 'students' ? 'bg-primary-500 text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+              activeTab === 'students' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-950/20' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Students & Staff
           </button>
           <button
             onClick={() => setActiveTab('attendance')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-              activeTab === 'attendance' ? 'bg-primary-500 text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+              activeTab === 'attendance' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-950/20' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Attendance
           </button>
           <button
             onClick={() => setActiveTab('pending')}
-            className={`px-3 py-1.5 rounded-lg font-medium transition-all ${
-              activeTab === 'pending' ? 'bg-primary-500 text-white shadow-sm' : 'text-muted-foreground hover:text-foreground'
+            className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+              activeTab === 'pending' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-950/20' : 'text-muted-foreground hover:text-foreground'
             }`}
           >
             Action Needed
@@ -220,7 +220,7 @@ export const QuickStatsWidget: React.FC<QuickStatsWidgetProps> = ({ stats }) => 
           return (
             <GlassCard
               key={idx}
-              className="p-5 flex flex-col justify-between hover:border-primary-500/50 transition-all duration-300 hover:scale-[1.02] group cursor-default"
+              className="p-5 flex flex-col justify-between hover:border-emerald-500/50 transition-all duration-300 hover:scale-[1.02] group cursor-default"
             >
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className={`p-3 rounded-2xl ${card.bg} border flex items-center justify-center`}>
@@ -231,7 +231,7 @@ export const QuickStatsWidget: React.FC<QuickStatsWidgetProps> = ({ stats }) => 
                 </span>
               </div>
               <div>
-                <h3 className="text-2xl lg:text-3xl font-black text-foreground tracking-tight group-hover:text-primary-500 transition-colors">
+                <h3 className="text-2xl lg:text-3xl font-black text-foreground tracking-tight group-hover:text-emerald-400 transition-colors">
                   {card.value}
                 </h3>
                 <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mt-1">{card.title}</p>

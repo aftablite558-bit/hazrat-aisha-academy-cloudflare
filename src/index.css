@@ -21,13 +21,13 @@
   --color-muted-foreground: var(--muted-foreground);
 
   /* Colors */
-  --color-primary-500: #06b6d4; /* Cyan */
-  --color-secondary-500: #3b82f6; /* Blue */
-  --color-accent-500: #8b5cf6; /* Purple */
+  --color-primary-500: #10b981; /* Emerald 500 */
+  --color-secondary-500: #f59e0b; /* Amber/Gold 500 */
+  --color-accent-500: #d4af37; /* Gold */
   --color-success-500: #10b981; /* Emerald */
   --color-warning-500: #f59e0b; /* Amber */
   --color-danger-500: #f43f5e; /* Rose */
-  --color-slate-900: #0f172a; /* Background dark */
+  --color-slate-900: #020617; /* Deep Background dark */
 
   /* Radius */
   --radius-card: 1.5rem; /* 24px */
@@ -66,7 +66,7 @@
   }
   
   body::before {
-    background: radial-gradient(circle, rgba(6,182,212,0.3) 0%, rgba(59,130,246,0.1) 100%);
+    background: radial-gradient(circle, rgba(16,185,129,0.25) 0%, rgba(245,158,11,0.08) 100%);
     width: 60vw;
     height: 60vw;
     top: -10vw;
@@ -74,7 +74,7 @@
   }
 
   body::after {
-    background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, rgba(236,72,153,0.1) 100%);
+    background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, rgba(16,185,129,0.08) 100%);
     width: 50vw;
     height: 50vw;
     bottom: -10vw;
@@ -83,11 +83,11 @@
   }
 
   .dark body::before {
-    background: radial-gradient(circle, rgba(6,182,212,0.15) 0%, rgba(59,130,246,0.05) 100%);
+    background: radial-gradient(circle, rgba(16,185,129,0.18) 0%, rgba(245,158,11,0.05) 100%);
   }
 
   .dark body::after {
-    background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, rgba(236,72,153,0.05) 100%);
+    background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, rgba(16,185,129,0.05) 100%);
   }
 }
 

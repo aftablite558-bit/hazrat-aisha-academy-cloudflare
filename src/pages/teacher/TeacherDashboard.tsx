@@ -135,7 +135,7 @@ export const TeacherDashboard: React.FC = () => {
   return (
     <div className="space-y-8 max-w-7xl mx-auto pb-12">
       {/* 1. Header Banner & Profile Snapshot */}
-      <GlassCard className="p-6 md:p-8 relative overflow-hidden bg-gradient-to-r from-primary-500/10 via-secondary-500/5 to-teal-500/10 border-primary-500/20">
+      <GlassCard className="p-6 md:p-8 relative overflow-hidden bg-gradient-to-r from-emerald-500/10 via-amber-500/5 to-teal-500/10 border-emerald-500/30">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
           <div className="flex items-center gap-5">
             <div className="relative group">
@@ -146,17 +146,17 @@ export const TeacherDashboard: React.FC = () => {
                   'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300'
                 }
                 alt={teacher.name}
-                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover ring-4 ring-primary-500/30 shadow-lg"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover ring-4 ring-emerald-500/30 shadow-lg"
               />
               <span className="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-background rounded-full" />
             </div>
 
             <div className="space-y-1">
               <div className="flex items-center gap-3 flex-wrap">
-                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-primary-500/20 text-primary-500 border border-primary-500/30">
+                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
                   EMP ID: {teacher.teacherId || 'EMP-TCH-102'}
                 </span>
-                <span className="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-500 border border-emerald-500/30">
+                <span className="px-3 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30">
                   Senior Faculty
                 </span>
               </div>
@@ -168,11 +168,11 @@ export const TeacherDashboard: React.FC = () => {
               </p>
               <div className="flex items-center gap-4 text-xs text-muted-foreground pt-1 flex-wrap">
                 <span className="flex items-center gap-1 font-medium text-foreground">
-                  <BookOpen size={14} className="text-primary-500" />
+                  <BookOpen size={14} className="text-emerald-500" />
                   Assigned Classes: {assignedClasses.map((c) => c.className).join(', ') || 'Class 1, Class 2'}
                 </span>
                 <span className="flex items-center gap-1 font-medium text-foreground">
-                  <Award size={14} className="text-secondary-500" />
+                  <Award size={14} className="text-amber-500" />
                   Subjects: {assignedSubjects.map((s) => s.subjectName).join(', ') || 'Islamic Studies, Math'}
                 </span>
               </div>

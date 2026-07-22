@@ -114,7 +114,7 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
                   <p className="text-sm font-bold text-foreground">{profile?.displayName || 'User'}</p>
                   <p className="text-xs text-muted-foreground capitalize">{profile?.role || '...'}</p>
               </div>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 flex items-center justify-center text-white font-bold shadow-lg">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-600 via-emerald-500 to-amber-500 flex items-center justify-center text-white font-bold shadow-lg shadow-emerald-950/20">
                   {profile?.photoUrl ? (
                     <img src={profile.photoUrl} alt="Profile" className="w-full h-full rounded-full object-cover" />
                   ) : (

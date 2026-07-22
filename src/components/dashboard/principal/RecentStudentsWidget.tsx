@@ -17,7 +17,7 @@ export const RecentStudentsWidget: React.FC<RecentStudentsWidgetProps> = ({ stud
     <GlassCard className="p-6">
       <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-3">
         <div className="flex items-center gap-2">
-          <div className="p-2 bg-primary-500/10 text-primary-500 rounded-lg">
+          <div className="p-2 bg-emerald-500/10 text-emerald-500 rounded-lg">
             <Users size={18} />
           </div>
           <div>
@@ -28,7 +28,7 @@ export const RecentStudentsWidget: React.FC<RecentStudentsWidgetProps> = ({ stud
 
         <button
           onClick={() => navigate('/dashboard/students')}
-          className="text-xs text-primary-500 hover:underline flex items-center gap-1 font-semibold"
+          className="text-xs text-emerald-500 hover:underline flex items-center gap-1 font-semibold"
         >
           View All Students <ArrowRight size={14} />
         </button>
