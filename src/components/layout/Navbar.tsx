@@ -8,7 +8,7 @@ import {
 import { useMasterData } from '../../hooks/useMasterData';
 import { SystemSettings } from '../../types';
 import { useTheme } from '../../contexts/ThemeContext';
-import { GlassButton } from '../common/GlassButton';
+import { PremiumButton } from '../common/PremiumComponents';
 import { motion, AnimatePresence } from 'motion/react';
 
 export const Navbar = () => {
@@ -264,28 +264,28 @@ export const Navbar = () => {
             </div>
 
             {/* Theme Toggle Button */}
-            <GlassButton
+            <PremiumButton
               variant="ghost"
-              className="p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-emerald-500/10 transition-colors ml-1"
+              className="p-2 rounded-xl text-slate-300 hover:bg-emerald-500/10 transition-colors ml-1"
               onClick={toggleTheme}
               aria-label="Toggle theme"
             >
-              {theme === 'dark' ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-slate-700" />}
-            </GlassButton>
+              {theme === 'dark' ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-slate-300" />}
+            </PremiumButton>
 
             {/* Login CTA */}
             <NavLink to="/login" className="ml-2">
-              <GlassButton variant="primary" className="px-5 py-2.5 text-xs font-extrabold shadow-md shadow-emerald-600/20 bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-700 hover:to-teal-700">
+              <PremiumButton variant="primary" size="sm" className="font-extrabold shadow-md shadow-emerald-600/20">
                 Portal Login
-              </GlassButton>
+              </PremiumButton>
             </NavLink>
           </div>
 
           {/* Mobile Actions */}
           <div className="flex xl:hidden items-center gap-2">
-            <GlassButton variant="ghost" className="p-2 rounded-xl" onClick={toggleTheme} aria-label="Toggle theme">
-              {theme === 'dark' ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-slate-700" />}
-            </GlassButton>
+            <PremiumButton variant="ghost" className="p-2 rounded-xl" onClick={toggleTheme} aria-label="Toggle theme">
+              {theme === 'dark' ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-slate-300" />}
+            </PremiumButton>
             <button
               onClick={() => setIsOpen(true)}
               className="p-2.5 rounded-2xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 transition-colors"
@@ -365,18 +365,18 @@ export const Navbar = () => {
               </div>
 
               {/* Drawer Footer Actions */}
-              <div className="flex-none p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 space-y-3">
+              <div className="flex-none p-5 border-t border-slate-800 bg-slate-900/80 space-y-3">
                 <NavLink to="/login" onClick={() => setIsOpen(false)}>
-                  <GlassButton variant="primary" className="w-full py-3 text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-600 text-white flex items-center justify-center gap-2">
+                  <PremiumButton variant="primary" className="w-full py-3 text-xs font-bold flex items-center justify-center gap-2">
                     <GraduationCap size={16} /> Portal Login
-                  </GlassButton>
+                  </PremiumButton>
                 </NavLink>
 
                 <div className="flex items-center justify-between pt-1">
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Switch Theme</span>
-                  <GlassButton variant="ghost" className="p-2 rounded-xl" onClick={toggleTheme} aria-label="Toggle theme">
-                    {theme === 'dark' ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-slate-700" />}
-                  </GlassButton>
+                  <span className="text-[11px] text-slate-400 font-medium">Switch Theme</span>
+                  <PremiumButton variant="ghost" className="p-2 rounded-xl" onClick={toggleTheme} aria-label="Toggle theme">
+                    {theme === 'dark' ? <Sun size={18} className="text-amber-400" /> : <Moon size={18} className="text-slate-300" />}
+                  </PremiumButton>
                 </div>
               </div>
             </motion.div>

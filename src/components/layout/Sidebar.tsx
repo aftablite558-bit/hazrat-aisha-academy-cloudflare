@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users, BookOpen, Settings, Bell, Calendar, GraduationCap, ClipboardList, BookMarked, Wallet, Image, FileText, UserCircle, X, Shield, Contact, Download, Home, Book, FileBarChart, PenTool, Database, Award, MessageCircle , Briefcase } from 'lucide-react';
-import { GlassButton } from '../common/GlassButton';
+import { PremiumButton } from '../common/PremiumComponents';
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useMasterData } from '../../hooks/useMasterData';
@@ -121,8 +121,8 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
           </NavLink>
         ))}
       </nav>
-      <div className="relative z-10 mt-4 border-t border-white/20 pt-4">
-        <GlassButton variant="glass" className="w-full" onClick={handleLogout}>Logout</GlassButton>
+      <div className="relative z-10 mt-4 border-t border-slate-800 pt-4">
+        <PremiumButton variant="glass" className="w-full" onClick={handleLogout}>Logout</PremiumButton>
       </div>
     </>
   );
@@ -170,3 +170,6 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
     </>
   );
 };
+
+export const Sidebar = GlassSidebar;
+export const PremiumSidebar = GlassSidebar;

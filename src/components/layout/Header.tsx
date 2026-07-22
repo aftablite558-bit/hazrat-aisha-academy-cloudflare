@@ -1,6 +1,6 @@
 import { Bell, Search, Sun, Moon, User, LogOut, Settings, Menu } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { GlassButton } from '../common/GlassButton';
+import { PremiumButton } from '../common/PremiumComponents';
 import { useAuth } from '../../contexts/AuthContext';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -70,17 +70,17 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
       </div>
 
       <div className="flex items-center gap-2 lg:gap-4">
-        <GlassButton variant="ghost" className="p-2 rounded-full glass hover:bg-white/10 transition-colors" onClick={toggleTheme}>
+        <PremiumButton variant="ghost" className="p-2 rounded-full glass hover:bg-white/10 transition-colors" onClick={toggleTheme}>
           {theme === 'dark' ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-secondary-foreground" />}
-        </GlassButton>
+        </PremiumButton>
         
         <div className="relative" ref={notifRef}>
-          <GlassButton variant="ghost" className="p-2 relative rounded-full glass hover:bg-white/10 transition-colors" onClick={() => setShowNotifications(!showNotifications)}>
+          <PremiumButton variant="ghost" className="p-2 relative rounded-full glass hover:bg-white/10 transition-colors" onClick={() => setShowNotifications(!showNotifications)}>
             <Bell size={20} />
             {unreadCount > 0 && (
               <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-danger-500 rounded-full border-2 border-background"></span>
             )}
-          </GlassButton>
+          </PremiumButton>
           
           {showNotifications && (
             <div className="absolute right-0 mt-4 w-80 glass rounded-2xl shadow-2xl border border-white/20 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 z-50">
@@ -150,3 +150,6 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
     </header>
   );
 };
+
+export const Header = GlassHeader;
+export const PremiumHeader = GlassHeader;
