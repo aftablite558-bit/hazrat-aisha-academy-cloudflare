@@ -186,11 +186,15 @@ app.post('/collection/:name/:id/delete', async (c) => {
   if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
   
   await ensureTableAndColumns(c.env.DB, name, []);
-  await c.env.DB.prepare(`DELETE FROM ${name} WHERE id = ? OR id = CAST(? AS INTEGER) OR CAST(id AS TEXT) = ?`)
-    .bind(id, id, id)
+  const result = await c.env.DB.prepare(`DELETE FROM ${name} WHERE id = ? OR CAST(id AS TEXT) = ?`)
+    .bind(id, id)
     .run();
     
-  return c.json({ success: true });
+  if (result.meta && result.meta.changes === 0) {
+    return c.json({ success: false, error: 'Record not found or already deleted' }, 404);
+  }
+    
+  return c.json({ success: true, changes: result.meta ? result.meta.changes : undefined });
 });
 
 // Auth (stripped /api prefix)
