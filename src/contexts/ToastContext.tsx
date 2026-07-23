@@ -32,7 +32,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
-      <div className="fixed bottom-0 right-0 p-4 z-50 flex flex-col gap-2 pointer-events-none">
+      <div className="fixed bottom-0 right-0 p-4 z-[10000] flex flex-col gap-2 pointer-events-none">
         <AnimatePresence>
           {toasts.map((toast) => (
             <div key={toast.id} className="pointer-events-auto">

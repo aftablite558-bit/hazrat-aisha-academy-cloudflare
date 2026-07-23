@@ -35,14 +35,18 @@ export const GlassModal = ({ isOpen, onClose, title, children, className = '' }:
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 pb-0 sm:p-4">
+        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-end sm:justify-center">
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/50 sm:bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm -z-10"
           />
+          
+          {/* Modal Container */}
           <motion.div
             drag={isMobile ? "y" : false}
             dragConstraints={{ top: 0, bottom: 0 }}
@@ -54,10 +58,10 @@ export const GlassModal = ({ isOpen, onClose, title, children, className = '' }:
             animate={isMobile ? { y: 0 } : { scale: 1, opacity: 1, y: 0 }}
             exit={isMobile ? { y: '100%' } : { scale: 0.95, opacity: 0, y: 20 }}
             transition={isMobile ? { type: 'tween', duration: 0.3, ease: 'easeOut' } : { type: 'spring', damping: 25, stiffness: 300 }}
-            className={`relative z-10 w-[94vw] sm:w-full max-h-[88vh] flex flex-col mb-[3vh] sm:mb-0 ${className || 'max-w-lg'}`}
+            className={`relative z-50 w-full sm:w-auto p-0 sm:p-4 pb-0 sm:pb-4 ${className || 'max-w-lg'}`}
           >
             <GlassCard 
-              className="p-0 flex flex-col max-h-[88vh] overflow-hidden rounded-[24px] sm:rounded-[32px] w-full"
+              className="p-0 flex flex-col max-h-[90vh] overflow-hidden rounded-t-[24px] rounded-b-none sm:rounded-[32px] w-full"
             >
               {isMobile && (
                 <div className="w-full flex justify-center pt-3 pb-1 shrink-0 absolute top-0 left-0 right-0 z-20 pointer-events-none">
