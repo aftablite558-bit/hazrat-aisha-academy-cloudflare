@@ -35,10 +35,7 @@ export const PublicAchievements = () => {
             ) : (
               publishedAchievements.map((a, idx) => (
                 <motion.div key={a.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
-                  <GlassCard 
-                    className="h-full flex flex-col cursor-pointer hover:-translate-y-1 transition-transform duration-300"
-                    onClick={() => setSelectedAchievement(a)}
-                  >
+                  <div className="glass rounded-2xl h-full flex flex-col cursor-pointer hover:-translate-y-1 transition-transform duration-300" onClick={() => setSelectedAchievement(a)}>
                     {a.imageUrl && (
                       <div className="relative h-48 overflow-hidden bg-slate-200 dark:bg-slate-800 rounded-t-xl">
                         <img src={a.imageUrl} alt={a.title} className="w-full h-full object-cover" />
@@ -62,7 +59,7 @@ export const PublicAchievements = () => {
                         {new Date(a.date).toLocaleDateString('default', { month: 'long', year: 'numeric', day: 'numeric' })}
                       </div>
                     </div>
-                  </GlassCard>
+                  </div>
                 </motion.div>
               ))
             )}

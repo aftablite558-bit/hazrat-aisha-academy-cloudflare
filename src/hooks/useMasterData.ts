@@ -34,7 +34,17 @@ export const useMasterData = <T extends BaseEntity>(collectionName: string, with
     if (!withSession || activeSession) {
       fetchData();
     }
-  }, [fetchData, withSession, activeSession]);
+
+    const handleDataChanged = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail.collectionName === collectionName) {
+        fetchData();
+      }
+    };
+
+    window.addEventListener('masterDataChanged', handleDataChanged);
+    return () => window.removeEventListener('masterDataChanged', handleDataChanged);
+  }, [fetchData, withSession, activeSession, collectionName]);
 
   const addRecord = useCallback(async (record: Partial<Omit<T, 'id' | 'createdAt' | 'updatedAt'>>) => {
     try {
@@ -44,6 +54,7 @@ export const useMasterData = <T extends BaseEntity>(collectionName: string, with
       }
       const id = await addDocument(collectionName, dataToSave);
       await fetchData();
+      window.dispatchEvent(new CustomEvent('masterDataChanged', { detail: { collectionName } }));
       addToast(`Record added successfully`, 'success');
       return id;
     } catch (err: unknown) {
@@ -56,6 +67,7 @@ export const useMasterData = <T extends BaseEntity>(collectionName: string, with
     try {
       await updateDocument(collectionName, id, record);
       await fetchData();
+      window.dispatchEvent(new CustomEvent('masterDataChanged', { detail: { collectionName } }));
       addToast(`Record updated successfully`, 'success');
     } catch (err: unknown) {
       addToast((err instanceof Error ? err.message : String(err)) || 'Failed to update record', 'error');
@@ -81,6 +93,7 @@ export const useMasterData = <T extends BaseEntity>(collectionName: string, with
       }
 
       await fetchData();
+      window.dispatchEvent(new CustomEvent('masterDataChanged', { detail: { collectionName } }));
       addToast(`Record deleted successfully`, 'success');
     } catch (err: unknown) {
       addToast((err instanceof Error ? err.message : String(err)) || 'Failed to delete record', 'error');

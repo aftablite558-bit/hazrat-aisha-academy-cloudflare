@@ -19,6 +19,9 @@ export interface Student extends BaseEntity {
   fatherName: string;
   motherName: string;
   classId: string;
+  sectionId?: string;
+  houseId?: string;
+  categoryId?: string;
   phone: string;
   address: string;
   photoUrl: string;
@@ -58,6 +61,9 @@ export interface Subject extends BaseEntity {
   subjectName: string;
   code: string;
   classId: string;
+  sectionId?: string;
+  houseId?: string;
+  categoryId?: string;
   teacherId: string;
   status: EntityStatus;
 }
@@ -65,6 +71,9 @@ export interface Subject extends BaseEntity {
 export interface ExamSchedule extends BaseEntity {
   examName: string;
   classId: string;
+  sectionId?: string;
+  houseId?: string;
+  categoryId?: string;
   subjectId: string;
   examDate: string;
   startTime: string;
@@ -74,3 +83,34 @@ export interface ExamSchedule extends BaseEntity {
   status: 'Scheduled' | 'Completed' | 'Cancelled';
 }
 
+
+export interface Section extends BaseEntity {
+  sectionName: string;
+  classId: string;
+  sectionId?: string;
+  houseId?: string;
+  categoryId?: string;
+  roomNumber: string;
+  status: EntityStatus;
+}
+
+export interface AcademicSession extends BaseEntity {
+  sessionName: string;
+  startDate: string;
+  endDate: string;
+  isCurrent: boolean;
+  status: EntityStatus;
+}
+
+export interface House extends BaseEntity {
+  houseName: string;
+  colorCode: string;
+  motto: string;
+  status: EntityStatus;
+}
+
+export interface Category extends BaseEntity {
+  categoryName: string;
+  description: string;
+  status: EntityStatus;
+}

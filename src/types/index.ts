@@ -6,7 +6,7 @@ export interface UserProfile {
   email: string | null;
   role: UserRole;
   displayName: string | null;
-  status?: 'active' | 'inactive' | 'suspended' | 'deleted';
+  status?: 'active' | 'inactive' | 'suspended' | 'deleted' | 'blocked';
   emailVerified?: boolean;
   photoUrl?: string;
   phone?: string;

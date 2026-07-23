@@ -60,10 +60,7 @@ export const GalleryPage = () => {
             ) : (
               publishedAlbums.map((a, idx) => (
                 <motion.div key={a.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: idx * 0.1 }}>
-                  <GlassCard 
-                    className="overflow-hidden group h-full flex flex-col cursor-pointer hover:border-primary-500/50 transition-colors"
-                    onClick={() => setSelectedAlbum(a)}
-                  >
+                  <div className="glass rounded-2xl overflow-hidden group h-full flex flex-col cursor-pointer hover:border-primary-500/50 transition-colors" onClick={() => setSelectedAlbum(a)}>
                     <div className="relative h-56 overflow-hidden bg-slate-200 dark:bg-slate-800">
                       {a.images && a.images.length > 0 && a.images[0] ? (
                         <img src={a.images[0]} alt={a.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -84,7 +81,7 @@ export const GalleryPage = () => {
                         <ImageIcon size={12} /> {a.images?.length || 0} Photos
                       </div>
                     </div>
-                  </GlassCard>
+                  </div>
                 </motion.div>
               ))
             )}

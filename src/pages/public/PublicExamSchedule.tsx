@@ -6,7 +6,7 @@ import { GlassSelect } from '../../components/common/GlassSelect';
 import { GlassInput } from '../../components/common/GlassInput';
 import { GlassButton } from '../../components/common/GlassButton';
 import { useMasterData } from '../../hooks/useMasterData';
-import { ExamSchedule } from '../../types/academic';
+import { ExamSchedule } from '../../types/master';
 import { Class, Subject, Student } from '../../types/master';
 import { Calendar, Clock, Search, MapPin, AlertCircle } from 'lucide-react';
 import { motion } from 'motion/react';

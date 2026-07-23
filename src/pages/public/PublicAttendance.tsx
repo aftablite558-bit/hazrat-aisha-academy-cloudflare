@@ -7,7 +7,7 @@ import { GlassSelect } from '../../components/common/GlassSelect';
 import { GlassButton } from '../../components/common/GlassButton';
 import { useMasterData } from '../../hooks/useMasterData';
 import { Student, Class } from '../../types/master';
-import { AttendanceRecord } from '../../types/academic';
+import { Attendance } from '../../types/academic';
 import { Search, UserCheck, Calendar as CalendarIcon, UserX, Clock, UserMinus } from 'lucide-react';
 import { motion } from 'motion/react';
 

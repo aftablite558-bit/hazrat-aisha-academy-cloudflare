@@ -52,15 +52,11 @@ export const NoticeBoard = () => {
             {loading ? (
               <div className="text-center py-20 text-muted-foreground">Loading notices...</div>
             ) : filteredNotices.length === 0 ? (
-              <GlassCard className="p-12 text-center text-muted-foreground">No notices found.</GlassCard>
+              <div className="glass rounded-2xl p-12 text-center text-muted-foreground">No notices found.</div>
             ) : (
               filteredNotices.map((n, idx) => (
                 <motion.div key={n.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
-                  <GlassCard 
-                    className="p-6 md:p-8 flex flex-col md:flex-row gap-6 border-l-4 cursor-pointer hover:bg-white/5 transition-colors" 
-                    style={{ borderLeftColor: n.priority === 'High' ? '#f43f5e' : '#3b82f6' }}
-                    onClick={() => setSelectedNotice(n)}
-                  >
+                  <div className="glass rounded-2xl p-6 md:p-8 flex flex-col md:flex-row gap-6 border-l-4 cursor-pointer hover:bg-white/5 transition-colors" style={{ borderLeftColor: n.priority === 'High' ? '#f43f5e' : '#3b82f6' }} onClick={() => setSelectedNotice(n)}>
                     <div className="flex-shrink-0 w-32 text-center md:text-left">
                       <div className="text-3xl font-bold text-primary-500">{new Date(n.publishDate).getDate()}</div>
                       <div className="text-sm font-semibold uppercase text-muted-foreground">{new Date(n.publishDate).toLocaleString('default', { month: 'short', year: 'numeric' })}</div>
@@ -79,7 +75,7 @@ export const NoticeBoard = () => {
                         </div>
                       )}
                     </div>
-                  </GlassCard>
+                  </div>
                 </motion.div>
               ))
             )}
@@ -91,7 +87,7 @@ export const NoticeBoard = () => {
         isOpen={!!selectedNotice}
         onClose={() => setSelectedNotice(null)}
         title="Notice Details"
-        size="lg"
+        
       >
         {selectedNotice && (
           <div className="space-y-6">

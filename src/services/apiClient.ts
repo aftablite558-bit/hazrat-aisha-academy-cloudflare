@@ -2,7 +2,7 @@ const API_BASE = '/api';
 
 export const api = {
   get: async (path: string) => {
-    const res = await fetch(`${API_BASE}${path}`);
+    const res = await fetch(`${API_BASE}${path}`, { cache: 'no-store' });
     if (!res.ok) {
         let errMessage = 'Request failed';
         try {

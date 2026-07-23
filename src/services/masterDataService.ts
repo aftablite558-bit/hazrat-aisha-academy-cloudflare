@@ -48,6 +48,7 @@ export const updateDocument = async <T extends Partial<BaseEntity>>(collectionNa
     return await dbUpdateDocument<T>(collectionName, id, data);
   } catch (error) {
     console.error('Error in masterDataService.updateDocument:', error);
+    throw error;
   }
 };
 
@@ -56,5 +57,6 @@ export const deleteDocument = async (collectionName: string, id: string): Promis
     return await dbDeleteDocument(collectionName, id);
   } catch (error) {
     console.error('Error in masterDataService.deleteDocument:', error);
+    throw error;
   }
 };

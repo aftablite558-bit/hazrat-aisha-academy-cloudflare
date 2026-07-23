@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
-import { GlassCard } from './GlassCard';
+import { cn } from '../../utils/index';
 
 interface GlassModalProps {
   isOpen: boolean;
@@ -43,7 +43,7 @@ export const GlassModal = ({ isOpen, onClose, title, children, className = '' }:
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm -z-10"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-0 cursor-pointer"
           />
           
           {/* Modal Container */}
@@ -58,29 +58,39 @@ export const GlassModal = ({ isOpen, onClose, title, children, className = '' }:
             animate={isMobile ? { y: 0 } : { scale: 1, opacity: 1, y: 0 }}
             exit={isMobile ? { y: '100%' } : { scale: 0.95, opacity: 0, y: 20 }}
             transition={isMobile ? { type: 'tween', duration: 0.3, ease: 'easeOut' } : { type: 'spring', damping: 25, stiffness: 300 }}
-            className={`relative z-50 w-full sm:w-auto p-0 sm:p-4 pb-0 sm:pb-4 ${className || 'max-w-lg'}`}
+            className={cn(
+              "relative z-10 w-full sm:w-auto mt-auto sm:mt-0 flex flex-col max-h-[90vh]",
+              isMobile ? "p-0 pb-0" : "p-4",
+              className || "max-w-lg"
+            )}
           >
-            <GlassCard 
-              className="p-0 flex flex-col max-h-[90vh] overflow-hidden rounded-t-[24px] rounded-b-none sm:rounded-[32px] w-full"
+            <div 
+              className={cn(
+                "glass flex flex-col h-full max-h-[90vh] overflow-hidden w-full relative z-20",
+                "bg-white/80 dark:bg-slate-900/80 shadow-2xl",
+                isMobile ? "rounded-t-[32px] rounded-b-none border-b-0" : "rounded-[32px]"
+              )}
             >
               {isMobile && (
-                <div className="w-full flex justify-center pt-3 pb-1 shrink-0 absolute top-0 left-0 right-0 z-20 pointer-events-none">
-                  <div className="w-12 h-1.5 bg-white/20 rounded-full" />
+                <div className="w-full flex justify-center pt-3 pb-1 shrink-0 relative z-30 pointer-events-none">
+                  <div className="w-12 h-1.5 bg-black/20 dark:bg-white/20 rounded-full" />
                 </div>
               )}
-              <div className={`flex shrink-0 items-center justify-between p-5 sm:p-6 border-b border-white/10 relative z-10 bg-inherit ${isMobile ? 'pt-8' : ''}`}>
+              
+              <div className={cn("flex shrink-0 items-center justify-between px-6 pb-4 border-b border-black/5 dark:border-white/10 relative z-30", isMobile ? "pt-2" : "pt-6")}>
                 <h2 className="text-xl sm:text-2xl font-bold text-foreground">{title}</h2>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-secondary-foreground shrink-0 relative z-30"
+                  className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-secondary-foreground shrink-0"
                 >
                   <X size={20} />
                 </button>
               </div>
-              <div className="mobile-modal-content relative z-10 p-5 sm:p-6 overflow-y-auto custom-scrollbar flex-1 bg-inherit">
+              
+              <div className="relative z-20 p-6 overflow-y-auto custom-scrollbar flex-1">
                 {children}
               </div>
-            </GlassCard>
+            </div>
           </motion.div>
         </div>
       )}

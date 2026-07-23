@@ -93,7 +93,7 @@ export const PublicFeedbackDashboard = () => {
         />
       </GlassCard>
 
-      <GlassModal isOpen={!!selectedTicket} onClose={() => setSelectedTicket(null)} title={`Ticket Details: ${selectedTicket?.ticketId}`} size="lg">
+      <GlassModal isOpen={!!selectedTicket} onClose={() => setSelectedTicket(null)} title={`Ticket Details: ${selectedTicket?.ticketId}`} >
         {selectedTicket && (
           <div className="space-y-6">
             <div className="grid grid-cols-2 gap-4 text-sm">

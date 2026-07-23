@@ -1,6 +1,6 @@
 declare type D1Database = any;
 import { Hono } from 'hono';
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 
 const app = new Hono<{ Bindings: { 
   DB: D1Database, 
@@ -128,17 +128,7 @@ app.get('/collection/:name/:id', async (c) => {
   const id = c.req.param('id');
   if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
   await ensureTableAndColumns(c.env.DB, name, []);
-  const result = await c.env.DB.prepare().bind(id).first();
-  if (!result) return c.json({ success: false, error: 'Not found' }, 404);
-  return c.json({ success: true, data: result });
-});
-
-app.get('/collection/:name/:id', async (c) => {
-  const name = c.req.param('name');
-  const id = c.req.param('id');
-  if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
-  await ensureTableAndColumns(c.env.DB, name, []);
-  const result = await c.env.DB.prepare(`SELECT * FROM ${name} WHERE id = ?`).bind(id).first();
+  const result = await c.env.DB.prepare(`SELECT * FROM ${name} WHERE id = ? OR id = CAST(? AS INTEGER) OR CAST(id AS TEXT) = ?`).bind(id, id, id).first();
   if (!result) return c.json({ success: false, error: 'Not found' }, 404);
   return c.json({ success: true, data: result });
 });
@@ -183,8 +173,8 @@ app.post('/collection/:name/:id/update', async (c) => {
   
   await ensureTableAndColumns(c.env.DB, name, Object.keys(body));
 
-  await c.env.DB.prepare(`UPDATE ${name} SET ${setClause} WHERE id = ?`)
-    .bind(...Object.values(body).map(v => (typeof v === "object" && v !== null) ? JSON.stringify(v) : v), id)
+  await c.env.DB.prepare(`UPDATE ${name} SET ${setClause} WHERE id = ? OR id = CAST(? AS INTEGER) OR CAST(id AS TEXT) = ?`)
+    .bind(...Object.values(body).map(v => (typeof v === "object" && v !== null) ? JSON.stringify(v) : v), id, id, id)
     .run();
     
   return c.json({ success: true });
@@ -196,8 +186,8 @@ app.post('/collection/:name/:id/delete', async (c) => {
   if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
   
   await ensureTableAndColumns(c.env.DB, name, []);
-  await c.env.DB.prepare(`DELETE FROM ${name} WHERE id = ?`)
-    .bind(id)
+  await c.env.DB.prepare(`DELETE FROM ${name} WHERE id = ? OR id = CAST(? AS INTEGER) OR CAST(id AS TEXT) = ?`)
+    .bind(id, id, id)
     .run();
     
   return c.json({ success: true });
