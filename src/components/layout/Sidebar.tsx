@@ -126,9 +126,9 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className="w-[280px] h-screen glass rounded-r-[32px] p-6 flex-col fixed left-0 top-0 z-50 hidden lg:flex overflow-hidden">
+      <div className="w-[280px] h-[calc(100dvh-5rem)] glass rounded-br-[32px] rounded-tr-none border-t-0 p-6 flex-col fixed left-0 top-20 z-50 hidden lg:flex overflow-hidden">
         {/* Liquid Glass Highlights & Animation */}
-        <div className="absolute inset-0 pointer-events-none -z-10 rounded-r-[32px] overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none -z-10 rounded-br-[32px] rounded-tr-none overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-white/40 to-transparent" />
           <div className="absolute top-0 -left-[100%] w-[200%] h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -rotate-45 animate-shimmer" />
         </div>

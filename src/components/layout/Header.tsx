@@ -58,7 +58,7 @@ export const GlassHeader = ({ onMenuClick }: HeaderProps) => {
   };
 
   return (
-    <header className="fixed top-0 left-0 lg:left-[280px] right-0 h-20 glass border-t-0 border-x-0 border-b-white/30 dark:border-b-white/10 shadow-sm flex items-center justify-between px-4 lg:px-8 z-40 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 h-20 glass border-t-0 border-x-0 border-b-white/30 dark:border-b-white/10 shadow-sm flex items-center justify-between px-4 lg:px-8 z-40 transition-all duration-300">
       <div className="flex items-center gap-4">
         <button className="lg:hidden p-2 rounded-full glass hover:bg-white/10" onClick={onMenuClick}>
           <Menu />

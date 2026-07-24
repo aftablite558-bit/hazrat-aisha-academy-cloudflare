@@ -59,7 +59,7 @@ export const TeacherFormModal = ({ isOpen, onClose, onSubmit, initialData }: Tea
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <GlassInput required label="Teacher ID" name="teacherId" value={formData.teacherId} onChange={handleChange} />
+          <GlassInput required label="Employee ID" name="teacherId" value={formData.teacherId} onChange={handleChange} />
           <GlassInput required label="Full Name" name="name" value={formData.name} onChange={handleChange} />
           <GlassInput required label="Qualification" name="qualification" value={formData.qualification} onChange={handleChange} />
           <GlassInput required type="email" label="Email" name="email" value={formData.email} onChange={handleChange} />

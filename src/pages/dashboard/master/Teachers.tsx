@@ -100,7 +100,7 @@ export const Teachers = () => {
       <GlassTable>
         <thead>
           <tr>
-            <th>Teacher ID</th>
+            <th>Employee ID</th>
             <th>Name</th>
             <th>Qualification</th>
             <th>Phone</th>

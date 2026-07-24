@@ -9,7 +9,7 @@ import { perfTracker } from '../utils/performance';
 export const DashboardLayout = () => {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
+
   useEffect(() => {
     perfTracker.startDashboardInit();
     // Simulate dashboard finished loading after first render
@@ -20,22 +20,24 @@ export const DashboardLayout = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-transparent transition-colors flex flex-col">
+    <div className="h-[100dvh] w-full bg-transparent transition-colors flex flex-col overflow-hidden">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
-      <div className="lg:pl-[280px] flex-1 flex flex-col min-w-0">
-        <main className="flex-1 px-4 pb-4 md:px-8 md:pb-8 pt-24 md:pt-28 w-full max-w-full min-w-0 mx-auto">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            <ErrorBoundary><Outlet /></ErrorBoundary>
-          </motion.div>
-        </AnimatePresence>
+      
+      <div className="lg:pl-[280px] flex-1 flex flex-col w-full pt-20">
+        <main className="flex-1 w-full p-4 md:p-8 overflow-y-auto overflow-x-hidden custom-scrollbar">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="w-full max-w-full mx-auto"
+            >
+              <ErrorBoundary><Outlet /></ErrorBoundary>
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
     </div>

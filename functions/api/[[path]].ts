@@ -88,7 +88,7 @@ const ALLOWED_COLLECTIONS = [
   'users', 'students', 'staff', 'teachers', 'classes', 'subjects', 'attendance', 
   'homework', 'results', 'reportcards', 'admissions', 'fees', 'notices', 
   'gallery', 'documents', 'calendar', 'achievements', 'testimonials', 
-  'audit_logs', 'settings', 'school_info', 'notifications', 'exam_marks', 'alumni', 'sections', 'enquiries', 'careers', 'facilities', 'exam_schedules', 'career_applications'
+  'audit_logs', 'settings', 'school_info', 'notifications', 'exam_marks', 'alumni', 'sections', 'enquiries', 'careers', 'facilities', 'exam_schedules', 'career_applications', 'academic_sessions'
 ];
 
 // Generic CRUD (stripped /api prefix)

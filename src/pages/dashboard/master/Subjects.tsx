@@ -7,14 +7,16 @@ import { GlassBadge } from '../../../components/common/GlassBadge';
 import { ConfirmDialog } from '../../../components/common/ConfirmDialog';
 import { Pagination } from '../../../components/common/Pagination';
 import { BackButton } from '../../../components/common/BackButton';
-
 import { useMasterData } from '../../../hooks/useMasterData';
-import { Subject as SubjectType } from '../../../types/master';
+import { Subject as SubjectType, Class, Teacher } from '../../../types/master';
 import { Edit, Trash2, Plus, Search } from 'lucide-react';
 import { SubjectFormModal } from '../../../components/dashboard/master/SubjectFormModal';
 
 export const Subjects = () => {
   const { data: subjectList, loading, addRecord, updateRecord, deleteRecord } = useMasterData<SubjectType>('subjects');
+  const { data: classes } = useMasterData<Class>('classes');
+  const { data: teachers } = useMasterData<Teacher>('teachers');
+  
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -28,15 +30,12 @@ export const Subjects = () => {
     );
   }, [subjectList, searchTerm]);
 
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredSubjects.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredSubjects, currentPage]);
-
   const totalPages = Math.ceil(filteredSubjects.length / itemsPerPage);
 
   const handleAdd = () => {
@@ -97,8 +96,8 @@ export const Subjects = () => {
           <tr>
             <th>Subject Code</th>
             <th>Subject Name</th>
-            <th>Class ID</th>
-            <th>Teacher ID</th>
+            <th>Class</th>
+            <th>Teacher</th>
             <th>Status</th>
             <th className="text-right">Actions</th>
           </tr>
@@ -113,8 +112,8 @@ export const Subjects = () => {
               <tr key={sub.id}>
                 <td className="font-medium text-primary-500">{sub.code}</td>
                 <td className="font-semibold">{sub.subjectName}</td>
-                <td>{sub.classId}</td>
-                <td>{sub.teacherId}</td>
+                <td>{classes.find(c => c.id === sub.classId)?.className || sub.classId}</td>
+                <td>{teachers.find(t => t.id === sub.teacherId)?.name || sub.teacherId}</td>
                 <td>
                   <GlassBadge variant={sub.status === 'Active' ? 'success' : 'default'}>
                     {sub.status}
