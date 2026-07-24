@@ -193,7 +193,6 @@
   .mobile-modal-content form {
     display: flex;
     flex-direction: column;
-    min-height: 100%;
   }
 
   /* Make button containers sticky at the bottom */
@@ -233,3 +232,9 @@
     height: 120px !important;
   }
 }
+
+  .mobile-modal-content form {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }

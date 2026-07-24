@@ -100,7 +100,7 @@ app.get('/collection/:name', async (c) => {
   const offset = c.req.query('offset') ? parseInt(c.req.query('offset')!) : 0;
   const search = c.req.query('search');
   
-  let query = `SELECT * FROM ${name}`;
+  let query = `SELECT rowid as _rowid, * FROM ${name}`;
   const params: any[] = [];
   
   // ensure table exists so SELECT doesn't crash
@@ -119,6 +119,15 @@ app.get('/collection/:name', async (c) => {
   const { results } = await c.env.DB.prepare(query)
     .bind(...params)
     .all();
+  results.forEach((r: any) => {
+    if (!r.id) r.id = String(r._rowid);
+    delete r._rowid;
+    for (const key in r) {
+      if (typeof r[key] === "string" && (r[key].startsWith("[") || r[key].startsWith("{"))) {
+        try { r[key] = JSON.parse(r[key]); } catch (e) {}
+      }
+    }
+  });
     
   return c.json({ success: true, data: results });
 });
@@ -128,7 +137,16 @@ app.get('/collection/:name/:id', async (c) => {
   const id = c.req.param('id');
   if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
   await ensureTableAndColumns(c.env.DB, name, []);
-  const result = await c.env.DB.prepare(`SELECT * FROM ${name} WHERE id = ? OR id = CAST(? AS INTEGER) OR CAST(id AS TEXT) = ?`).bind(id, id, id).first();
+  const result = await c.env.DB.prepare(`SELECT rowid as _rowid, * FROM ${name} WHERE id = ? OR id = CAST(? AS INTEGER) OR CAST(id AS TEXT) = ? OR rowid = CAST(? AS INTEGER)`).bind(id, id, id, id).first();
+  if (result) {
+    if (!result.id) result.id = String(result._rowid);
+    delete result._rowid;
+    for (const key in result) {
+      if (typeof result[key] === "string" && (result[key].startsWith("[") || result[key].startsWith("{"))) {
+        try { result[key] = JSON.parse(result[key]); } catch (e) {}
+      }
+    }
+  }
   if (!result) return c.json({ success: false, error: 'Not found' }, 404);
   return c.json({ success: true, data: result });
 });
@@ -139,6 +157,7 @@ app.post('/collection/:name', async (c) => {
   
   const body = await c.req.json();
   if (!body.id) body.id = crypto.randomUUID();
+  if (!body.createdAt) body.createdAt = new Date().toISOString();
   
   if (name === 'users' && body.password) {
     body.password_hash = await bcrypt.hash(body.password, 10);
@@ -169,12 +188,13 @@ app.post('/collection/:name/:id/update', async (c) => {
     delete body.password;
   }
 
+  body.updatedAt = new Date().toISOString();
   const setClause = Object.keys(body).map(key => `"${key}" = ?`).join(', ');
   
   await ensureTableAndColumns(c.env.DB, name, Object.keys(body));
 
-  await c.env.DB.prepare(`UPDATE ${name} SET ${setClause} WHERE id = ? OR id = CAST(? AS INTEGER) OR CAST(id AS TEXT) = ?`)
-    .bind(...Object.values(body).map(v => (typeof v === "object" && v !== null) ? JSON.stringify(v) : v), id, id, id)
+  await c.env.DB.prepare(`UPDATE ${name} SET ${setClause} WHERE id = ? OR id = CAST(? AS INTEGER) OR CAST(id AS TEXT) = ? OR rowid = CAST(? AS INTEGER)`)
+    .bind(...Object.values(body).map(v => (typeof v === "object" && v !== null) ? JSON.stringify(v) : v), id, id, id, id)
     .run();
     
   return c.json({ success: true });
@@ -186,8 +206,8 @@ app.post('/collection/:name/:id/delete', async (c) => {
   if (!ALLOWED_COLLECTIONS.includes(name)) return c.json({ error: 'Unauthorized' }, 403);
   
   await ensureTableAndColumns(c.env.DB, name, []);
-  const result = await c.env.DB.prepare(`DELETE FROM ${name} WHERE id = ? OR CAST(id AS TEXT) = ?`)
-    .bind(id, id)
+  const result = await c.env.DB.prepare(`DELETE FROM ${name} WHERE id = ? OR CAST(id AS TEXT) = ? OR rowid = CAST(? AS INTEGER)`)
+    .bind(id, id, id)
     .run();
     
   if (result.meta && result.meta.changes === 0) {
