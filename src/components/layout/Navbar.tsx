@@ -95,7 +95,7 @@ export const Navbar = () => {
           </div>
           
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-1 overflow-x-auto scrollbar-hide mx-4 min-w-0">
+          <div className="hidden lg:flex items-center justify-center gap-4 xl:gap-8 flex-1 min-w-0">
             {navLinks.filter(l => ['Home', 'About', 'Academics', 'Admissions', 'Notices', 'Contact'].includes(l.label)).map((link) => (
               <NavLink key={link.path} to={link.path} className="text-sm font-semibold text-secondary-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap shrink-0">
                 {link.label}

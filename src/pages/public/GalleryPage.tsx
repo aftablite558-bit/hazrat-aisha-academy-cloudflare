@@ -21,19 +21,19 @@ export const GalleryPage = () => {
     return albums.filter(a => a.isPublished).sort((a,b) => new Date(b.eventDate || 0).getTime() - new Date(a.eventDate || 0).getTime());
   }, [albums]);
 
-  const handleNext = () => {
-    if (selectedAlbum && lightboxIndex !== null && selectedAlbum.images) {
-      setLightboxIndex((lightboxIndex + 1) % selectedAlbum.images.length);
-    }
-  };
-
-  const handlePrev = () => {
-    if (selectedAlbum && lightboxIndex !== null && selectedAlbum.images) {
-      setLightboxIndex((lightboxIndex - 1 + selectedAlbum.images.length) % selectedAlbum.images.length);
-    }
-  };
-
   useEffect(() => {
+    const handleNext = () => {
+      if (selectedAlbum && lightboxIndex !== null && selectedAlbum.images) {
+        setLightboxIndex((lightboxIndex + 1) % selectedAlbum.images.length);
+      }
+    };
+
+    const handlePrev = () => {
+      if (selectedAlbum && lightboxIndex !== null && selectedAlbum.images) {
+        setLightboxIndex((lightboxIndex - 1 + selectedAlbum.images.length) % selectedAlbum.images.length);
+      }
+    };
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (lightboxIndex !== null) {
         if (e.key === 'ArrowRight') handleNext();
@@ -44,6 +44,18 @@ export const GalleryPage = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [lightboxIndex, selectedAlbum]);
+
+  const handleNextBtn = () => {
+    if (selectedAlbum && lightboxIndex !== null && selectedAlbum.images) {
+      setLightboxIndex((lightboxIndex + 1) % selectedAlbum.images.length);
+    }
+  };
+
+  const handlePrevBtn = () => {
+    if (selectedAlbum && lightboxIndex !== null && selectedAlbum.images) {
+      setLightboxIndex((lightboxIndex - 1 + selectedAlbum.images.length) % selectedAlbum.images.length);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 selection:bg-primary-500/30">
@@ -136,14 +148,14 @@ export const GalleryPage = () => {
             </button>
             
             <button 
-              onClick={handlePrev}
+              onClick={handlePrevBtn}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white p-3 bg-white/10 rounded-full transition-colors z-50"
             >
               <ChevronLeft size={32} />
             </button>
 
             <button 
-              onClick={handleNext}
+              onClick={handleNextBtn}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white p-3 bg-white/10 rounded-full transition-colors z-50"
             >
               <ChevronRight size={32} />

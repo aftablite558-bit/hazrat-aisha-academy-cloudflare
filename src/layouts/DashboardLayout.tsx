@@ -20,11 +20,11 @@ export const DashboardLayout = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-transparent transition-colors">
+    <div className="min-h-screen bg-transparent transition-colors flex flex-col">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
-      <div className="lg:pl-[280px] w-full min-h-screen">
-        <main className="pt-24 p-4 md:p-8 w-full min-w-0 overflow-x-hidden max-w-[100vw]">
+      <div className="lg:pl-[280px] flex-1 flex flex-col min-w-0">
+        <main className="flex-1 px-4 pb-4 md:px-8 md:pb-8 pt-24 md:pt-28 w-full max-w-full min-w-0 mx-auto">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
