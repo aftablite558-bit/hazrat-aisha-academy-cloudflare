@@ -12,7 +12,6 @@ export const DashboardLayout = () => {
 
   useEffect(() => {
     perfTracker.startDashboardInit();
-    // Simulate dashboard finished loading after first render
     const frame = requestAnimationFrame(() => {
       perfTracker.endDashboardInit();
     });
@@ -20,12 +19,12 @@ export const DashboardLayout = () => {
   }, []);
 
   return (
-    <div className="h-[100dvh] w-full bg-transparent transition-colors flex flex-col overflow-hidden">
+    <div className="min-h-screen w-full flex flex-col overflow-x-hidden bg-transparent transition-colors">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
       
-      <div className="lg:pl-[280px] flex-1 flex flex-col w-full pt-20">
-        <main className="flex-1 w-full p-4 md:p-8 overflow-y-auto overflow-x-hidden custom-scrollbar">
+      <div className="flex-1 flex flex-col w-full lg:pl-[280px] pt-20">
+        <main className="flex-1 w-full p-4 md:p-6 lg:p-8 min-w-0 overflow-x-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

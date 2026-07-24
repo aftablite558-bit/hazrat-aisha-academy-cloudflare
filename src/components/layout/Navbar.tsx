@@ -87,7 +87,7 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-40 glass border-t-0 border-x-0 border-b border-white/30 dark:border-white/10 rounded-none shadow-sm">
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-white/60 dark:bg-slate-900/40 backdrop-blur-2xl border-t-0 border-x-0 border-b border-white/30 dark:border-white/10 rounded-none shadow-sm">
         <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 min-h-[5rem] py-2 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 flex-shrink-0">
             {logoUrl ? <img src={logoUrl} alt="Logo" className="h-10 w-auto object-contain" /> : <GraduationCap size={28} className="text-primary-500" />}

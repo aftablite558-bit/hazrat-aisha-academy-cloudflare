@@ -126,7 +126,7 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <div className="w-[280px] h-[calc(100dvh-5rem)] glass rounded-br-[32px] rounded-tr-none border-t-0 p-6 flex-col fixed left-0 top-20 z-50 hidden lg:flex overflow-hidden">
+      <div className="w-[280px] h-screen bg-white/60 backdrop-blur-2xl dark:bg-slate-900/40 border-r border-slate-200 dark:border-white/10 shadow-lg rounded-r-[32px] p-6 flex-col fixed left-0 top-0 z-50 hidden lg:flex overflow-hidden">
         {/* Liquid Glass Highlights & Animation */}
         <div className="absolute inset-0 pointer-events-none -z-10 rounded-br-[32px] rounded-tr-none overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-white/40 to-transparent" />
@@ -151,7 +151,7 @@ export const GlassSidebar = ({ isOpen = true, onClose }: SidebarProps) => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed right-0 top-0 bottom-0 z-50 lg:hidden w-[280px] max-w-[80vw] bg-[rgba(255,255,255,0.20)] dark:bg-[rgba(30,41,59,0.25)] backdrop-blur-[32px] border border-[rgba(255,255,255,0.25)] dark:border-[rgba(255,255,255,0.1)] border-r-0 rounded-none rounded-l-[32px] p-6 flex flex-col overflow-hidden shadow-[12px_0_40px_rgba(0,0,0,0.12),inset_4px_4px_12px_rgba(255,255,255,0.18)] dark:shadow-[12px_0_40px_rgba(0,0,0,0.3)]"
+              className="fixed right-0 top-0 bottom-0 z-50 lg:hidden w-[280px] max-w-[80vw] bg-white/90 dark:bg-slate-900/90 backdrop-blur-[32px] border border-[rgba(255,255,255,0.25)] dark:border-[rgba(255,255,255,0.1)] border-r-0 rounded-none rounded-l-[32px] p-6 flex flex-col overflow-hidden shadow-[12px_0_40px_rgba(0,0,0,0.12),inset_4px_4px_12px_rgba(255,255,255,0.18)] dark:shadow-[12px_0_40px_rgba(0,0,0,0.3)]"
             >
               {/* Liquid Glass Highlights & Animation */}
               <div className="absolute inset-0 pointer-events-none -z-10 rounded-none rounded-l-[32px] overflow-hidden">
