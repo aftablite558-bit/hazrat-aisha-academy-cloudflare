@@ -59,15 +59,15 @@ export const GlassModal = ({ isOpen, onClose, title, children, className = '' }:
             exit={isMobile ? { y: '100%' } : { scale: 0.95, opacity: 0, y: 20 }}
             transition={isMobile ? { type: 'tween', duration: 0.3, ease: 'easeOut' } : { type: 'spring', damping: 25, stiffness: 300 }}
             className={cn(
-              "relative z-10 w-full sm:w-auto mt-auto sm:mt-0 flex flex-col max-h-[90vh]",
+              "relative z-10 w-full sm:w-auto mt-auto sm:mt-0 flex flex-col max-h-[85vh]",
               isMobile ? "p-0 pb-0" : "p-4",
               className || "max-w-lg"
             )}
           >
             <div 
               className={cn(
-                "glass flex flex-col h-full max-h-[90vh] overflow-hidden w-full relative z-20",
-                "bg-white/80 dark:bg-slate-900/80 shadow-2xl",
+                "glass flex flex-col  max-h-[85vh] overflow-hidden w-full relative z-20",
+                "!bg-white/95 dark:!bg-slate-900/95 shadow-2xl",
                 isMobile ? "rounded-t-[32px] rounded-b-none border-b-0" : "rounded-[32px]"
               )}
             >
