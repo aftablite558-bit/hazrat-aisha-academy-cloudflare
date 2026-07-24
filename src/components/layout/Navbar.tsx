@@ -88,29 +88,31 @@ export const Navbar = () => {
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-40 glass border-t-0 border-x-0 border-b border-white/30 dark:border-white/10 rounded-none shadow-sm">
-        <div className="relative z-10 max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 min-h-[5rem] py-2 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2 flex-shrink-0">
             {logoUrl ? <img src={logoUrl} alt="Logo" className="h-10 w-auto object-contain" /> : <GraduationCap size={28} className="text-primary-500" />}
-            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500">{schoolName}</h1>
+            <h1 className="text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500 truncate max-w-[200px] sm:max-w-none">{schoolName}</h1>
           </div>
           
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-6">
-            {navLinks.map((link) => (
-              <NavLink key={link.path} to={link.path} className="text-sm font-semibold text-secondary-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+          <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-1 overflow-x-auto scrollbar-hide mx-4 min-w-0">
+            {navLinks.filter(l => ['Home', 'About', 'Academics', 'Admissions', 'Notices', 'Contact'].includes(l.label)).map((link) => (
+              <NavLink key={link.path} to={link.path} className="text-sm font-semibold text-secondary-foreground hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap shrink-0">
                 {link.label}
               </NavLink>
             ))}
-            <GlassButton variant="ghost" className="p-2" onClick={toggleTheme}>
+          </div>
+          <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
+            <GlassButton variant="ghost" className="p-2 shrink-0" onClick={toggleTheme}>
               {theme === 'dark' ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-secondary-foreground" />}
             </GlassButton>
-            <NavLink to="/login">
+            <NavLink to="/login" className="shrink-0">
               <GlassButton variant="primary">Login</GlassButton>
             </NavLink>
           </div>
 
           {/* Mobile Toggle */}
-          <GlassButton variant="ghost" className="lg:hidden p-2" onClick={() => setIsOpen(true)}>
+          <GlassButton variant="ghost" className="lg:hidden p-2 flex-shrink-0" onClick={() => setIsOpen(true)}>
             <Menu className="text-secondary-foreground" />
           </GlassButton>
         </div>
