@@ -71,7 +71,7 @@ export const PublicAchievements = () => {
         isOpen={!!selectedAchievement} 
         onClose={() => setSelectedAchievement(null)} 
         title="Achievement Details"
-        size="lg"
+        
       >
         {selectedAchievement && (
           <div className="space-y-6">

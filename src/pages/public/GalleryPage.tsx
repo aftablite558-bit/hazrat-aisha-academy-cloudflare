@@ -105,7 +105,7 @@ export const GalleryPage = () => {
         isOpen={!!selectedAlbum && lightboxIndex === null} 
         onClose={() => setSelectedAlbum(null)} 
         title={selectedAlbum?.title || ''}
-        size="3xl"
+        
       >
         {selectedAlbum && (
           <div className="space-y-6">

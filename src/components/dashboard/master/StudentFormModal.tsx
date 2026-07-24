@@ -89,7 +89,9 @@ export const StudentFormModal = ({ isOpen, onClose, onSubmit, initialData }: Stu
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex justify-center mb-6">
           <ImageUpload 
-            onUpload={(url) => setFormData(prev => ({ ...prev, photoUrl: url }))}
+            value={formData.photoUrl || ""}
+            onChange={(url) => setFormData(prev => ({ ...prev, photoUrl: url }))}
+            folder="students"
           />
         </div>
         

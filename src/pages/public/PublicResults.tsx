@@ -12,7 +12,7 @@ import { Search, Download, GraduationCap, Award, Printer, User } from 'lucide-re
 import { motion } from 'motion/react';
 
 export const PublicResults = () => {
-  const { data: results } = useMasterData<StudentResult>('results');
+  const { data: results } = useMasterData<any>('results');
   const { data: classes } = useMasterData<Class>('classes');
   const { data: subjects } = useMasterData<Subject>('subjects');
   const { data: students } = useMasterData<Student>('students');

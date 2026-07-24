@@ -44,7 +44,6 @@ export const PublicFeedback = () => {
       submittedAt: new Date().toISOString(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      schoolId: 'school-1'
     };
     
     // In a real app we'd save this to our store/DB here.

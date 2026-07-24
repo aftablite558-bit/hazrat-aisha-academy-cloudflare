@@ -26,7 +26,7 @@ export const PublicExamSchedule = () => {
   const [isSearching, setIsSearching] = useState(false);
 
   const publishedSchedules = useMemo(() => {
-    return schedules.filter(s => s.status === 'Published');
+    return schedules.filter(s => s.status === 'Scheduled');
   }, [schedules]);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -48,21 +48,21 @@ export const PublicExamSchedule = () => {
       
       if (student) {
         // Collect all exam papers relevant to this class from published schedules
-        const relevantExams: any[] = [];
-        
-        publishedSchedules.forEach(schedule => {
-          if (schedule.classes.includes(classId) && schedule.papers) {
-            const classPapers = schedule.papers.filter(p => p.classId === classId);
-            classPapers.forEach(paper => {
-              relevantExams.push({
-                examName: schedule.examName,
-                paper
-              });
-            });
-          }
-        });
-        
-        relevantExams.sort((a, b) => new Date(a.paper.date).getTime() - new Date(b.paper.date).getTime());
+        const relevantExams: any[] = publishedSchedules
+          .filter(schedule => schedule.classId === classId)
+          .map(schedule => ({
+            examName: schedule.examName,
+            paper: {
+              date: schedule.examDate,
+              startTime: schedule.startTime,
+              endTime: schedule.endTime,
+              duration: '',
+              subjectId: schedule.subjectId,
+              room: schedule.roomNumber,
+              instructions: ''
+            }
+          }))
+          .sort((a, b) => new Date(a.paper.date).getTime() - new Date(b.paper.date).getTime());
         
         setSearchResult({
           student,

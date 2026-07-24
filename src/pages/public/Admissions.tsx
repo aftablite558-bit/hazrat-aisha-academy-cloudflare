@@ -198,7 +198,7 @@ export const Admissions = () => {
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
-            <GlassButton type="button" variant="default" onClick={() => setIsModalOpen(false)} disabled={submitting}>Cancel</GlassButton>
+            <GlassButton type="button" variant="primary" onClick={() => setIsModalOpen(false)} disabled={submitting}>Cancel</GlassButton>
             <GlassButton type="submit" variant="primary" disabled={submitting}>
               {submitting ? 'Submitting...' : 'Submit Application'}
             </GlassButton>

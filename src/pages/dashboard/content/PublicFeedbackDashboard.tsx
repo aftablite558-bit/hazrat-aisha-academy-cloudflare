@@ -76,21 +76,53 @@ export const PublicFeedbackDashboard = () => {
       <PageHeader title="Public Feedback" description="Manage support tickets, complaints, and appreciation from the public." />
 
       <GlassCard className="p-6">
-        <GlassTable
-          data={tickets}
-          columns={columns}
-          actions={(row) => (
-            <>
-              <button onClick={() => openTicket(row)} className="p-2 hover:bg-white/10 rounded-full transition-colors text-primary-500" title="View Details">
-                <Eye size={18} />
-              </button>
-              <button onClick={() => handleDelete(row.id)} className="p-2 hover:bg-white/10 rounded-full transition-colors text-rose-500" title="Delete">
-                <Trash2 size={18} />
-              </button>
-            </>
-          )}
-          emptyMessage="No feedback tickets found."
-        />
+        <GlassTable>
+          <thead>
+            <tr>
+              <th className="p-4 font-semibold text-muted-foreground border-b border-white/10">Ticket ID</th>
+              <th className="p-4 font-semibold text-muted-foreground border-b border-white/10">Name</th>
+              <th className="p-4 font-semibold text-muted-foreground border-b border-white/10">Category</th>
+              <th className="p-4 font-semibold text-muted-foreground border-b border-white/10">Subject</th>
+              <th className="p-4 font-semibold text-muted-foreground border-b border-white/10">Submitted Date</th>
+              <th className="p-4 font-semibold text-muted-foreground border-b border-white/10">Status</th>
+              <th className="p-4 font-semibold text-muted-foreground border-b border-white/10 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tickets.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                  No feedback tickets found.
+                </td>
+              </tr>
+            ) : (
+              tickets.map(row => (
+                <tr key={row.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                  <td className="p-4">{row.ticketId}</td>
+                  <td className="p-4">{row.name}</td>
+                  <td className="p-4"><GlassBadge>{row.category}</GlassBadge></td>
+                  <td className="p-4">{row.subject}</td>
+                  <td className="p-4">{new Date(row.submittedAt).toLocaleDateString()}</td>
+                  <td className="p-4">
+                    <GlassBadge variant={
+                      row.status === 'Resolved' ? 'success' :
+                      row.status === 'In Progress' ? 'warning' :
+                      row.status === 'Rejected' ? 'danger' : 'default'
+                    }>{row.status}</GlassBadge>
+                  </td>
+                  <td className="p-4 text-right">
+                    <button onClick={() => openTicket(row)} className="p-2 hover:bg-white/10 rounded-full transition-colors text-primary-500" title="View Details">
+                      <Eye size={18} />
+                    </button>
+                    <button onClick={() => handleDelete(row.id)} className="p-2 hover:bg-white/10 rounded-full transition-colors text-rose-500" title="Delete">
+                      <Trash2 size={18} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </GlassTable>
       </GlassCard>
 
       <GlassModal isOpen={!!selectedTicket} onClose={() => setSelectedTicket(null)} title={`Ticket Details: ${selectedTicket?.ticketId}`} >

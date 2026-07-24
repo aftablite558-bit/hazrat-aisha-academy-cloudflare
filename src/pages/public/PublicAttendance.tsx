@@ -15,7 +15,7 @@ export const PublicAttendance = () => {
   const { data: students } = useMasterData<Student>('students');
   const { data: classes } = useMasterData<Class>('classes');
   // Assuming attendance is stored as 'attendance'
-  const { data: attendanceRecords } = useMasterData<AttendanceRecord>('attendance');
+  const { data: attendanceRecords } = useMasterData<any>('attendance');
 
   const [studentName, setStudentName] = useState('');
   const [classId, setClassId] = useState('');
@@ -51,7 +51,7 @@ export const PublicAttendance = () => {
         
         // This is a naive calculation based on the expected structure.
         // Adapt based on how attendance is actually structured in your app.
-        // Assuming AttendanceRecord has date and records array: { studentId, status }
+        // Assuming any has date and records array: { studentId, status }
         records.forEach(day => {
           if (day.records) {
             const sr = day.records.find((r: any) => r.studentId === student.id);

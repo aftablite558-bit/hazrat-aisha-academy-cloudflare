@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu, X, Sun, Moon, GraduationCap } from 'lucide-react';
+import { Menu, X, Sun, Moon, GraduationCap, ChevronDown } from 'lucide-react';
 import { useMasterData } from '../../hooks/useMasterData';
 import { SystemSettings } from '../../types';
 import { useTheme } from '../../contexts/ThemeContext';
