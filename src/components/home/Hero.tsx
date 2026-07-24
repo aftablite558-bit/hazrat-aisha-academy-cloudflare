@@ -3,7 +3,7 @@ import { GlassButton } from '../common/GlassButton';
 import { Link } from 'react-router-dom';
 
 export const Hero = () => (
-  <section className="relative min-h-[90vh] flex items-center justify-center pt-20">
+  <section className="relative min-h-[90vh] flex items-center justify-center">
     <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: "easeOut" }}>
         <motion.div 

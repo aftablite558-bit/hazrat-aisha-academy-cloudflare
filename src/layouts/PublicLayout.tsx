@@ -16,7 +16,7 @@ export const PublicLayout = ({ children }: { children: ReactNode }) => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="flex-1 pt-20"
+        className="flex-1 pt-24"
       >
         {children}
       </motion.main>
