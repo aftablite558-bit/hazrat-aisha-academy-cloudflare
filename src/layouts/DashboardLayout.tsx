@@ -20,10 +20,11 @@ export const DashboardLayout = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-transparent transition-colors relative">
+    <div className="min-h-screen bg-transparent transition-colors">
       <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
-      <main className="pt-24 p-4 md:p-8 lg:ml-[280px] w-full lg:w-[calc(100%-280px)] min-w-0 overflow-x-hidden">
+      <div className="lg:pl-[280px] w-full min-h-screen">
+        <main className="pt-24 p-4 md:p-8 w-full min-w-0 overflow-x-hidden max-w-[100vw]">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
@@ -35,7 +36,8 @@ export const DashboardLayout = () => {
             <ErrorBoundary><Outlet /></ErrorBoundary>
           </motion.div>
         </AnimatePresence>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
